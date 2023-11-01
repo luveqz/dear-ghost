@@ -17,3 +17,11 @@ body {
   font-family: 'Nunito', sans-serif;
   @apply bg-white text-black;
 }
+
+/*-------------------------------------
+  Utils
+-------------------------------------*/
+.no-outline-on-click:focus:not(:focus-visible) {
+  @apply outline-none;
+  @apply ring-0;
+}
