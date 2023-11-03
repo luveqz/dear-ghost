@@ -3,8 +3,8 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
 </script>
 
 <template>
-  <TabGroup as="div" class="px-10">
-    <TabList class="relative -mt-2 flex justify-between text-xs font-semibold">
+  <TabGroup as="div" class="top-sticky-widget sticky px-10">
+    <TabList class="relative flex justify-between text-xs font-semibold">
       <BaseTab label="Prompts">
         <SparkIcon />
       </BaseTab>

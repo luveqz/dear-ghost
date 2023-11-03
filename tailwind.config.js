@@ -5,6 +5,7 @@ module.exports = {
     './layouts/**/*.vue',
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
+    './stores/**/*.{js,ts}',
     './app.vue',
     './nuxt.config.{js,ts}',
   ],
@@ -25,6 +26,9 @@ module.exports = {
     },
 
     extend: {
+      spacing: {
+        'sticky-widget': '4.75rem',
+      },
       fontSize: {
         xxs: '0.688rem',
       },
