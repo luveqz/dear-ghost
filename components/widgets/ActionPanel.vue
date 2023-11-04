@@ -3,7 +3,7 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
 </script>
 
 <template>
-  <TabGroup as="div" class="top-sticky-widget sticky px-10">
+  <TabGroup as="div" class="sticky top-sticky-widget px-10">
     <TabList class="relative flex justify-between text-xs font-semibold">
       <BaseTab label="Prompts">
         <SparkIcon />
@@ -24,38 +24,18 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
 
     <TabPanels>
       <TabPanel>
-        <div class="mt-5">
-          <p class="text-xs font-semibold"> Perspective </p>
+        <div
+          v-for="(prompts, group) in $library.groupedPrompts"
+          :key="group"
+          class="mt-5"
+        >
+          <p class="text-xs font-semibold"> {{ group }} </p>
 
           <ul class="mt-2 flex flex-col gap-y-3">
             <PromptButton
-              secondary-label="Insert"
-              main-label="Rhetorical Figure"
-            />
-            <PromptButton secondary-label="Change" main-label="Point of View" />
-            <PromptButton secondary-label="Change" main-label="Tense" />
-          </ul>
-        </div>
-
-        <div class="mt-5">
-          <p class="text-xs font-semibold"> Editing </p>
-
-          <ul class="mt-2 flex flex-col gap-y-3">
-            <PromptButton secondary-label="Make it" main-label="Weird" />
-            <PromptButton
-              secondary-label="Suggest"
-              main-label="Ironic Turning Points"
-            />
-          </ul>
-        </div>
-
-        <div class="mt-5">
-          <p class="text-xs font-semibold"> Other </p>
-
-          <ul class="mt-2 flex flex-col gap-y-3">
-            <PromptButton
-              secondary-label="Ctrl + Enter"
-              main-label="Raw Query"
+              v-for="prompt in prompts"
+              :secondary-label="prompt.secondaryLabel"
+              :main-label="prompt.mainLabel"
             />
           </ul>
         </div>
