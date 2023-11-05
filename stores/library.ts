@@ -1,100 +1,25 @@
 import { defineStore } from 'pinia'
 import groupBy from 'lodash/groupBy'
+import { Prompt } from '@/lib/types/library'
+import { DEFAULT_PROMPTS } from '@/lib/data/default-prompts'
 
-enum ResponseMode {
-  InsertBelow,
-  ReplaceSelection,
+import DialogIcon from '@/components/icons/DialogIcon.vue'
+import HistoryIcon from '@/components/icons/HistoryIcon.vue'
+import SparkIcon from '@/components/icons/SparkIcon.vue'
+import TextIcon from '@/components/icons/TextIcon.vue'
+import EyeIcon from '@/components/icons/EyeIcon.vue'
+import SandClockIcon from '@/components/icons/SandClockIcon.vue'
+import BoltIcon from '@/components/icons/BoltIcon.vue'
+
+export const PROMPT_ICON_CATALOG = {
+  DialogIcon,
+  HistoryIcon,
+  SparkIcon,
+  TextIcon,
+  EyeIcon,
+  SandClockIcon,
+  BoltIcon,
 }
-
-type Prompt = {
-  id: number
-  mainLabel: string
-  secondaryLabel: string
-  iconName: string
-  template: string
-  responseMode: ResponseMode
-  groupName: string
-  providerId: number
-  modelId: number
-}
-
-const DEFAULT_PROMPTS = [
-  {
-    id: 1,
-    mainLabel: 'Ironic Turning Points',
-    secondaryLabel: 'Think of',
-    iconName: '',
-    template: `
-      Suggest 3 unexpected turning points in which all the characters will have to start an ironic journey:  
-
-      {{ SELECTED_TEXT }}
-    `,
-    responseMode: ResponseMode.InsertBelow,
-    groupName: 'Discovery',
-    providerId: 0,
-    modelId: 0,
-  },
-  {
-    id: 2,
-    mainLabel: 'Awkward Dialog',
-    secondaryLabel: 'Turn into',
-    iconName: '',
-    template: `
-      Rewrite the following dialog to make characters awkward:  
-
-      {{ SELECTED_TEXT }}
-    `,
-    responseMode: ResponseMode.InsertBelow,
-    groupName: 'Discovery',
-    providerId: 0,
-    modelId: 0,
-  },
-  {
-    id: 3,
-    mainLabel: 'Point of Views',
-    secondaryLabel: 'Rewrite in different',
-    iconName: '',
-    template: `
-      Rewrite many times the following text, each time using a different point of view:  
-
-      {{ SELECTED_TEXT }}
-    `,
-    responseMode: ResponseMode.InsertBelow,
-    groupName: 'Style Lab',
-    providerId: 0,
-    modelId: 0,
-  },
-  {
-    id: 4,
-    mainLabel: 'Tenses',
-    secondaryLabel: 'Rewrite in different',
-    iconName: '',
-    template: `
-      Rewrite many times the following text, each time using a different tense:  
-
-      {{ SELECTED_TEXT }}
-    `,
-    responseMode: ResponseMode.InsertBelow,
-    groupName: 'Style Lab',
-    providerId: 0,
-    modelId: 0,
-  },
-  {
-    id: 4,
-    mainLabel: 'Raw Query',
-    secondaryLabel: 'Ctrl + Enter',
-    iconName: '',
-    template: `
-      Rewrite many times the following text, each time using a different tense:  
-
-      {{ SELECTED_TEXT }}
-    `,
-    responseMode: ResponseMode.InsertBelow,
-    groupName: 'Other',
-    providerId: 0,
-    modelId: 0,
-  },
-]
 
 export const useLibraryStore = defineStore('library', {
   state: () =>

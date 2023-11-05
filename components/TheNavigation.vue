@@ -1,10 +1,12 @@
 <template>
   <nav
-    class="flex h-10 items-center justify-between bg-gray-900 px-5 text-sm font-semibold text-white"
+    class="flex h-10 items-center justify-between bg-orange-gray-900 px-5 text-sm font-semibold text-white"
   >
     <!-- Left -->
     <section>
-      <a class="flex items-center gap-x-1" href="#"> Help <AngleDownIcon /> </a>
+      <a class="flex items-center gap-x-1" href="#">
+        Help <AngleDownIcon class="opacity-50" />
+      </a>
     </section>
 
     <!-- Right -->

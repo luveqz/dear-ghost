@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { getLastItem } from '@/lib/utils/array'
 import { WIDGET_CATALOG } from '@/stores/editor'
 
@@ -20,6 +21,8 @@ const removeColumn = (id: number) => {
   $editor.save()
 }
 
+const { closeAll } = useContextMenuTurn()
+
 onMounted(() => {
   $editor.load()
 })
@@ -28,11 +31,12 @@ onMounted(() => {
 <template>
   <div
     class="absolute left-0 top-0 flex h-full min-w-full flex-col items-center"
+    @contextmenu.prevent="closeAll"
   >
     <TheNavigation class="fixed left-0 top-0 z-20 w-full" />
 
     <div
-      class="h-sticky-widget fixed left-0 top-0.5 z-10 w-full shrink-0 bg-white"
+      class="fixed left-0 top-0.5 z-10 h-sticky-widget w-full shrink-0 bg-white"
     />
 
     <main
@@ -53,8 +57,8 @@ onMounted(() => {
       </BaseColumn>
 
       <button
-        class="sticky top-[3.25rem] h-[calc(100vh_-_3.25rem)] p-3 text-2xl text-gray-900 transition-colors hover:bg-opacity-5"
-        :class="{ 'opacity-0': $editor.mode !== 'edit-workspace' }"
+        class="sticky top-[3.25rem] h-[calc(100vh_-_3.25rem)] p-3 text-2xl text-orange-gray-900 transition-colors hover:bg-opacity-5"
+        :class="{ 'w-0 p-0 opacity-0': $editor.mode !== 'edit-workspace' }"
         :disabled="$editor.mode !== 'edit-workspace'"
         @click="addColumn"
       >

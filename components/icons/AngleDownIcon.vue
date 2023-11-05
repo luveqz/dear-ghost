@@ -6,7 +6,6 @@
       stroke-linejoin="round"
       stroke-width="1.3"
       d="M7 1 4 4 1 1"
-      opacity=".5"
     />
   </svg>
 </template>

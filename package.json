@@ -13,6 +13,8 @@
     "@nuxt/devtools": "latest",
     "@types/lodash": "^4.14.200",
     "@types/sortablejs": "^1.15.4",
+    "@vueuse/core": "^10.5.0",
+    "@vueuse/nuxt": "^10.5.0",
     "autoprefixer": "^10.4.16",
     "nuxt": "^3.7.3",
     "postcss": "^8.4.30",
@@ -26,6 +28,7 @@
     "interactjs": "^1.10.19",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
-    "sortablejs": "^1.15.0"
+    "sortablejs": "^1.15.0",
+    "vue3-popper": "^1.5.0"
   }
 }

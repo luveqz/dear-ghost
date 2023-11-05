@@ -18,7 +18,7 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
       </BaseTab>
 
       <hr
-        class="absolute bottom-0 left-0 h-1 w-full border-none bg-gray-900/5"
+        class="bg-orange-gray-900/5 absolute bottom-0 left-0 h-1 w-full border-none"
       />
     </TabList>
 
@@ -34,8 +34,8 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
           <ul class="mt-2 flex flex-col gap-y-3">
             <PromptButton
               v-for="prompt in prompts"
-              :secondary-label="prompt.secondaryLabel"
-              :main-label="prompt.mainLabel"
+              :key="prompt.id"
+              :prompt="prompt"
             />
           </ul>
         </div>
