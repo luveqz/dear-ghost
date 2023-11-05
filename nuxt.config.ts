@@ -6,12 +6,12 @@ export default defineNuxtConfig({
 
   components: [
     {
-      path: "~/components", // will get any components nested in e.g. /components/test too
+      path: '~/components', // will get any components nested in e.g. /components/test too
       pathPrefix: false,
     },
   ],
 
-  css: ["@/assets/css/main.css"],
+  css: ['@/assets/css/main.css'],
 
   postcss: {
     plugins: {
@@ -24,8 +24,8 @@ export default defineNuxtConfig({
     tsConfig: {
       compilerOptions: {
         paths: {
-          "@": ["."],
-          "@/*": ["./*"],
+          '@': ['.'],
+          '@/*': ['./*'],
         },
       },
     },
