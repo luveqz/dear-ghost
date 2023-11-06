@@ -20,12 +20,18 @@ const DEFAULT_COLUMNS = [
       {
         id: 1,
         component: 'BasePage',
-        config: { content: 'Hello, Friend.' },
+        object: {
+          title: 'Untitled',
+          content: '',
+        },
       },
       {
         id: 2,
         component: 'BasePage',
-        config: { content: 'Hello, Friend.' },
+        object: {
+          title: 'Untitled',
+          content: '',
+        },
       },
     ],
   },

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { getLastItem } from '@/lib/utils/array'
-import { WIDGET_CATALOG } from '@/stores/editor'
 
 const { $editor } = useNuxtApp()
 
@@ -49,11 +48,14 @@ onMounted(() => {
         :class="column.config?.classes || ''"
         @remove="removeColumn(column.id)"
       >
-        <component
-          v-for="widget in column.widgets"
-          :key="widget.id"
-          :is="WIDGET_CATALOG[widget.component]"
-        />
+        <template v-for="widget in column.widgets" :key="widget.id">
+          <ActionPanel v-if="widget.component === 'ActionPanel'" />
+          <BasePage
+            v-if="widget.component === 'BasePage'"
+            v-model="widget.object"
+            :page="widget.object"
+          />
+        </template>
       </BaseColumn>
 
       <button

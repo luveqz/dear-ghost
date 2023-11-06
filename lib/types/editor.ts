@@ -1,14 +1,22 @@
-import { WIDGET_CATALOG } from '@/stores/editor'
+export type PageObject = {
+  title: string
+  content: string
+}
 
-export type Widget = {
+export type PageWidget = {
   id: number
-  component: keyof typeof WIDGET_CATALOG
-  config: any
+  component: 'BasePage'
+  object: PageObject
+}
+
+export type ActionPanelWidget = {
+  id: number
+  component: 'ActionPanel'
 }
 
 export type Column = {
   id: number
-  widgets: Widget[]
+  widgets: PageWidget[] | ActionPanelWidget[]
   config?: {
     classes?: string
   }

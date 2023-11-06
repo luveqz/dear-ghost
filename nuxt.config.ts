@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     },
   ],
 
-  css: ['@/assets/css/main.css'],
+  css: ['@/assets/css/main.css', '@/assets/css/prose-mirror.css'],
 
   postcss: {
     plugins: {
@@ -30,4 +30,11 @@ export default defineNuxtConfig({
       },
     },
   },
-});
+
+  runtimeConfig: {
+    app: {
+      PALM_API_BASE_URL:
+        'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText',
+    },
+  },
+})

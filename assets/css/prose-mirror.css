@@ -1,0 +1,21 @@
+/*-------------------------------------
+  ProseMirror
+-------------------------------------*/
+/* Placeholder (at the top) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  @apply text-black/40;
+
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror p:not(:first-of-type) {
+  margin-top: 0.5rem;
+  text-indent: 1.5rem;
+}
+
+.ProseMirror p {
+  line-height: 1.3;
+}
