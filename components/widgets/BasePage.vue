@@ -3,6 +3,7 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
+import History from '@tiptap/extension-history'
 import Placeholder from '@tiptap/extension-placeholder'
 import Typography from '@tiptap/extension-typography'
 import Bold from '@tiptap/extension-bold'
@@ -25,6 +26,7 @@ const editor = useEditor({
     Document,
     Paragraph,
     Text,
+    History,
     Typography,
     Bold.configure({
       HTMLAttributes: {
