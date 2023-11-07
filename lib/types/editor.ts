@@ -1,23 +1,23 @@
+type Widget = {
+  config?: {
+    classes?: string
+  }
+}
+
 export type PageObject = {
   title: string
   content: string
 }
 
-export type PageWidget = {
+export type PageWidget = Widget & {
   id: number
   component: 'BasePage'
   object: PageObject
 }
 
-export type ActionPanelWidget = {
+export type ActionPanelWidget = Widget & {
   id: number
   component: 'ActionPanel'
 }
 
-export type Column = {
-  id: number
-  widgets: PageWidget[] | ActionPanelWidget[]
-  config?: {
-    classes?: string
-  }
-}
+export type GenericWidget = ActionPanelWidget | PageWidget

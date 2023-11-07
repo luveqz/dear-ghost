@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { getLastItem } from '@/lib/utils/array'
+import draggable from 'vuedraggable'
 
 const { $editor } = useNuxtApp()
 
-const addColumn = () => {
-  $editor.columns.push({
-    id: getLastItem($editor.columns).id + 1,
+const addPage = () => {
+  $editor.widgets.push({
+    id: getLastItem($editor.widgets).id + 1,
+    component: 'BasePage',
+    object: {
+      title: 'Untitled',
+      content: '',
+    },
     config: {
       classes: 'w-page',
     },
-    widgets: [],
   })
   $editor.save()
 }
 
-const removeColumn = (id: number) => {
-  $editor.columns = $editor.columns.filter((column) => column.id !== id)
+const removePage = (id: number) => {
+  $editor.widgets = $editor.widgets.filter((column) => column.id !== id)
   $editor.save()
 }
 
@@ -38,34 +43,31 @@ onMounted(() => {
       class="fixed left-0 top-0.5 z-10 h-sticky-widget w-full shrink-0 bg-white"
     />
 
-    <main
+    <draggable
       class="mt-sticky-widget inline-flex min-w-full grow gap-0.5"
       :class="'justify-center'"
+      :list="$editor.widgets"
+      item-key="id"
+      @end="$editor.save()"
     >
-      <BaseColumn
-        v-for="column in $editor.columns"
-        :key="column.id"
-        :class="column.config?.classes || ''"
-        @remove="removeColumn(column.id)"
-      >
-        <template v-for="widget in column.widgets" :key="widget.id">
+      <template #item="{ element: widget }">
+        <div class="flex flex-col" :class="widget.config?.classes || ''">
           <ActionPanel v-if="widget.component === 'ActionPanel'" />
           <BasePage
-            v-if="widget.component === 'BasePage'"
-            v-model="widget.object"
+            v-else-if="widget.component === 'BasePage'"
             :page="widget.object"
+            class="grow"
           />
-        </template>
-      </BaseColumn>
-
-      <button
-        class="sticky top-[3.25rem] h-[calc(100vh_-_3.25rem)] p-3 text-2xl text-orange-gray-900 transition-colors hover:bg-opacity-5"
-        :class="{ 'w-0 p-0 opacity-0': $editor.mode !== 'edit-workspace' }"
-        :disabled="$editor.mode !== 'edit-workspace'"
-        @click="addColumn"
-      >
-        +
-      </button>
-    </main>
+        </div>
+      </template>
+    </draggable>
+    <button
+      class="fixed right-0 top-[3.25rem] h-[calc(100vh_-_3.25rem)] p-3 text-2xl text-orange-gray-900 transition-colors hover:bg-opacity-5"
+      :class="{ 'w-0 p-0 opacity-0': $editor.mode !== 'edit-workspace' }"
+      :disabled="$editor.mode !== 'edit-workspace'"
+      @click="addPage"
+    >
+      +
+    </button>
   </div>
 </template>

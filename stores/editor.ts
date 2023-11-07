@@ -2,86 +2,68 @@ import { defineStore } from 'pinia'
 
 import BasePage from '@/components/widgets/BasePage.vue'
 import ActionPanel from '@/components/widgets/ActionPanel.vue'
-import { Column } from '@/lib/types/editor'
+import { GenericWidget } from '@/lib/types/editor'
 
 export const WIDGET_CATALOG = {
   BasePage,
   ActionPanel,
 }
 
-const COLUMNS_STORAGE_KEY = 'columns'
-const DEFAULT_COLUMNS = [
+const WIDGET_STORAGE_KEY = 'widgets'
+const DEFAULT_WIDGETS = [
   {
     id: 1,
+    component: 'BasePage',
+    object: {
+      title: 'Untitled',
+      content: '',
+    },
     config: {
       classes: 'w-page',
     },
-    widgets: [
-      {
-        id: 1,
-        component: 'BasePage',
-        object: {
-          title: 'Untitled',
-          content: '',
-        },
-      },
-      {
-        id: 2,
-        component: 'BasePage',
-        object: {
-          title: 'Untitled',
-          content: '',
-        },
-      },
-    ],
   },
   {
-    id: 2,
+    id: 3,
+    component: 'ActionPanel',
     config: {
       classes: 'w-action-panel',
     },
-    widgets: [
-      {
-        id: 3,
-        component: 'ActionPanel',
-      },
-    ],
   },
 ]
 
 export const useEditorStore = defineStore('editor', {
   state: () =>
     ({
-      columns: [],
+      widgets: [],
       mode: 'write',
     }) as {
-      columns: Column[]
+      widgets: GenericWidget[]
       mode: 'write' | 'edit-workspace'
     },
 
   actions: {
-    validate(columns: Column[]) {
+    validate(widgets: GenericWidget[]) {
       // validate array with a Joi schema
       return true
     },
 
     save() {
-      if (this.validate(this.columns)) {
+      if (this.validate(this.widgets)) {
         window.localStorage.setItem(
-          COLUMNS_STORAGE_KEY,
-          JSON.stringify(this.columns),
+          WIDGET_STORAGE_KEY,
+          JSON.stringify(this.widgets),
         )
       }
     },
 
     load() {
       const columns = JSON.parse(
-        window.localStorage.getItem(COLUMNS_STORAGE_KEY) || '[]',
+        window.localStorage.getItem(WIDGET_STORAGE_KEY) || '[]',
       )
 
       if (this.validate(columns)) {
-        this.columns = columns.length ? columns : DEFAULT_COLUMNS
-        return this.columns
+        this.widgets = columns.length ? columns : DEFAULT_WIDGETS
+        return this.widgets
       }
       return false
     },

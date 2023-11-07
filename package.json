@@ -41,7 +41,7 @@
     "interactjs": "^1.10.19",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
-    "sortablejs": "^1.15.0",
-    "vue3-popper": "^1.5.0"
+    "vue3-popper": "^1.5.0",
+    "vuedraggable": "^4.1.0"
   }
 }
