@@ -9,15 +9,15 @@ export type PageObject = {
   content: string
 }
 
-export type PageWidget = Widget & {
+export type PageWidgetData = Widget & {
   id: number
-  component: 'BasePage'
+  component: 'PageWidget'
   object: PageObject
 }
 
-export type ActionPanelWidget = Widget & {
+export type ActionPanelWidgetData = Widget & {
   id: number
-  component: 'ActionPanel'
+  component: 'ActionPanelWidget'
 }
 
-export type GenericWidget = ActionPanelWidget | PageWidget
+export type GenericWidget = ActionPanelWidgetData | PageWidgetData

@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia'
 
-import BasePage from '@/components/widgets/BasePage.vue'
-import ActionPanel from '@/components/widgets/ActionPanel.vue'
-import { GenericWidget } from '@/lib/types/editor'
+import PageWidget from '@/components/widgets/PageWidget.vue'
+import ActionPanelWidget from '@/components/widgets/ActionPanelWidget.vue'
+import { GenericWidget, PageWidgetData } from '@/lib/types/editor'
 
 export const WIDGET_CATALOG = {
-  BasePage,
-  ActionPanel,
+  PageWidget,
+  ActionPanelWidget,
 }
 
 const WIDGET_STORAGE_KEY = 'widgets'
 const DEFAULT_WIDGETS = [
   {
     id: 1,
-    component: 'BasePage',
+    component: 'PageWidget',
     object: {
       title: 'Untitled',
       content: '',
@@ -24,7 +24,7 @@ const DEFAULT_WIDGETS = [
   },
   {
     id: 3,
-    component: 'ActionPanel',
+    component: 'ActionPanelWidget',
     config: {
       classes: 'w-action-panel',
     },

@@ -18,7 +18,7 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
       </BaseTab>
 
       <hr
-        class="bg-orange-gray-900/5 absolute bottom-0 left-0 h-1 w-full border-none"
+        class="absolute bottom-0 left-0 h-1 w-full border-none bg-orange-gray-900/5"
       />
     </TabList>
 

@@ -8,7 +8,7 @@ const { $editor } = useNuxtApp()
 const addPage = () => {
   $editor.widgets.push({
     id: getLastItem($editor.widgets).id + 1,
-    component: 'BasePage',
+    component: 'PageWidget',
     object: {
       title: 'Untitled',
       content: '',
@@ -52,9 +52,9 @@ onMounted(() => {
     >
       <template #item="{ element: widget }">
         <div class="flex flex-col" :class="widget.config?.classes || ''">
-          <ActionPanel v-if="widget.component === 'ActionPanel'" />
-          <BasePage
-            v-else-if="widget.component === 'BasePage'"
+          <ActionPanelWidget v-if="widget.component === 'ActionPanelWidget'" />
+          <PageWidget
+            v-else-if="widget.component === 'PageWidget'"
             :page="widget.object"
             class="grow"
           />
