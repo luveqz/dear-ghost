@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { getLastItem } from '@/lib/utils/array'
+import { Editor } from '@tiptap/core'
 import draggable from 'vuedraggable'
 
 const { $editor } = useNuxtApp()
+const activeEditor = ref<Editor | undefined>()
 
 const addPage = () => {
   $editor.widgets.push({
     id: getLastItem($editor.widgets).id + 1,
     component: 'PageWidget',
-    object: {
+    data: {
       title: 'Untitled',
       content: '',
     },
@@ -55,8 +57,10 @@ onMounted(() => {
           <ActionPanelWidget v-if="widget.component === 'ActionPanelWidget'" />
           <PageWidget
             v-else-if="widget.component === 'PageWidget'"
-            :page="widget.object"
+            :data="widget.data"
             class="grow"
+            @instantiated="(editor) => (widget.editor = editor)"
+            @active="(editor) => (activeEditor = editor)"
           />
         </div>
       </template>

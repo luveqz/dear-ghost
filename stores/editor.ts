@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 import PageWidget from '@/components/widgets/PageWidget.vue'
 import ActionPanelWidget from '@/components/widgets/ActionPanelWidget.vue'
-import { GenericWidget, PageWidgetData } from '@/lib/types/editor'
+import { GenericWidget } from '@/lib/types/editor'
 
 export const WIDGET_CATALOG = {
   PageWidget,
@@ -14,7 +14,7 @@ const DEFAULT_WIDGETS = [
   {
     id: 1,
     component: 'PageWidget',
-    object: {
+    data: {
       title: 'Untitled',
       content: '',
     },
@@ -42,27 +42,36 @@ export const useEditorStore = defineStore('editor', {
     },
 
   actions: {
-    validate(widgets: GenericWidget[]) {
+    validate(widgets: any) {
       // validate array with a Joi schema
       return true
     },
 
     save() {
       if (this.validate(this.widgets)) {
+        const plainWidgetData = this.widgets.map((widget) => {
+          if (widget.component === 'PageWidget') {
+            const { editor, ...rest } = widget
+            return rest
+          } else {
+            return widget
+          }
+        })
+
         window.localStorage.setItem(
           WIDGET_STORAGE_KEY,
-          JSON.stringify(this.widgets),
+          JSON.stringify(plainWidgetData),
         )
       }
     },
 
     load() {
-      const columns = JSON.parse(
+      const widgets = JSON.parse(
         window.localStorage.getItem(WIDGET_STORAGE_KEY) || '[]',
       )
 
-      if (this.validate(columns)) {
-        this.widgets = columns.length ? columns : DEFAULT_WIDGETS
+      if (this.validate(widgets)) {
+        this.widgets = widgets.length ? widgets : DEFAULT_WIDGETS
         return this.widgets
       }
       return false

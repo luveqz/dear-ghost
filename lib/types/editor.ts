@@ -1,10 +1,12 @@
+import { Editor } from '@tiptap/vue-3'
+
 type Widget = {
   config?: {
     classes?: string
   }
 }
 
-export type PageObject = {
+export type PageData = {
   title: string
   content: string
 }
@@ -12,7 +14,8 @@ export type PageObject = {
 export type PageWidgetData = Widget & {
   id: number
   component: 'PageWidget'
-  object: PageObject
+  editor?: Editor
+  data: PageData
 }
 
 export type ActionPanelWidgetData = Widget & {
