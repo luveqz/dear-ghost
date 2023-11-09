@@ -12,6 +12,8 @@ defineProps({
   },
 })
 
+defineEmits(['run-prompt'])
+
 const { isOpen, open, close } = useContextMenuTurn()
 
 const popoverRef = ref()
@@ -23,6 +25,7 @@ onClickOutside(popoverRef, close)
     <button
       class="flex h-10 w-full items-center gap-2 rounded border border-orange-gray-200 p-2"
       @contextmenu.stop.prevent="open"
+      @click="$emit('run-prompt')"
     >
       <span
         class="flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded bg-orange-gray-100"

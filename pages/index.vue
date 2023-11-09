@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { useContextMenuTurn } from '@/componsables/context-menu-turn'
-import { getLastItem } from '@/lib/utils/array'
-import { Editor } from '@tiptap/core'
 import draggable from 'vuedraggable'
+import { Editor } from '@tiptap/core'
 
-const { $editor } = useNuxtApp()
+import { useContextMenuTurn } from '@/componsables/context-menu-turn'
+import { Prompt } from '@/lib/types/library'
+import { getLastItem } from '@/lib/utils/array'
+import { GoogleModel, LLMProvider } from '@/plugins/02.llm'
+
+const { $editor, $llm } = useNuxtApp()
 const activeEditor = ref<Editor | undefined>()
 
 const addPage = () => {
@@ -28,6 +31,20 @@ const removePage = (id: number) => {
 }
 
 const { closeAll } = useContextMenuTurn()
+
+const onRunPrompt = async (prompt: Prompt) => {
+  // 1. Parse template.
+
+  // 2. Call LLM provider.
+  const response = await $llm.send({
+    prompt: prompt.template,
+    provider: LLMProvider.Google,
+    model: GoogleModel.Palm2TextBison,
+  })
+
+  // 3. Show response.
+  console.log(response)
+}
 
 onMounted(() => {
   $editor.load()
@@ -54,7 +71,10 @@ onMounted(() => {
     >
       <template #item="{ element: widget }">
         <div class="flex flex-col" :class="widget.config?.classes || ''">
-          <ActionPanelWidget v-if="widget.component === 'ActionPanelWidget'" />
+          <ActionPanelWidget
+            v-if="widget.component === 'ActionPanelWidget'"
+            @run-prompt="onRunPrompt"
+          />
           <PageWidget
             v-else-if="widget.component === 'PageWidget'"
             :data="widget.data"

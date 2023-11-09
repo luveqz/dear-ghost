@@ -33,8 +33,10 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     app: {
-      PALM_API_BASE_URL:
+      PALM_2_API_BASE_URL:
+        process.env.PALM_2_API_BASE_URL ||
         'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText',
+      PALM_2_API_KEY: process.env.PALM_2_API_KEY,
     },
   },
 })

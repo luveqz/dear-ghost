@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
+
+defineEmits(['run-prompt'])
 </script>
 
 <template>
@@ -36,6 +38,7 @@ import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
               v-for="prompt in prompts"
               :key="prompt.id"
               :prompt="prompt"
+              @run-prompt="$emit('run-prompt', prompt)"
             />
           </ul>
         </div>

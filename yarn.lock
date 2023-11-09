@@ -4724,7 +4724,7 @@ nitropack@^2.6.3:
     unimport "^3.3.0"
     unstorage "^1.9.0"
 
-nitropack@^2.7.0:
+nitropack@^2.7.0, nitropack@^2.7.2:
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/nitropack/-/nitropack-2.7.2.tgz#03b116acfcc7ec6f177a14dcf34a2a29fe0f1a61"
   integrity sha512-6vQbGdBNR20N8wTChzIQUZQmNVhWVDrjUdpOYD68u2hlyUiJembth2fQuoWw3KlsoNYWFvcyqL9X3DPjjnoEUQ==
