@@ -15,7 +15,7 @@ const selectedResponseMode = ref({
 })
 
 const responseModes = Object.entries(ResponseModeLabels).map(([id, label]) => ({
-  id,
+  id: Number(id),
   label,
 }))
 </script>
