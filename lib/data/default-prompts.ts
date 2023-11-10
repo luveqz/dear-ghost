@@ -66,11 +66,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     mainLabel: 'Raw Query',
     secondaryLabel: 'Ctrl + Enter',
     iconName: 'BoltIcon',
-    template: `
-      Rewrite many times the following text, each time using a different tense:  
-
-{{ SELECTED_TEXT }}
-    `.trim(),
+    template: '{{ SELECTED_TEXT }}',
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Other',
     providerId: 0,

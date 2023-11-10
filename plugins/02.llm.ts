@@ -18,7 +18,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       llm: {
-        send({ prompt, provider, model }: SendParams) {
+        async send({ prompt, provider, model }: SendParams) {
           if (
             provider === LLMProvider.Google &&
             model === GoogleModel.Palm2TextBison
@@ -28,7 +28,13 @@ export default defineNuxtPlugin(() => {
               config: $config.app,
             })
 
-            return $fetch(url, options)
+            const response = await $fetch<any>(url, options)
+
+            try {
+              return response.candidates[0].output
+            } catch (error) {
+              console.error(error)
+            }
           }
         },
       },

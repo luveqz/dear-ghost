@@ -6,6 +6,8 @@ import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { Prompt } from '@/lib/types/library'
 import { getLastItem } from '@/lib/utils/array'
 import { GoogleModel, LLMProvider } from '@/plugins/02.llm'
+import { ResponseMode } from '@/lib/types/library'
+import { TemplateParser } from '@/lib/utils/template'
 
 const { $editor, $llm } = useNuxtApp()
 const activeEditor = ref<Editor | undefined>()
@@ -33,17 +35,43 @@ const removePage = (id: number) => {
 const { closeAll } = useContextMenuTurn()
 
 const onRunPrompt = async (prompt: Prompt) => {
+  if (!activeEditor.value) return
+
   // 1. Parse template.
+  const { selection } = activeEditor.value.state
+  const originEditor = activeEditor.value
+  const parsedPrompt = new TemplateParser(
+    originEditor,
+    selection,
+  ).parseTemplate(prompt.template)
 
   // 2. Call LLM provider.
   const response = await $llm.send({
-    prompt: prompt.template,
+    prompt: parsedPrompt,
     provider: LLMProvider.Google,
     model: GoogleModel.Palm2TextBison,
   })
 
-  // 3. Show response.
-  console.log(response)
+  // 3. Prettify response.
+  const prettifiedResponse = `<p>${response}</p>`
+
+  // 4. Show response.
+  if (prompt.responseMode === ResponseMode.InsertBelow) {
+    originEditor
+      .chain()
+      .focus()
+      .insertContentAt(selection.to, prettifiedResponse)
+      .run()
+  }
+
+  if (prompt.responseMode === ResponseMode.ReplaceSelection) {
+    originEditor
+      .chain()
+      .focus()
+      .deleteSelection()
+      .insertContentAt(selection.from, prettifiedResponse)
+      .run()
+  }
 }
 
 onMounted(() => {
