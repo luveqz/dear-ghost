@@ -71,5 +71,6 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     groupName: 'Other',
     providerId: 0,
     modelId: 0,
+    shortcut: 'control_enter',
   },
 ]

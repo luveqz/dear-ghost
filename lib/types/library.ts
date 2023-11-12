@@ -20,4 +20,5 @@ export type Prompt = {
   groupName: string
   providerId: number
   modelId: number
+  shortcut?: string
 }

@@ -5,14 +5,22 @@ import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { Prompt } from '@/lib/types/library'
 import { PROMPT_ICON_CATALOG } from '@/stores/library'
 
-defineProps({
+const props = defineProps({
   prompt: {
     type: Object as PropType<Prompt>,
     required: true,
   },
 })
 
-defineEmits(['run-prompt'])
+const emit = defineEmits(['run-prompt'])
+
+const keys = useMagicKeys()
+
+if (props.prompt.shortcut) {
+  whenever(keys[props.prompt.shortcut], () => {
+    emit('run-prompt')
+  })
+}
 
 const { isOpen, open, close } = useContextMenuTurn()
 
