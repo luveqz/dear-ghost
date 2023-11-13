@@ -1,78 +1,54 @@
 import { defineStore } from 'pinia'
+import { TextFile } from '@/lib/types/editor'
 
-import PageWidget from '@/components/widgets/PageWidget.vue'
-import ActionPanelWidget from '@/components/widgets/ActionPanelWidget.vue'
-import { GenericWidget } from '@/lib/types/editor'
+const FILE_STORAGE_KEY = 'files-storage'
 
-export const WIDGET_CATALOG = {
-  PageWidget,
-  ActionPanelWidget,
+const DEFAULT_FILE: TextFile = {
+  id: 1,
+  data: {
+    title: 'Untitled',
+    content: '',
+  },
 }
-
-const WIDGET_STORAGE_KEY = 'widgets'
-const DEFAULT_WIDGETS = [
-  {
-    id: 1,
-    component: 'PageWidget',
-    data: {
-      title: 'Untitled',
-      content: '',
-    },
-    config: {
-      classes: 'w-page',
-    },
-  },
-  {
-    id: 3,
-    component: 'ActionPanelWidget',
-    config: {
-      classes: 'w-action-panel',
-    },
-  },
-]
 
 export const useEditorStore = defineStore('editor', {
   state: () =>
     ({
-      widgets: [],
+      files: [],
       mode: 'write',
     }) as {
-      widgets: GenericWidget[]
+      files: TextFile[]
       mode: 'write' | 'edit-workspace'
     },
 
   actions: {
-    validate(widgets: any) {
+    validate(file: any) {
       // validate array with a Joi schema
       return true
     },
 
     save() {
-      if (this.validate(this.widgets)) {
-        const plainWidgetData = this.widgets.map((widget) => {
-          if (widget.component === 'PageWidget') {
-            const { editor, ...rest } = widget
-            return rest
-          } else {
-            return widget
-          }
+      if (this.validate(this.files)) {
+        const plainWidgetData = this.files.map((file) => {
+          const { editor, ...rest } = file
+          return rest
         })
 
         window.localStorage.setItem(
-          WIDGET_STORAGE_KEY,
+          FILE_STORAGE_KEY,
           JSON.stringify(plainWidgetData),
         )
       }
     },
 
     load() {
-      const widgets = JSON.parse(
-        window.localStorage.getItem(WIDGET_STORAGE_KEY) || '[]',
+      const files = JSON.parse(
+        window.localStorage.getItem(FILE_STORAGE_KEY) || '[]',
       )
 
-      if (this.validate(widgets)) {
-        this.widgets = widgets.length ? widgets : DEFAULT_WIDGETS
-        return this.widgets
+      if (this.validate(files)) {
+        this.files = files.length ? files : [DEFAULT_FILE]
+        return this.files
       }
       return false
     },

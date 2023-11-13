@@ -1,26 +1,12 @@
 import { Editor } from '@tiptap/vue-3'
 
-type Widget = {
-  config?: {
-    classes?: string
-  }
-}
-
-export type PageData = {
+export type TextFileData = {
   title: string
   content: string
 }
 
-export type PageWidgetData = Widget & {
+export type TextFile = {
   id: number
-  component: 'PageWidget'
   editor?: Editor
-  data: PageData
+  data: TextFileData
 }
-
-export type ActionPanelWidgetData = Widget & {
-  id: number
-  component: 'ActionPanelWidget'
-}
-
-export type GenericWidget = ActionPanelWidgetData | PageWidgetData

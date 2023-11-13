@@ -11,11 +11,11 @@ import Underline from '@tiptap/extension-underline'
 import Strike from '@tiptap/extension-strike'
 import Italic from '@tiptap/extension-italic'
 
-import { PageData } from '@/lib/types/editor'
+import { TextFileData } from '@/lib/types/editor'
 
 const props = defineProps({
   data: {
-    type: Object as PropType<PageData>,
+    type: Object as PropType<TextFileData>,
     required: true,
   },
 })
