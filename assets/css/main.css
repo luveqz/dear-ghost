@@ -15,7 +15,7 @@
 -------------------------------------*/
 body {
   font-family: 'Nunito', sans-serif;
-  @apply bg-white text-black;
+  @apply overflow-y-scroll bg-white text-black;
 }
 
 /*-------------------------------------

@@ -7,6 +7,7 @@ import { getLastItem } from '@/lib/utils/array'
 import { GoogleModel, LLMProvider } from '@/plugins/02.llm'
 import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
+import { TextFile } from '@/lib/types/editor'
 
 const { $editor, $llm } = useNuxtApp()
 const activeEditor = ref<Editor | undefined>()
@@ -24,6 +25,11 @@ const addPage = () => {
     },
   })
   $editor.save()
+}
+
+const activeFile = ref()
+const setActiveFile = (file: TextFile) => {
+  activeFile.value = file
 }
 
 const removePage = (id: number) => {
@@ -75,6 +81,7 @@ const onRunPrompt = async (prompt: Prompt) => {
 
 onMounted(() => {
   $editor.load()
+  activeFile.value = $editor.files[0]
 })
 </script>
 
@@ -87,14 +94,20 @@ onMounted(() => {
     />
 
     <main class="mt-sticky-widget flex justify-center">
-      <FileEditorWidget
-        v-for="file in $editor.files"
-        :key="file.id"
-        :data="file.data"
-        class="h-full w-page"
-        @instantiated="(editor) => (file.editor = editor)"
-        @active="(editor) => (activeEditor = editor)"
+      <FileTreeWidget
+        :active-file="activeFile"
+        @set-active-file="setActiveFile"
       />
+
+      <template v-for="file in $editor.files" :key="file.id">
+        <FileEditorWidget
+          v-show="activeFile === file"
+          :data="file.data"
+          class="h-full w-page"
+          @instantiated="(editor) => (file.editor = editor)"
+          @active="(editor) => (activeEditor = editor)"
+        />
+      </template>
 
       <ActionPanelWidget
         class="sticky top-sticky-widget h-fit w-action-panel"
