@@ -10,7 +10,6 @@ import { TemplateParser } from '@/lib/utils/template'
 import { TextFile } from '@/lib/types/editor'
 
 const { $editor, $llm } = useNuxtApp()
-const activeEditor = ref<Editor | undefined>()
 
 const addPage = () => {
   $editor.widgets.push({
@@ -27,10 +26,11 @@ const addPage = () => {
   $editor.save()
 }
 
-const activeFile = ref()
+const activeFile = ref<TextFile>()
 const setActiveFile = (file: TextFile) => {
   activeFile.value = file
 }
+const activeEditor = computed(() => activeFile.value?.editor)
 
 const removePage = (id: number) => {
   $editor.widgets = $editor.widgets.filter((column) => column.id !== id)
@@ -93,21 +93,25 @@ onMounted(() => {
       class="fixed left-0 top-0.5 z-10 h-sticky-widget w-full shrink-0 bg-white"
     />
 
-    <main class="mt-sticky-widget flex justify-center">
+    <main class="mt-sticky-widget flex min-h-full justify-center">
       <FileTreeWidget
         :active-file="activeFile"
         @set-active-file="setActiveFile"
       />
 
-      <template v-for="file in $editor.files" :key="file.id">
-        <FileEditorWidget
-          v-show="activeFile === file"
-          :data="file.data"
-          class="h-full w-page"
-          @instantiated="(editor) => (file.editor = editor)"
-          @active="(editor) => (activeEditor = editor)"
-        />
-      </template>
+      <div>
+        <template v-for="file in $editor.files" :key="file.id">
+          <FileEditorWidget
+            v-show="activeFile === file"
+            :data="file.data"
+            class="h-full w-page"
+            @instantiated="(editor) => (file.editor = editor)"
+            @active="(editor) => (activeEditor = editor)"
+          />
+        </template>
+
+        <StatusBarWidget v-if="activeEditor" :active-editor="activeEditor" />
+      </div>
 
       <ActionPanelWidget
         class="sticky top-sticky-widget h-fit w-action-panel"
