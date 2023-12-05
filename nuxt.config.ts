@@ -37,6 +37,10 @@ export default defineNuxtConfig({
         process.env.PALM_2_API_BASE_URL ||
         'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText',
       PALM_2_API_KEY: process.env.PALM_2_API_KEY,
+      CLARIFAI_API_BASE_URL:
+        process.env.CLARIFAI_API_BASE_URL ||
+        'https://api.clarifai.com/v2/models/',
+      CLARIFAI_API_KEY: process.env.CLARIFAI_API_KEY,
     },
   },
 })

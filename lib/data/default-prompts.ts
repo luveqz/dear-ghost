@@ -1,4 +1,5 @@
 import { Prompt, ResponseMode } from '@/lib/types/library'
+import { AnthropicModel, LLMProvider } from '@/plugins/02.llm'
 
 export const DEFAULT_PROMPTS: Prompt[] = [
   {
@@ -13,8 +14,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
-    providerId: 0,
-    modelId: 0,
+    providerId: LLMProvider.Anthropic,
+    modelId: AnthropicModel.ClaudeInstant,
   },
   {
     id: 2,
@@ -28,8 +29,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
-    providerId: 0,
-    modelId: 0,
+    providerId: LLMProvider.Anthropic,
+    modelId: AnthropicModel.ClaudeInstant,
   },
   {
     id: 3,
@@ -43,8 +44,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
-    providerId: 0,
-    modelId: 0,
+    providerId: LLMProvider.Anthropic,
+    modelId: AnthropicModel.ClaudeInstant,
   },
   {
     id: 4,
@@ -58,8 +59,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
-    providerId: 0,
-    modelId: 0,
+    providerId: LLMProvider.Anthropic,
+    modelId: AnthropicModel.ClaudeInstant,
   },
   {
     id: 4,
@@ -69,8 +70,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: '{{ SELECTED_TEXT }}',
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Other',
-    providerId: 0,
-    modelId: 0,
+    providerId: LLMProvider.Anthropic,
+    modelId: AnthropicModel.ClaudeInstant,
     shortcut: 'control_enter',
   },
 ]

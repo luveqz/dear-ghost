@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { Editor } from '@tiptap/core'
-
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { Prompt } from '@/lib/types/library'
 import { getLastItem } from '@/lib/utils/array'
-import { GoogleModel, LLMProvider } from '@/plugins/02.llm'
 import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
 import { TextFile } from '@/lib/types/editor'
@@ -53,8 +50,8 @@ const onRunPrompt = async (prompt: Prompt) => {
   // 2. Call LLM provider.
   const response = await $llm.send({
     prompt: parsedPrompt,
-    provider: LLMProvider.Google,
-    model: GoogleModel.Palm2TextBison,
+    provider: prompt.providerId,
+    model: prompt.modelId,
   })
 
   // 3. Prettify response.

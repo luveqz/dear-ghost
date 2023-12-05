@@ -1,4 +1,5 @@
 import { getAdaptedPalm2Request } from '@/lib/adapters/palm'
+import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 
 export enum LLMProvider {
   OpenAI,
@@ -10,7 +11,15 @@ export enum GoogleModel {
   Palm2TextBison,
 }
 
-type SendParams = { prompt: string; provider: LLMProvider; model: GoogleModel }
+export enum AnthropicModel {
+  ClaudeInstant,
+}
+
+type SendParams = {
+  prompt: string
+  provider: LLMProvider
+  model: GoogleModel | AnthropicModel
+}
 
 export default defineNuxtPlugin(() => {
   const { $config } = useNuxtApp()
@@ -32,6 +41,24 @@ export default defineNuxtPlugin(() => {
 
             try {
               return response.candidates[0].output
+            } catch (error) {
+              console.error(error)
+            }
+          }
+
+          if (
+            provider === LLMProvider.Anthropic &&
+            model === AnthropicModel.ClaudeInstant
+          ) {
+            const { url, options } = getAdaptedClaudeInstantRequest({
+              prompt,
+              config: $config.app,
+            })
+
+            const response = await $fetch<any>(url, options)
+
+            try {
+              return response['outputs'][0]['data']['text']['raw']
             } catch (error) {
               console.error(error)
             }
