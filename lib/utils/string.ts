@@ -18,3 +18,16 @@ export function countWords(nodes: any[]) {
 
   return string.split(/\s+/).length
 }
+
+export function stringToHTMLParagraphs(text: string) {
+  const paragraphs = text.split('\n')
+  let html = ''
+
+  paragraphs.forEach((paragraph) => {
+    if (paragraph.trim() !== '') {
+      html += `<p>${paragraph}</p>`
+    }
+  })
+
+  return html
+}

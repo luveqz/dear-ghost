@@ -5,6 +5,7 @@ import { getLastItem } from '@/lib/utils/array'
 import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
 import { TextFile } from '@/lib/types/editor'
+import { stringToHTMLParagraphs } from '@/lib/utils/string'
 
 const { $editor, $llm } = useNuxtApp()
 
@@ -55,7 +56,7 @@ const onRunPrompt = async (prompt: Prompt) => {
   })
 
   // 3. Prettify response.
-  const prettifiedResponse = `<p>${response}</p>`
+  const prettifiedResponse = stringToHTMLParagraphs(response)
 
   // 4. Show response.
   if (prompt.responseMode === ResponseMode.InsertBelow) {
