@@ -7,10 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "tauri": "tauri"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@tauri-apps/cli": "^1.5.7",
     "@types/lodash": "^4.14.200",
     "@types/sortablejs": "^1.15.4",
     "@vueuse/core": "^10.5.0",

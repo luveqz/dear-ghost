@@ -34,7 +34,7 @@ module.exports = {
         'sticky-widget': '4.75rem',
       },
       fontSize: {
-        xxs: '0.688rem',
+        xxs: '0.719rem',
       },
       width: {
         page: '33.125rem',
