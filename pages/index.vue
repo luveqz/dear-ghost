@@ -90,7 +90,7 @@ onMounted(() => {
   >
     <TheNavigation class="sticky top-0 w-full shrink-0" />
 
-    <main class="flex grow items-start justify-center overflow-auto">
+    <main class="flex grow items-start justify-center overflow-y-scroll">
       <FileTreeWidget
         :active-file="activeFile"
         @set-active-file="setActiveFile"
@@ -103,7 +103,7 @@ onMounted(() => {
             :data="file.data"
             class="w-page grow"
             @instantiated="(editor) => (file.editor = editor)"
-            @active="(editor) => (activeEditor = editor)"
+            @active="setActiveFile(file as TextFile)"
           />
         </template>
       </div>
@@ -114,9 +114,9 @@ onMounted(() => {
       />
     </main>
 
-    <div class="flex justify-center">
+    <div class="flex shrink-0 justify-center overflow-y-scroll">
       <StatusBarWidget
-        class="ml-36 mr-80 w-page shrink-0"
+        class="ml-52 mr-80 w-page shrink-0 px-5"
         v-if="activeEditor"
         :active-editor="activeEditor"
       />

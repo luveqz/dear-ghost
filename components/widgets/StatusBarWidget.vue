@@ -12,8 +12,15 @@ defineProps({
 
 <template>
   <aside
-    class="sticky bottom-0 flex h-12 items-center justify-end bg-white text-sm"
+    class="sticky bottom-0 flex h-12 items-center justify-between bg-white text-sm"
   >
+    <div class="flex items-center gap-1">
+      <template v-if="$llm.running">
+        <LoadingIcon class="h-4 text-orange-500" />
+        Running model...
+      </template>
+    </div>
+
     <button v-if="activeEditor" class="flex items-end">
       {{ countWords(activeEditor.state.doc.content.toJSON()) }}
       words
