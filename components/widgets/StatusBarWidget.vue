@@ -12,7 +12,7 @@ defineProps({
 
 <template>
   <aside
-    class="sticky bottom-0 flex h-12 items-center justify-end bg-white px-5 text-sm"
+    class="sticky bottom-0 flex h-12 items-center justify-end bg-white text-sm"
   >
     <button v-if="activeEditor" class="flex items-end">
       {{ countWords(activeEditor.state.doc.content.toJSON()) }}

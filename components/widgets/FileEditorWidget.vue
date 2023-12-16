@@ -97,7 +97,7 @@ onMounted(() => {
 <template>
   <div class="relative px-5 pb-9">
     <h2
-      class="sticky top-sticky-widget z-10 flex items-center gap-2 bg-white pb-1 text-xl font-bold leading-none"
+      class="sticky top-0 z-10 flex items-center gap-2 bg-white pb-1 pt-sticky-widget text-xl font-bold leading-none"
     >
       <span class="block h-[1.125rem] w-2 rounded-sm bg-orange-500" />
       <input class="w-fit bg-white" v-model="data.title" />
@@ -106,7 +106,7 @@ onMounted(() => {
     <section class="pt-4 indent-5">
       <editor-content
         :editor="editor"
-        class="flex h-full grow flex-col indent-0 font-medium"
+        class="flex flex-col indent-0 font-medium"
       />
     </section>
   </div>

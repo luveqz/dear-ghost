@@ -31,7 +31,7 @@ module.exports = {
 
     extend: {
       spacing: {
-        'sticky-widget': '4.75rem',
+        'sticky-widget': '2.5rem',
       },
       fontSize: {
         xxs: '0.719rem',

@@ -16,7 +16,7 @@
 body {
   font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
-  @apply overflow-y-scroll bg-white text-black;
+  @apply bg-white text-black;
 }
 
 /*-------------------------------------

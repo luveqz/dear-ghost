@@ -84,31 +84,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="absolute left-0 top-0 h-full w-full" @contextmenu="closeAll">
-    <TheNavigation class="fixed left-0 top-0 z-20 w-full" />
+  <div
+    class="absolute left-0 top-0 flex h-full w-full flex-col"
+    @contextmenu="closeAll"
+  >
+    <TheNavigation class="sticky top-0 w-full shrink-0" />
 
-    <div
-      class="fixed left-0 top-0.5 z-10 h-sticky-widget w-full shrink-0 bg-white"
-    />
-
-    <main class="mt-sticky-widget flex min-h-full justify-center">
+    <main class="flex grow items-start justify-center overflow-auto">
       <FileTreeWidget
         :active-file="activeFile"
         @set-active-file="setActiveFile"
       />
 
-      <div>
+      <div class="flex flex-col">
         <template v-for="file in $editor.files" :key="file.id">
           <FileEditorWidget
             v-show="activeFile === file"
             :data="file.data"
-            class="h-full w-page"
+            class="w-page grow"
             @instantiated="(editor) => (file.editor = editor)"
             @active="(editor) => (activeEditor = editor)"
           />
         </template>
-
-        <StatusBarWidget v-if="activeEditor" :active-editor="activeEditor" />
       </div>
 
       <ActionPanelWidget
@@ -116,5 +113,13 @@ onMounted(() => {
         @run-prompt="onRunPrompt"
       />
     </main>
+
+    <div class="flex justify-center">
+      <StatusBarWidget
+        class="ml-36 mr-80 w-page shrink-0"
+        v-if="activeEditor"
+        :active-editor="activeEditor"
+      />
+    </div>
   </div>
 </template>
