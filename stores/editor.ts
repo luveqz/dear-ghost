@@ -28,7 +28,8 @@ export const useEditorStore = defineStore('editor', {
     },
 
     addFile() {
-      this.files.push(DEFAULT_FILE)
+      const id = Math.floor(new Date().getTime())
+      this.files.push({ ...DEFAULT_FILE, id })
     },
 
     save() {
