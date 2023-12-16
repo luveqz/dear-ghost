@@ -27,6 +27,10 @@ export const useEditorStore = defineStore('editor', {
       return true
     },
 
+    addFile() {
+      this.files.push(DEFAULT_FILE)
+    },
+
     save() {
       if (this.validate(this.files)) {
         const plainWidgetData = this.files.map((file) => {

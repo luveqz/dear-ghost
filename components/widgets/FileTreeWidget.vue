@@ -12,7 +12,9 @@ defineEmits(['set-active-file'])
 </script>
 
 <template>
-  <ul class="sticky top-sticky-widget mr-16 flex h-fit w-36 flex-col gap-y-3">
+  <ul
+    class="group sticky top-sticky-widget mr-16 flex h-fit w-36 flex-col gap-y-3"
+  >
     <li
       v-for="file in $editor.files"
       :key="file.id"
@@ -27,5 +29,12 @@ defineEmits(['set-active-file'])
         {{ file.data.title }}
       </span>
     </li>
+
+    <button
+      class="rounded-md bg-orange-gray-900/5 py-2 text-center text-sm font-medium leading-none opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      @click="$editor.addFile"
+    >
+      New file
+    </button>
   </ul>
 </template>
