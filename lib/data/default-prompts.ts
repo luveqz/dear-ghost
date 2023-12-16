@@ -1,5 +1,5 @@
 import { Prompt, ResponseMode } from '@/lib/types/library'
-import { AnthropicModel, LLMProvider } from '@/plugins/02.llm'
+import { AnthropicModel, LLMProvider } from '@/stores/llm'
 
 export const DEFAULT_PROMPTS: Prompt[] = [
   {
