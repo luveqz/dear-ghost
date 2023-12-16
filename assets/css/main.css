@@ -20,6 +20,27 @@ body {
 }
 
 /*-------------------------------------
+  Scroll Bar
+-------------------------------------*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+body::-webkit-scrollbar-track {
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  @apply bg-orange-gray-200;
+}
+
+/*-------------------------------------
   Utils
 -------------------------------------*/
 .no-outline-on-click:focus:not(:focus-visible) {
