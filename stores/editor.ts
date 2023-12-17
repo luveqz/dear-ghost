@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { TextFile } from '@/lib/types/editor'
+import { deepCopy } from '@/lib/utils/copy'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -29,7 +30,7 @@ export const useEditorStore = defineStore('editor', {
 
     addFile() {
       const id = Math.floor(new Date().getTime())
-      this.files.push({ ...DEFAULT_FILE, id })
+      this.files.push({ ...deepCopy(DEFAULT_FILE), id })
     },
 
     save() {
