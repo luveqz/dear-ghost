@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/vue-3'
+import { Editor } from '@tiptap/core'
 
 export type TextFileData = {
   title: string

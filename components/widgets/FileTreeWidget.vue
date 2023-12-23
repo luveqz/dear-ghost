@@ -38,7 +38,7 @@ const onRemoveFile = (file: TextFile) => {
 
       <button
         class="flex h-4 w-4 items-center justify-center rounded-md transition-colors duration-150 hover:bg-orange-gray-900/5"
-        @click.stop="onRemoveFile(file)"
+        @click.stop="onRemoveFile(file as TextFile)"
       >
         <CloseIcon
           class="h-[0.45rem] w-[0.45rem] opacity-0 transition-opacity delay-75 duration-150 group-hover/item:opacity-100"

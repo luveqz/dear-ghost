@@ -57,7 +57,7 @@ const onRunPrompt = async (prompt: Prompt) => {
 
 onMounted(() => {
   $editor.load()
-  setActiveFile($editor.files[0])
+  setActiveFile($editor.files[0] as TextFile)
 })
 </script>
 
