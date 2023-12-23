@@ -33,6 +33,12 @@ export const useEditorStore = defineStore('editor', {
       this.files.push({ ...deepCopy(DEFAULT_FILE), id })
     },
 
+    removeFile(file: TextFile) {
+      const fileIndex = this.files.findIndex((file_) => file_.id === file.id)
+      this.files.splice(fileIndex, 1)
+      this.save()
+    },
+
     save() {
       if (this.validate(this.files)) {
         const plainWidgetData = this.files.map((file) => {

@@ -77,7 +77,7 @@ onMounted(() => {
       <div class="flex flex-col">
         <template v-for="file in $editor.files" :key="file.id">
           <FileEditorWidget
-            v-show="activeFile === file"
+            v-show="activeFile?.id === file.id"
             :data="file.data"
             class="w-page grow"
             @instantiated="(editor) => (file.editor = editor)"
