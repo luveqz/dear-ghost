@@ -16,9 +16,11 @@ export const useEditorStore = defineStore('editor', {
   state: () =>
     ({
       files: [],
+      activeFile: null,
       mode: 'write',
     }) as {
       files: TextFile[]
+      activeFile: TextFile | null
       mode: 'write' | 'edit-workspace'
     },
 
@@ -30,7 +32,9 @@ export const useEditorStore = defineStore('editor', {
 
     addFile() {
       const id = Math.floor(new Date().getTime())
-      this.files.push({ ...deepCopy(DEFAULT_FILE), id })
+      const newFile = { ...deepCopy(DEFAULT_FILE), id }
+      this.files.push(newFile)
+      this.activeFile = newFile
     },
 
     removeFile(file: TextFile) {

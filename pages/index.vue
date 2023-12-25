@@ -8,9 +8,9 @@ import { stringToHTMLParagraphs } from '@/lib/utils/string'
 
 const { $editor, $llm } = useNuxtApp()
 
-const activeFile = ref<TextFile>()
+const activeFile = computed(() => $editor.activeFile as TextFile)
 const setActiveFile = (file: TextFile) => {
-  activeFile.value = file
+  $editor.activeFile = file
 }
 
 const { closeAll } = useContextMenuTurn()
