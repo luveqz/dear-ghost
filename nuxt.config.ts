@@ -43,6 +43,7 @@ export default defineNuxtConfig({
         process.env.CLARIFAI_API_BASE_URL ||
         'https://api.clarifai.com/v2/models/',
       CLARIFAI_API_KEY: process.env.CLARIFAI_API_KEY,
+      OLLAMA_API_BASE_URL: process.env.OLLAMA_API_BASE_URL,
     },
   },
 })

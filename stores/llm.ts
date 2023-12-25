@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { Ollama } from 'langchain/llms/ollama'
 import { getAdaptedPalm2Request } from '@/lib/adapters/palm'
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 
@@ -6,6 +7,7 @@ export enum LLMProvider {
   OpenAI,
   Anthropic,
   Google,
+  Ollama,
 }
 
 export enum GoogleModel {
@@ -16,10 +18,14 @@ export enum AnthropicModel {
   ClaudeInstant,
 }
 
+export enum OllamaModel {
+  Mistral,
+}
+
 type SendParams = {
   prompt: string
   provider: LLMProvider
-  model: GoogleModel | AnthropicModel
+  model: GoogleModel | AnthropicModel | OllamaModel
 }
 
 export const useLLMStore = defineStore('llm', {
@@ -74,10 +80,35 @@ export const useLLMStore = defineStore('llm', {
           config: $config.app,
         })
 
-        const response = await $fetch<any>(url, options)
+        const response = await $fetch<any>(url, options as any)
 
         try {
           completion = response['outputs'][0]['data']['text']['raw']
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      /*
+      --------------------------------------------------
+        Ollama: Mistral 7B
+      --------------------------------------------------
+      */
+      if (provider === LLMProvider.Ollama && model === OllamaModel.Mistral) {
+        try {
+          const ollama = new Ollama({
+            baseUrl: $config.app.OLLAMA_API_BASE_URL,
+            model: 'mistral',
+          })
+
+          const stream = await ollama.stream(prompt)
+
+          const chunks = []
+          for await (const chunk of stream) {
+            chunks.push(chunk)
+          }
+
+          completion = chunks.join('')
         } catch (error) {
           console.error(error)
         }

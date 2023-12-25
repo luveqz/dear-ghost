@@ -41,6 +41,7 @@
     "@tiptap/pm": "^2.1.12",
     "@tiptap/vue-3": "^2.1.12",
     "interactjs": "^1.10.19",
+    "langchain": "^0.0.212",
     "lodash": "^4.17.21",
     "nitropack": "^2.7.2",
     "pinia": "^2.1.6",

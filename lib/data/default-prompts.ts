@@ -1,5 +1,5 @@
 import { Prompt, ResponseMode } from '@/lib/types/library'
-import { AnthropicModel, LLMProvider } from '@/stores/llm'
+import { AnthropicModel, LLMProvider, OllamaModel } from '@/stores/llm'
 
 export const DEFAULT_PROMPTS: Prompt[] = [
   {
@@ -14,8 +14,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
-    providerId: LLMProvider.Anthropic,
-    modelId: AnthropicModel.ClaudeInstant,
+    providerId: LLMProvider.Ollama,
+    modelId: OllamaModel.Mistral,
   },
   {
     id: 2,
@@ -29,8 +29,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
-    providerId: LLMProvider.Anthropic,
-    modelId: AnthropicModel.ClaudeInstant,
+    providerId: LLMProvider.Ollama,
+    modelId: OllamaModel.Mistral,
   },
   {
     id: 3,
@@ -44,8 +44,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
-    providerId: LLMProvider.Anthropic,
-    modelId: AnthropicModel.ClaudeInstant,
+    providerId: LLMProvider.Ollama,
+    modelId: OllamaModel.Mistral,
   },
   {
     id: 4,
@@ -59,8 +59,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
-    providerId: LLMProvider.Anthropic,
-    modelId: AnthropicModel.ClaudeInstant,
+    providerId: LLMProvider.Ollama,
+    modelId: OllamaModel.Mistral,
   },
   {
     id: 4,
@@ -70,8 +70,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: '{{ SELECTED_TEXT }}',
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Other',
-    providerId: LLMProvider.Anthropic,
-    modelId: AnthropicModel.ClaudeInstant,
+    providerId: LLMProvider.Ollama,
+    modelId: OllamaModel.Mistral,
     shortcut: 'control_enter',
   },
 ]
