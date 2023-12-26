@@ -11,7 +11,7 @@ defineProps({
 
 <template>
   <Tab
-    class="group relative flex w-14 flex-col items-center gap-1 px-1 pb-2 pt-2 focus:outline-none"
+    class="group relative flex w-14 flex-col items-center gap-1 p-1 pb-2 focus:outline-none"
     v-slot="{ selected }"
   >
     <span :class="{ 'opacity-50': !selected }">

@@ -1,3 +1,5 @@
+export const OLLAMA_API_BASE_URL = 'http://localhost:11434'
+
 export const PALM_API_SAFETY_SETTINGS = [
   {
     category: 'HARM_CATEGORY_DEROGATORY',
