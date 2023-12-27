@@ -1,4 +1,5 @@
 import { NitroRuntimeConfigApp } from 'nitropack'
+import { CLARIFAI_API_BASE_URL } from '@/lib/constants'
 
 const USER_ID = 'anthropic'
 const MODEL_ID = 'claude-instant'
@@ -14,7 +15,7 @@ export function getAdaptedClaudeInstantRequest({
   config: NitroRuntimeConfigApp
 }) {
   const url =
-    'https://api.clarifai.com/v2/models/' +
+    CLARIFAI_API_BASE_URL +
     MODEL_ID +
     '/versions/' +
     MODEL_VERSION_ID +

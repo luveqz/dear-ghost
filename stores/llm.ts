@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { getAdaptedPalm2Request } from '@/lib/adapters/palm'
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
+import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 
 export enum LLMProvider {
   OpenAI,
@@ -97,7 +98,7 @@ export const useLLMStore = defineStore('llm', {
       if (provider === LLMProvider.Ollama && model === OllamaModel.Mistral) {
         try {
           const ollama = new Ollama({
-            baseUrl: $config.app.OLLAMA_API_BASE_URL,
+            baseUrl: OLLAMA_API_BASE_URL,
             model: 'mistral',
           })
 

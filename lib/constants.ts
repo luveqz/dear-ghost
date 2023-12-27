@@ -1,6 +1,31 @@
+/*
+--------------------------------------------------
+  LLaMA C++ / HuggingFace / Local
+--------------------------------------------------
+*/
+export const MISTRAL_7B_FILENAME = 'mistral-7b-v0.1.Q4_K_M.gguf'
+
+/*
+--------------------------------------------------
+  Ollama
+--------------------------------------------------
+*/
 export const OLLAMA_API_BASE_URL = 'http://localhost:11434'
 
-export const MISTRAL_7B_FILENAME = 'mistral-7b-v0.1.Q4_K_M.gguf'
+/*
+--------------------------------------------------
+  Clarifai
+--------------------------------------------------
+*/
+export const CLARIFAI_API_BASE_URL = 'https://api.clarifai.com/v2/models/'
+
+/*
+--------------------------------------------------
+  Google: Palm 2
+--------------------------------------------------
+*/
+export const PALM_2_API_BASE_URL =
+  'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText'
 
 export const PALM_API_SAFETY_SETTINGS = [
   {

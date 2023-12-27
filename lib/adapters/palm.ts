@@ -1,4 +1,4 @@
-import { PALM_API_SAFETY_SETTINGS } from '@/lib/constants'
+import { PALM_2_API_BASE_URL, PALM_API_SAFETY_SETTINGS } from '@/lib/constants'
 import { NitroRuntimeConfigApp } from 'nitropack'
 
 export function getAdaptedPalm2Request({
@@ -9,7 +9,7 @@ export function getAdaptedPalm2Request({
   // TODO: add proper type
   config: NitroRuntimeConfigApp
 }) {
-  const url = `${config.PALM_2_API_BASE_URL}?key=${config.PALM_2_API_KEY}`
+  const url = `${PALM_2_API_BASE_URL}?key=${config.PALM_2_API_KEY}`
 
   // TODO: add proper type or use a different http client
   const options: any = {
