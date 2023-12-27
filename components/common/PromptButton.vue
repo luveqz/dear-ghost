@@ -31,7 +31,8 @@ onClickOutside(popoverRef, close)
 <template>
   <Popper :show="isOpen" placement="left-end" offset-distance="0">
     <button
-      class="flex h-10 w-full items-center gap-2 rounded border border-orange-gray-200 p-2"
+      class="flex h-11 w-full items-center gap-2 border-l border-r border-t border-black/15 p-2"
+      v-bind="$attrs"
       @contextmenu.stop.prevent="open"
       @click="$emit('run-prompt')"
     >

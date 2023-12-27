@@ -20,7 +20,7 @@ defineEmits(['run-prompt'])
       </BaseTab>
 
       <hr
-        class="absolute bottom-0 left-0 h-1 w-full border-none bg-orange-gray-900/5"
+        class="absolute bottom-0 left-0 h-0.5 w-full border-none bg-black/5"
       />
     </TabList>
 
@@ -33,9 +33,13 @@ defineEmits(['run-prompt'])
         >
           <p class="text-xs font-semibold"> {{ group }} </p>
 
-          <ul class="mt-2 flex flex-col gap-y-3">
+          <ul class="mt-2 flex flex-col">
             <PromptButton
-              v-for="prompt in prompts"
+              v-for="(prompt, id) in prompts"
+              :class="{
+                'rounded-t': id === 0,
+                'rounded-b border-b': id === prompts.length - 1,
+              }"
               :key="prompt.id"
               :prompt="prompt"
               @run-prompt="$emit('run-prompt', prompt)"

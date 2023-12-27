@@ -19,18 +19,16 @@ const onRemoveFile = (file: TextFile) => {
 </script>
 
 <template>
-  <ul class="sticky top-sticky-widget mr-16 flex h-fit w-36 flex-col gap-y-3">
+  <ul class="sticky top-sticky-widget mr-16 flex h-fit w-44 flex-col">
     <li
       v-for="file in $editor.files"
       :key="file.id"
-      class="group/item flex cursor-pointer items-center gap-2.5"
+      class="group/item flex cursor-pointer items-center gap-2.5 rounded px-2 py-1.5"
+      :class="{ 'bg-orange-gray-900/5': activeFile === file }"
       @click="$emit('set-active-file', file)"
     >
-      <TextIcon class="h-3.5 w-3.5 shrink-0 opacity-60" />
-      <span
-        class="mt-[0.188rem] line-clamp-3 block grow text-sm leading-none"
-        :class="activeFile === file ? 'font-bold' : 'font-medium'"
-      >
+      <TextIcon class="h-4 w-4 shrink-0 opacity-60" />
+      <span class="mt-[0.188rem] line-clamp-3 block grow text-sm leading-none">
         <span class="line-clamp-2">
           {{ file.data.title }}
         </span>
@@ -47,7 +45,7 @@ const onRemoveFile = (file: TextFile) => {
     </li>
 
     <button
-      class="rounded-md bg-orange-gray-900/5 py-2 text-center text-sm font-medium leading-none"
+      class="mt-3 rounded border border-black/15 py-2 text-center text-sm font-medium leading-none"
       @click="$editor.addFile"
     >
       New file
