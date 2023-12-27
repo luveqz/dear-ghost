@@ -1,5 +1,7 @@
 export const OLLAMA_API_BASE_URL = 'http://localhost:11434'
 
+export const MISTRAL_7B_FILENAME = 'mistral-7b-v0.1.Q4_K_M.gguf'
+
 export const PALM_API_SAFETY_SETTINGS = [
   {
     category: 'HARM_CATEGORY_DEROGATORY',

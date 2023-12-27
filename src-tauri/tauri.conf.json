@@ -12,7 +12,40 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "path": {
+        "all": true
+      },
+      "http": {
+        "all": false,
+        "request": true,
+        "scope": ["https://*"]
+      },
+      "fs": {
+        "readFile": true,
+        "writeFile": true,
+        "scope": ["$APPDATA/*"]
+      },
+      "shell": {
+        "sidecar": true,
+        "execute": true,
+        "scope": [
+          {
+            "name": "bin/llama-cpp-server",
+            "sidecar": true,
+            "args": [
+              "-m",
+              {
+                "validator": "\\S+"
+              },
+              "-c",
+              {
+                "validator": "\\S+"
+              }
+            ]
+          }
+        ]
+      }
     },
     "bundle": {
       "active": true,
@@ -21,7 +54,7 @@
       "deb": {
         "depends": []
       },
-      "externalBin": [],
+      "externalBin": ["bin/llama-cpp-server"],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -38,7 +71,6 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
       "shortDescription": "",
       "targets": "all",
       "windows": {
