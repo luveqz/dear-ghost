@@ -1,5 +1,5 @@
 import { Prompt, ResponseMode } from '@/lib/types/library'
-import { AnthropicModel, LLMProvider, OllamaModel } from '@/stores/llm'
+import { LLMProvider, LLaMACppModel } from '@/stores/llm'
 
 export const DEFAULT_PROMPTS: Prompt[] = [
   {
@@ -14,8 +14,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
-    providerId: LLMProvider.Ollama,
-    modelId: OllamaModel.Mistral,
+    providerId: LLMProvider.LLaMACpp,
+    modelId: LLaMACppModel.Mistral7B,
   },
   {
     id: 2,
@@ -29,8 +29,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
-    providerId: LLMProvider.Ollama,
-    modelId: OllamaModel.Mistral,
+    providerId: LLMProvider.LLaMACpp,
+    modelId: LLaMACppModel.Mistral7B,
   },
   {
     id: 3,
@@ -44,8 +44,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
-    providerId: LLMProvider.Ollama,
-    modelId: OllamaModel.Mistral,
+    providerId: LLMProvider.LLaMACpp,
+    modelId: LLaMACppModel.Mistral7B,
   },
   {
     id: 4,
@@ -59,8 +59,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
-    providerId: LLMProvider.Ollama,
-    modelId: OllamaModel.Mistral,
+    providerId: LLMProvider.LLaMACpp,
+    modelId: LLaMACppModel.Mistral7B,
   },
   {
     id: 4,
@@ -70,8 +70,8 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: '{{ SELECTED_TEXT }}',
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Other',
-    providerId: LLMProvider.Ollama,
-    modelId: OllamaModel.Mistral,
+    providerId: LLMProvider.LLaMACpp,
+    modelId: LLaMACppModel.Mistral7B,
     shortcut: 'control_enter',
   },
 ]

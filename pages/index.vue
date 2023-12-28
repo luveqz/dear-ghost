@@ -8,7 +8,7 @@ import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
 import { TextFile } from '@/lib/types/editor'
 import { stringToHTMLParagraphs } from '@/lib/utils/string'
-import { MISTRAL_7B_FILENAME } from '@/lib/constants'
+import { LLAMACPP_API_PORT, MISTRAL_7B_FILENAME } from '@/lib/constants'
 
 const { $editor, $llm } = useNuxtApp()
 
@@ -70,6 +70,8 @@ onMounted(async () => {
     `${appDataDirPath}models/${MISTRAL_7B_FILENAME}`,
     '-c',
     '4096',
+    '--port',
+    LLAMACPP_API_PORT,
   ])
 
   // Run Mistral 7B with LLaMA C++.

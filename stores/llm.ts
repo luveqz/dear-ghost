@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { getAdaptedPalm2Request } from '@/lib/adapters/palm'
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
+import { getAdaptedMistral7BRequest } from '@/lib/adapters/mistral'
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 
 export enum LLMProvider {
@@ -9,6 +10,11 @@ export enum LLMProvider {
   Anthropic,
   Google,
   Ollama,
+  LLaMACpp,
+}
+
+export enum LLaMACppModel {
+  Mistral7B,
 }
 
 export enum GoogleModel {
@@ -26,7 +32,7 @@ export enum OllamaModel {
 type SendParams = {
   prompt: string
   provider: LLMProvider
-  model: GoogleModel | AnthropicModel | OllamaModel
+  model: GoogleModel | AnthropicModel | OllamaModel | LLaMACppModel
 }
 
 export const useLLMStore = defineStore('llm', {
@@ -43,6 +49,25 @@ export const useLLMStore = defineStore('llm', {
       let completion
 
       const { $config } = useNuxtApp()
+
+      /*
+      --------------------------------------------------
+        LLaMA C++: Mistral 7B
+      --------------------------------------------------
+      */
+      if (
+        provider === LLMProvider.LLaMACpp &&
+        model === LLaMACppModel.Mistral7B
+      ) {
+        try {
+          const { url, options } = getAdaptedMistral7BRequest({ prompt })
+          const result: any = await $fetch(url, options as any)
+
+          completion = result.content
+        } catch (error) {
+          console.error(error)
+        }
+      }
 
       /*
       --------------------------------------------------

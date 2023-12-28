@@ -4,6 +4,8 @@
 --------------------------------------------------
 */
 export const MISTRAL_7B_FILENAME = 'mistral-7b-v0.1.Q4_K_M.gguf'
+export const LLAMACPP_API_PORT = '11432'
+export const LLAMACPP_API_BASE_URL = `http://localhost:${LLAMACPP_API_PORT}`
 
 /*
 --------------------------------------------------

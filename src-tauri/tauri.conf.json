@@ -41,6 +41,10 @@
               "-c",
               {
                 "validator": "\\S+"
+              },
+              "--port",
+              {
+                "validator": "\\d+"
               }
             ]
           }
