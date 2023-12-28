@@ -20,7 +20,7 @@ defineEmits(['run-prompt'])
       </BaseTab>
 
       <hr
-        class="absolute bottom-0 left-0 h-0.5 w-full border-none bg-black/5"
+        class="h-0.25 absolute bottom-0 left-0 w-full border-none bg-black/5"
       />
     </TabList>
 

@@ -35,7 +35,7 @@ const clearSelection = () => {
   >
     <span class="w-2 shrink-0 grow rounded-sm bg-orange-500" />
     <div
-      class="h-fit w-full bg-white focus-visible:outline-none"
+      class="h-fit w-full bg-white leading-tight focus-visible:outline-none"
       contenteditable
       @input="onInput"
       @focus="selectTextOnTab"

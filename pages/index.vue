@@ -88,7 +88,7 @@ onMounted(async () => {
 
     <main class="flex grow items-start justify-center overflow-y-scroll">
       <FileTreeWidget
-        class="pt-1"
+        class="shrink-0 pt-1"
         :active-file="activeFile"
         @set-active-file="setActiveFile"
       />

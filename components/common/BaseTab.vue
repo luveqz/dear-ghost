@@ -11,7 +11,7 @@ defineProps({
 
 <template>
   <Tab
-    class="group relative flex w-14 flex-col items-center gap-1 p-1 pb-2 text-black/80 focus:outline-none"
+    class="group relative flex w-14 flex-col items-center gap-1 p-1 pb-2 text-black/80 focus-visible:outline-none"
     v-slot="{ selected }"
   >
     <span :class="{ 'opacity-50': !selected }">
@@ -22,7 +22,7 @@ defineProps({
 
     <hr
       v-if="selected"
-      class="absolute bottom-0 left-0 h-0.5 w-full border-none bg-orange-500 group-focus:brightness-[1.15]"
+      class="h-0.25 absolute bottom-0 left-0 w-full border-none bg-orange-500"
     />
   </Tab>
 </template>
