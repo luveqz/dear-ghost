@@ -96,12 +96,7 @@ onMounted(() => {
 
 <template>
   <div class="relative px-5 pb-9">
-    <h2
-      class="sticky top-0 z-10 flex items-center gap-2 bg-white pb-1 pt-sticky-widget text-xl font-bold leading-none"
-    >
-      <span class="block h-[1.125rem] w-2 rounded-sm bg-orange-500" />
-      <input class="w-fit bg-white" v-model="data.title" />
-    </h2>
+    <FileEditorTitleField v-model="data.title" />
 
     <section class="pt-4 indent-5">
       <editor-content
