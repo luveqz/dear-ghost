@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { DEFAULT_FILE } from '@/stores/editor'
 import { TextFile } from '@/lib/types/editor'
 
 defineProps({
@@ -14,14 +13,13 @@ const { $editor } = useNuxtApp()
 
 const onRemoveFile = (file: TextFile) => {
   const fileIndex = $editor.files.findIndex((file_) => file_.id === file.id)
+  $editor.removeFile(file)
 
-  if ($editor.files.length === 1 && file.id.includes(DEFAULT_FILE.id)) {
-    file.data.title = DEFAULT_FILE.data.title
-    file.data.content = ''
-  } else {
-    const count = $editor.files.length
-    emit('set-active-file', $editor.files[(count - 1 - fileIndex) % count])
-    $editor.removeFile(file)
+  const count = $editor.files.length
+  emit('set-active-file', $editor.files[(count + fileIndex) % count])
+
+  if ($editor.files.length === 0) {
+    $editor.addFile()
   }
 }
 </script>
