@@ -6,7 +6,7 @@ export type TextFileData = {
 }
 
 export type TextFile = {
-  id: number
+  id: string
   editor?: Editor
   data: TextFileData
 }

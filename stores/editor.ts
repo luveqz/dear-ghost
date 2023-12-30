@@ -1,4 +1,7 @@
+import { save } from '@tauri-apps/api/dialog'
+import { readTextFile, writeTextFile } from '@tauri-apps/api/fs'
 import { defineStore } from 'pinia'
+
 import { TextFile } from '@/lib/types/editor'
 import { deepCopy } from '@/lib/utils/copy'
 
@@ -43,30 +46,91 @@ export const useEditorStore = defineStore('editor', {
       this.save()
     },
 
-    save() {
+    save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
       if (this.validate(this.files)) {
-        const plainWidgetData = this.files.map((file) => {
-          const { editor, ...rest } = file
-          return rest
-        })
-
-        window.localStorage.setItem(
-          FILE_STORAGE_KEY,
-          JSON.stringify(plainWidgetData),
-        )
+        if (window.__TAURI__ && toFileSystem) {
+          this._saveToFileSystem()
+        } else {
+          this._saveToLocalStorage()
+        }
       }
     },
 
-    load() {
+    async _saveToFileSystem() {
+      if (!this.activeFile) return
+
+      if (this.activeFile.id.includes(DEFAULT_FILE.id)) {
+        try {
+          const selectedPath = await save({
+            defaultPath: `$HOME/${this.activeFile.data.title}.md`,
+            filters: [
+              {
+                name: 'Markdown File',
+                extensions: ['md'],
+              },
+            ],
+          })
+
+          if (selectedPath) {
+            this.activeFile.id = selectedPath
+            writeTextFile(selectedPath, this.activeFile.data.content)
+            this._saveToLocalStorage()
+          }
+        } catch (err) {
+          // useToast({ message: 'Could not open file.' })
+        }
+      } else {
+        writeTextFile(this.activeFile.id, this.activeFile.data.content)
+        this._saveToLocalStorage()
+      }
+    },
+
+    _saveToLocalStorage() {
+      const plainWidgetData = this.files.map((file) => {
+        const { editor, ...rest } = file
+        return rest
+      })
+
+      window.localStorage.setItem(
+        FILE_STORAGE_KEY,
+        JSON.stringify(plainWidgetData),
+      )
+    },
+
+    async load() {
+      if (window.__TAURI__) {
+        this._loadFromLocalStorage()
+        return await this._syncWithFileSystem()
+      } else {
+        return this._loadFromLocalStorage()
+      }
+    },
+
+    async _syncWithFileSystem() {
+      await Promise.all(
+        this.files.map(async (file: TextFile) => {
+          if (!this._isUnsavedFile(file)) {
+            const content = await readTextFile(file.id)
+            file.data.content = content
+          }
+        }),
+      )
+    },
+
+    _loadFromLocalStorage() {
       const files = JSON.parse(
         window.localStorage.getItem(FILE_STORAGE_KEY) || '[]',
       )
 
       if (this.validate(files)) {
-        this.files = files.length ? files : [DEFAULT_FILE]
+        this.files = files.length ? files : [deepCopy(DEFAULT_FILE)]
         return this.files
       }
       return false
+    },
+
+    _isUnsavedFile(file: TextFile) {
+      return file.id.includes(DEFAULT_FILE.id)
     },
   },
 })

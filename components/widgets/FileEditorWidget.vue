@@ -71,7 +71,10 @@ const editor = useEditor({
   },
 })
 
-watch(() => props.data.title, $editor.save)
+watch(
+  () => props.data.title,
+  () => $editor.save(),
+)
 watch(
   () => props.data.content,
   (value) => {

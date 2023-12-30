@@ -23,7 +23,7 @@ const selectTextOnTab = ({ target }: Event) => {
 }
 
 const restoreDefaultTitle = () => {
-  emit('update:model-value', DEFAULT_FILE.data.title)
+  emit('update:model-value', DEFAULT_FILE.data.title.trim())
 }
 
 const onBlur = () => {
