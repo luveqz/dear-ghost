@@ -4,8 +4,8 @@ import { deepCopy } from '@/lib/utils/copy'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
-const DEFAULT_FILE: TextFile = {
-  id: 1,
+export const DEFAULT_FILE: TextFile = {
+  id: '92f98faa648882aa943e9fe790fbc2bd',
   data: {
     title: 'Untitled',
     content: '',
@@ -31,7 +31,7 @@ export const useEditorStore = defineStore('editor', {
     },
 
     addFile() {
-      const id = Math.floor(new Date().getTime())
+      const id = `${DEFAULT_FILE.id}-${Math.floor(new Date().getTime())}`
       const newFile = { ...deepCopy(DEFAULT_FILE), id }
       this.files.push(newFile)
       this.activeFile = newFile
