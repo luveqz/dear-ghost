@@ -53,6 +53,9 @@
             ]
           }
         ]
+      },
+      "window": {
+        "close": true
       }
     },
     "bundle": {

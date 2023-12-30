@@ -11,7 +11,7 @@ defineEmits(['update:model-value'])
 
 <template>
   <textarea
-    class="base-textarea min-h-[2.5rem] resize rounded border border-blue-gray-100 bg-white p-2.5 text-sm font-medium placeholder:opacity-40"
+    class="base-textarea border-blue-gray-200 min-h-[2.5rem] resize rounded border bg-white p-2.5 text-sm font-medium placeholder:opacity-40"
     :value="modelValue"
     @input="
       $emit('update:model-value', ($event.target as HTMLInputElement).value)

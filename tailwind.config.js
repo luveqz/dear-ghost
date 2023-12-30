@@ -25,7 +25,8 @@ module.exports = {
       },
       'blue-gray': {
         50: '#DEE3E8',
-        100: '#B8C6CB',
+        100: '#D6DCE3',
+        200: '#B8C6CB',
       },
     },
 

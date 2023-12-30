@@ -23,7 +23,7 @@ const responseModes = Object.entries(ResponseModeLabels).map(([id, label]) => ({
 <template>
   <section
     v-if="prompt"
-    class="flex w-action-panel-popover flex-col gap-y-3 rounded border border-blue-gray-100 bg-blue-gray-50 p-7"
+    class="border-blue-gray-200 flex w-action-panel-popover flex-col gap-y-3 rounded border bg-blue-gray-50 p-7"
   >
     <!-- First Line -->
     <div class="flex gap-4">
@@ -39,7 +39,7 @@ const responseModes = Object.entries(ResponseModeLabels).map(([id, label]) => ({
           <span class="mb-1 block">Icon</span>
 
           <div
-            class="flex h-10 w-10 items-center justify-center rounded border border-blue-gray-100 bg-white"
+            class="border-blue-gray-200 flex h-10 w-10 items-center justify-center rounded border bg-white"
           >
             <component
               :is="PROMPT_ICON_CATALOG[prompt.iconName]"

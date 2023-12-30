@@ -59,12 +59,6 @@ const onRunPrompt = async (prompt: Prompt) => {
   }
 }
 
-const keys = useMagicKeys()
-
-whenever(keys['control_s'], () => {
-  $editor.save({ toFileSystem: true })
-})
-
 onMounted(async () => {
   $editor.load()
   setActiveFile($editor.files[0] as TextFile)

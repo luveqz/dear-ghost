@@ -1,4 +1,4 @@
-import { save } from '@tauri-apps/api/dialog'
+import { save, open } from '@tauri-apps/api/dialog'
 import { readTextFile, writeTextFile } from '@tauri-apps/api/fs'
 import { defineStore } from 'pinia'
 
@@ -35,15 +35,42 @@ export const useEditorStore = defineStore('editor', {
 
     addFile() {
       const id = `${DEFAULT_FILE.id}-${Math.floor(new Date().getTime())}`
-      const newFile = { ...deepCopy(DEFAULT_FILE), id }
+      const newFile: TextFile = { ...deepCopy(DEFAULT_FILE), id }
       this.files.push(newFile)
       this.activeFile = newFile
+      return newFile
     },
 
     removeFile(file: TextFile) {
       const fileIndex = this.files.findIndex((file_) => file_.id === file.id)
       this.files.splice(fileIndex, 1)
       this.save()
+    },
+
+    async openFile() {
+      try {
+        const selectedPath = await open({
+          multiple: false,
+          title: 'Open text file',
+          filters: [
+            {
+              name: 'Markdown File',
+              extensions: ['md'],
+            },
+          ],
+        })
+
+        if (typeof selectedPath === 'string') {
+          const content = await readTextFile(selectedPath)
+
+          const newFile = this.addFile()
+          newFile.id = selectedPath
+          newFile.data.content = content
+          this.save()
+        }
+      } catch (err) {
+        // useToast({ message: 'Could not open file.' })
+      }
     },
 
     save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
