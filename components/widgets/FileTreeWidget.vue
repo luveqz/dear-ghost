@@ -19,7 +19,8 @@ const onRemoveFile = (file: TextFile) => {
     file.data.title = DEFAULT_FILE.data.title
     file.data.content = ''
   } else {
-    emit('set-active-file', $editor.files[fileIndex - 1])
+    const count = $editor.files.length
+    emit('set-active-file', $editor.files[(count - 1 - fileIndex) % count])
     $editor.removeFile(file)
   }
 }
