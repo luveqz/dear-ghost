@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { selectElementContents } from '@/lib/utils/browser'
+import { DEFAULT_FILE } from '@/stores/editor'
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     required: true,
@@ -19,6 +20,18 @@ const selectTextOnTab = ({ target }: Event) => {
   if (target && tab.value) {
     selectElementContents(target as Node)
   }
+}
+
+const restoreDefaultTitle = () => {
+  emit('update:model-value', DEFAULT_FILE.data.title)
+}
+
+const onBlur = () => {
+  if (!props.modelValue.trim()) {
+    restoreDefaultTitle()
+  }
+
+  clearSelection()
 }
 
 const clearSelection = () => {
@@ -39,7 +52,7 @@ const clearSelection = () => {
       contenteditable
       @input="onInput"
       @focus="selectTextOnTab"
-      @blur="clearSelection"
+      @blur="onBlur"
       @keypress.enter.prevent
       v-text="modelValue"
     />
