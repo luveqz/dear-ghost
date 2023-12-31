@@ -3,6 +3,8 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { appWindow } from '@tauri-apps/api/window'
 import startCase from 'lodash/startCase'
 
+import { toggleFullScreen } from '@/lib/utils/browser'
+
 const { $editor } = useNuxtApp()
 
 const menuList = [
@@ -36,7 +38,18 @@ const menuList = [
       },
     ],
   },
-  { label: 'View', submenu: [] },
+  {
+    label: 'View',
+    submenu: [
+      {
+        label: 'Full Screen',
+        shortcut: 'f11',
+        action() {
+          toggleFullScreen()
+        },
+      },
+    ],
+  },
 ]
 
 const keys = useMagicKeys()
@@ -50,6 +63,9 @@ menuList.forEach((menu) => {
 })
 
 const formatShortcut = (shortcut: string) => {
+  if (shortcut.match(/f[1-12]/)) {
+    return shortcut.toUpperCase()
+  }
   return startCase(shortcut).replace(' ', ' + ')
 }
 </script>
