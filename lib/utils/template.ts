@@ -37,6 +37,7 @@ export class TemplateParser {
     return this.editor.state.doc.textBetween(
       this.selection.from,
       this.selection.to,
+      '\n',
     )
   }
 }
