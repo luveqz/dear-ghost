@@ -1,4 +1,5 @@
 import { PROMPT_ICON_CATALOG } from '@/stores/library'
+import { PROVIDERS } from '@/stores/llm'
 
 export enum ResponseMode {
   InsertBelow,
@@ -18,7 +19,7 @@ export type Prompt = {
   template: string
   responseMode: ResponseMode
   groupName: string
-  providerId: number
-  modelId: number
+  providerId: keyof typeof PROVIDERS
+  modelId: string
   shortcut?: string
 }

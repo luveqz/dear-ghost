@@ -31,10 +31,42 @@ export enum OllamaModel {
   Mistral,
 }
 
+export const PROVIDERS = {
+  [LLMProvider.Ollama]: {
+    label: 'Ollama',
+    async getModels() {
+      const models: string[] = []
+      async function fetchTags() {
+        try {
+          const response = await fetch(`${OLLAMA_API_BASE_URL}/api/tags`)
+          const data = await response.json()
+          return data
+        } catch (error) {
+          console.error('Error fetching data:', error)
+          return []
+        }
+      }
+
+      // Example usage:
+      models.push(
+        ...(await fetchTags()
+          .then((tags) => {
+            return tags.models.map((model: any) => model.name)
+          })
+          .catch((error) => {
+            console.error(error)
+          })),
+      )
+
+      return models
+    },
+  },
+}
+
 type SendParams = {
   prompt: string
   provider: LLMProvider
-  model: GoogleModel | AnthropicModel | OllamaModel | LLaMACppModel
+  model: string
   selection: Selection
   insertChunk: (chunk: string, index: number) => any
 }
@@ -64,10 +96,7 @@ export const useLLMStore = defineStore('llm', {
         LLaMA C++: Mistral 7B
       --------------------------------------------------
       */
-      if (
-        provider === LLMProvider.LLaMACpp &&
-        model === LLaMACppModel.Mistral7B
-      ) {
+      if (provider === LLMProvider.LLaMACpp) {
         try {
           const stream = await llamaCpp({
             prompt,
@@ -89,36 +118,10 @@ export const useLLMStore = defineStore('llm', {
 
       /*
       --------------------------------------------------
-        Google: Palm 2
-      --------------------------------------------------
-      */
-      if (
-        provider === LLMProvider.Google &&
-        model === GoogleModel.Palm2TextBison
-      ) {
-        const { url, options } = getAdaptedPalm2Request({
-          prompt,
-          config: $config.app,
-        })
-
-        const response = await $fetch<any>(url, options)
-
-        try {
-          // completion = response.candidates[0].output
-        } catch (error) {
-          console.error(error)
-        }
-      }
-
-      /*
-      --------------------------------------------------
         Anthropic: Claude Instant
       --------------------------------------------------
       */
-      if (
-        provider === LLMProvider.Anthropic &&
-        model === AnthropicModel.ClaudeInstant
-      ) {
+      if (provider === LLMProvider.Anthropic) {
         const { url, options } = getAdaptedClaudeInstantRequest({
           prompt,
           config: $config.app,
@@ -135,21 +138,23 @@ export const useLLMStore = defineStore('llm', {
 
       /*
       --------------------------------------------------
-        Ollama: Mistral 7B
+        Ollama
       --------------------------------------------------
       */
-      if (provider === LLMProvider.Ollama && model === OllamaModel.Mistral) {
+      if (provider === LLMProvider.Ollama) {
         try {
           const ollama = new Ollama({
             baseUrl: OLLAMA_API_BASE_URL,
-            model: 'mistral',
+            model,
           })
 
           const stream = await ollama.stream(prompt)
 
-          const chunks = []
-          for await (const chunk of stream) {
-            chunks.push(chunk)
+          let cursorIndex = selection.to
+
+          for await (const chunk of stream as any) {
+            const { newCursorIndex } = insertChunk(chunk, cursorIndex)
+            cursorIndex = newCursorIndex
           }
 
           // completion = chunks.join('')

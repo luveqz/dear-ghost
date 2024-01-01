@@ -31,7 +31,8 @@ onClickOutside(popoverRef, close)
 <template>
   <Popper :show="isOpen" placement="left-end" offset-distance="0">
     <button
-      class="flex h-11 w-full items-center gap-2 border-l border-r border-t border-black/15 p-2"
+      class="flex h-11 w-full select-none items-center gap-2 border-l border-r border-t border-black/15 p-2"
+      :class="{ 'rounded-es-none': isOpen }"
       v-bind="$attrs"
       @contextmenu.stop.prevent="open"
       @click="$emit('run-prompt')"
@@ -59,7 +60,8 @@ onClickOutside(popoverRef, close)
       <PromptConfigPopover
         ref="popoverRef"
         :prompt="prompt"
-        class="mt- absolute top-[calc(100%_+_0.5rem)] z-50 min-w-full"
+        :is-open="isOpen"
+        class="absolute top-[calc(100%_-_0.1rem)] z-50 min-w-full"
       />
     </template>
   </Popper>
