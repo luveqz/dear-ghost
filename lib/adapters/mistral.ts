@@ -6,6 +6,7 @@ export function getAdaptedMistral7BRequest({ prompt }: { prompt: string }) {
     body: {
       prompt,
       n_predict: 128,
+      stream: true,
     },
   }
 

@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
+import { Selection } from '@tiptap/pm/state'
 import { Ollama } from 'langchain/llms/ollama'
 import { getAdaptedPalm2Request } from '@/lib/adapters/palm'
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
-import { getAdaptedMistral7BRequest } from '@/lib/adapters/mistral'
+
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
+import { llamaCpp } from '@/lib/utils/llamacpp'
 
 export enum LLMProvider {
   OpenAI,
@@ -33,6 +35,8 @@ type SendParams = {
   prompt: string
   provider: LLMProvider
   model: GoogleModel | AnthropicModel | OllamaModel | LLaMACppModel
+  selection: Selection
+  insertChunk: (chunk: string, index: number) => any
 }
 
 export const useLLMStore = defineStore('llm', {
@@ -44,9 +48,14 @@ export const useLLMStore = defineStore('llm', {
     },
 
   actions: {
-    async send({ prompt, provider, model }: SendParams) {
+    async send({
+      prompt,
+      provider,
+      model,
+      selection,
+      insertChunk,
+    }: SendParams) {
       this.running = true
-      let completion
 
       const { $config } = useNuxtApp()
 
@@ -60,10 +69,19 @@ export const useLLMStore = defineStore('llm', {
         model === LLaMACppModel.Mistral7B
       ) {
         try {
-          const { url, options } = getAdaptedMistral7BRequest({ prompt })
-          const result: any = await $fetch(url, options as any)
+          const stream = await llamaCpp({
+            prompt,
+          })
 
-          completion = result.content
+          let cursorIndex = selection.to
+
+          for await (const chunk of stream as any) {
+            const { newCursorIndex } = insertChunk(
+              chunk.data.content,
+              cursorIndex,
+            )
+            cursorIndex = newCursorIndex
+          }
         } catch (error) {
           console.error(error)
         }
@@ -86,7 +104,7 @@ export const useLLMStore = defineStore('llm', {
         const response = await $fetch<any>(url, options)
 
         try {
-          completion = response.candidates[0].output
+          // completion = response.candidates[0].output
         } catch (error) {
           console.error(error)
         }
@@ -109,7 +127,7 @@ export const useLLMStore = defineStore('llm', {
         const response = await $fetch<any>(url, options as any)
 
         try {
-          completion = response['outputs'][0]['data']['text']['raw']
+          // completion = response['outputs'][0]['data']['text']['raw']
         } catch (error) {
           console.error(error)
         }
@@ -134,14 +152,13 @@ export const useLLMStore = defineStore('llm', {
             chunks.push(chunk)
           }
 
-          completion = chunks.join('')
+          // completion = chunks.join('')
         } catch (error) {
           console.error(error)
         }
       }
 
       this.running = false
-      return completion
     },
   },
 })

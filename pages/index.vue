@@ -7,7 +7,6 @@ import { Prompt } from '@/lib/types/library'
 import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
 import { TextFile } from '@/lib/types/editor'
-import { stringToHTMLParagraphs } from '@/lib/utils/string'
 import { LLAMACPP_API_PORT, MISTRAL_7B_FILENAME } from '@/lib/constants'
 
 const { $editor, $llm } = useNuxtApp()
@@ -31,32 +30,45 @@ const onRunPrompt = async (prompt: Prompt) => {
   ).parseTemplate(prompt.template)
 
   // 2. Call LLM provider.
-  const response = await $llm.send({
+  originEditor.setEditable(false)
+  await $llm.send({
     prompt: parsedPrompt,
     provider: prompt.providerId,
     model: prompt.modelId,
+    selection: selection,
+    insertChunk(chunk, cursorIndex) {
+      // 4. Show response.
+      if (prompt.responseMode === ResponseMode.InsertBelow) {
+        originEditor
+          .chain()
+          .focus()
+          .insertContentAt(cursorIndex + (chunk === `\n` ? 1 : 0), chunk)
+          .run()
+      }
+
+      if (prompt.responseMode === ResponseMode.ReplaceSelection) {
+        originEditor
+          .chain()
+          .focus()
+          .deleteSelection()
+          .insertContentAt(selection.from, chunk)
+          .run()
+      }
+
+      // 5. Prettify response.
+      if (chunk.includes('\n')) {
+        originEditor.commands.setContent(
+          originEditor.getHTML().replace('\n', '</p><p>'),
+        )
+      }
+
+      return {
+        newCursorIndex: (cursorIndex +=
+          chunk.length + (chunk === `\n` ? 1 : 0)),
+      }
+    },
   })
-
-  // 3. Prettify response.
-  const prettifiedResponse = stringToHTMLParagraphs(response)
-
-  // 4. Show response.
-  if (prompt.responseMode === ResponseMode.InsertBelow) {
-    originEditor
-      .chain()
-      .focus()
-      .insertContentAt(selection.to, prettifiedResponse)
-      .run()
-  }
-
-  if (prompt.responseMode === ResponseMode.ReplaceSelection) {
-    originEditor
-      .chain()
-      .focus()
-      .deleteSelection()
-      .insertContentAt(selection.from, prettifiedResponse)
-      .run()
-  }
+  originEditor.setEditable(true)
 }
 
 onMounted(async () => {
