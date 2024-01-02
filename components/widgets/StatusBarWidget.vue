@@ -8,6 +8,8 @@ defineProps({
     required: true,
   },
 })
+
+defineEmits(['stop-generation'])
 </script>
 
 <template>
@@ -18,6 +20,11 @@ defineProps({
       <template v-if="$llm.running">
         <LoadingIcon class="h-4 text-orange-500" />
         Running model...
+        <button
+          class="rounded border border-black/15 px-2 text-xs"
+          @click="$emit('stop-generation')"
+          >Stop</button
+        >
       </template>
     </div>
 

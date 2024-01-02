@@ -68,6 +68,7 @@ type SendParams = {
   provider: LLMProvider
   model: string
   selection: Selection
+  controller: Ref<AbortController | undefined>
   insertChunk: (chunk: string, index: number) => any
 }
 
@@ -85,11 +86,14 @@ export const useLLMStore = defineStore('llm', {
       provider,
       model,
       selection,
+      controller,
       insertChunk,
     }: SendParams) {
       this.running = true
 
       const { $config } = useNuxtApp()
+      controller.value = new AbortController()
+      const signal = controller.value.signal
 
       /*
       --------------------------------------------------
@@ -148,7 +152,9 @@ export const useLLMStore = defineStore('llm', {
             model,
           })
 
-          const stream = await ollama.stream(prompt)
+          const stream = await ollama.stream(prompt, {
+            signal,
+          })
 
           let cursorIndex = selection.to
 

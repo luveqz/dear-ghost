@@ -15,6 +15,7 @@ const activeFile = computed(() => $editor.activeFile as TextFile)
 const setActiveFile = (file: TextFile) => {
   $editor.activeFile = file
 }
+const controller = ref<AbortController>()
 
 const { closeAll } = useContextMenuTurn()
 
@@ -36,6 +37,7 @@ const onRunPrompt = async (prompt: Prompt) => {
     provider: prompt.providerId,
     model: prompt.modelId,
     selection: selection,
+    controller,
     insertChunk(chunk, cursorIndex) {
       // 4. Show response.
       if (prompt.responseMode === ResponseMode.InsertBelow) {
@@ -128,6 +130,7 @@ onMounted(async () => {
         class="ml-52 mr-80 w-page shrink-0 px-5"
         v-if="activeFile?.editor"
         :active-editor="activeFile?.editor"
+        @stop-generation="controller?.abort()"
       />
     </div>
   </div>
