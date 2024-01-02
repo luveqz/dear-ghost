@@ -17,7 +17,7 @@ tauri-build = { version = "1.5.0", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.5.3", features = [ "dialog-save", "dialog-open", "fs-read-file", "fs-write-file", "http-request", "path-all", "shell-execute", "shell-sidecar", "process-command-api"] }
+tauri = { version = "1.5.3", features = [ "window-close", "dialog-save", "dialog-open", "fs-read-file", "fs-write-file", "http-request", "path-all", "shell-execute", "shell-sidecar", "process-command-api"] }
 
 
 [features]

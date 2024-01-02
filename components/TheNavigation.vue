@@ -72,7 +72,7 @@ const formatShortcut = (shortcut: string) => {
 
 <template>
   <nav
-    class="z-10 flex h-10 items-center justify-between bg-orange-gray-900 px-5 text-sm font-semibold text-white"
+    class="z-10 flex h-[1.8rem] items-center justify-between bg-orange-gray-900 px-5 text-sm font-semibold text-white"
   >
     <!-- Left -->
     <section class="flex h-full gap-x-2">
