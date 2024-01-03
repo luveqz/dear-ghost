@@ -24,7 +24,7 @@ if (props.prompt.shortcut) {
 
 const { isOpen, open, close } = useContextMenuTurn()
 
-const popoverRef = ref()
+const popoverRef = ref<HTMLElement>()
 onClickOutside(popoverRef, close)
 </script>
 

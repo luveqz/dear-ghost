@@ -34,13 +34,13 @@ module.exports = {
       spacing: {
         'sticky-widget': '2rem',
         0.25: '0.188rem',
+        'action-panel': '20rem',
       },
       fontSize: {
         xxs: '0.719rem',
       },
       width: {
         page: '33.125rem',
-        'action-panel': '20rem',
         'action-panel-popover': '21.25rem',
       },
     },

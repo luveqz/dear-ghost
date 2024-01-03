@@ -5,8 +5,10 @@ defineEmits(['run-prompt'])
 </script>
 
 <template>
-  <TabGroup as="div" class="sticky top-sticky-widget px-10">
-    <TabList class="relative flex justify-between text-xs font-semibold">
+  <TabGroup as="div" class="flex flex-col px-10">
+    <TabList
+      class="relative mt-sticky-widget flex justify-between text-xs font-semibold"
+    >
       <BaseTab label="Prompts">
         <SparkIcon />
       </BaseTab>
@@ -20,11 +22,11 @@ defineEmits(['run-prompt'])
       </BaseTab>
 
       <hr
-        class="h-0.25 absolute bottom-0 left-0 w-full border-none bg-black/5"
+        class="absolute bottom-0 left-0 h-0.25 w-full border-none bg-black/5"
       />
     </TabList>
 
-    <TabPanels>
+    <TabPanels class="tab-panels grow overflow-y-scroll scroll-smooth pb-3">
       <TabPanel>
         <div
           v-for="(prompts, group) in $library.groupedPrompts"
@@ -46,7 +48,20 @@ defineEmits(['run-prompt'])
             />
           </ul>
         </div>
+        <!--
+          This is a config popover's height.
+          We should replace this hardcoded value
+          and use something dynamic after launch.
+        -->
+        <div class="h-[23.625rem]" />
       </TabPanel>
     </TabPanels>
   </TabGroup>
 </template>
+
+<style scoped>
+.tab-panels::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+</style>

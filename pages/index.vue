@@ -95,34 +95,45 @@ onMounted(async () => {
 
 <template>
   <div
-    class="absolute left-0 top-0 flex h-full w-full flex-col"
+    class="absolute left-0 top-0 flex h-full w-full flex-col items-center"
     @contextmenu="closeAll"
   >
-    <TheNavigation class="sticky top-0 w-full shrink-0" />
+    <TheNavigation class="w-full shrink-0" />
 
-    <main class="flex grow items-start justify-center overflow-y-scroll">
-      <FileTreeWidget
-        class="shrink-0"
-        :active-file="activeFile"
-        @set-active-file="setActiveFile"
-      />
+    <main
+      class="flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
+    >
+      <div
+        class="grid-template col-span-3 justify-end"
+        style="grid-column-start: file-tree"
+      >
+        <FileTreeWidget
+          class="shrink-0"
+          :active-file="activeFile"
+          @set-active-file="setActiveFile"
+          style="grid-area: file-tree; direction: ltr"
+        />
 
-      <div class="flex flex-col">
-        <template v-for="file in $editor.files" :key="file.id">
-          <FileEditorWidget
-            v-show="activeFile?.id === file.id"
-            :data="file.data"
-            class="w-page grow"
-            @instantiated="(editor) => (file.editor = editor)"
-            @active="setActiveFile(file as TextFile)"
-          />
-        </template>
+        <div
+          class="flex w-page flex-col"
+          style="grid-area: editor; direction: ltr"
+        >
+          <template v-for="file in $editor.files" :key="file.id">
+            <FileEditorWidget
+              v-show="activeFile?.id === file.id"
+              :data="file.data"
+              @instantiated="(editor) => (file.editor = editor)"
+              @active="setActiveFile(file as TextFile)"
+            />
+          </template>
+        </div>
+
+        <ActionPanelWidget
+          class="fixed h-[calc(100vh_-_1.8rem)] w-action-panel"
+          style="grid-area: action-panel; direction: ltr"
+          @run-prompt="onRunPrompt"
+        />
       </div>
-
-      <ActionPanelWidget
-        class="sticky top-sticky-widget h-fit w-action-panel"
-        @run-prompt="onRunPrompt"
-      />
     </main>
 
     <div class="flex shrink-0 justify-center overflow-y-scroll">
@@ -135,3 +146,11 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.grid-template {
+  display: grid;
+  grid-template-columns: [action-panel] 20rem [editor] 33.125rem [file-tree] 15rem;
+  direction: rtl;
+}
+</style>

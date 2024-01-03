@@ -13,9 +13,7 @@ defineEmits(['stop-generation'])
 </script>
 
 <template>
-  <aside
-    class="sticky bottom-0 flex h-12 items-center justify-between bg-white text-sm"
-  >
+  <aside class="flex h-12 items-center justify-between bg-white text-sm">
     <div class="flex items-center gap-1">
       <template v-if="$llm.running">
         <LoadingIcon class="h-4 text-orange-500" />
