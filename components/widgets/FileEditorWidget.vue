@@ -99,7 +99,7 @@ onMounted(() => {
 
 <template>
   <div class="relative px-5 pb-9">
-    <FileEditorTitleField v-model="data.title" />
+    <FileEditorTitleField class="sticky top-0" v-model="data.title" />
 
     <section class="pt-4 indent-5">
       <editor-content

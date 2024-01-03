@@ -6,9 +6,7 @@ defineEmits(['run-prompt'])
 
 <template>
   <TabGroup as="div" class="flex flex-col px-10">
-    <TabList
-      class="relative mt-sticky-widget flex justify-between text-xs font-semibold"
-    >
+    <TabList class="relative flex justify-between text-xs font-semibold">
       <BaseTab label="Prompts">
         <SparkIcon />
       </BaseTab>

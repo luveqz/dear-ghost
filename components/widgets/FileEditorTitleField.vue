@@ -26,7 +26,7 @@ const onBlur = () => {
 <template>
   <h2
     draggable="false"
-    class="sticky top-0 z-10 flex items-stretch gap-2 bg-white pb-1 pt-sticky-widget text-xl font-bold leading-none"
+    class="z-10 flex items-stretch gap-2 bg-white pb-1 text-xl font-bold leading-none"
   >
     <span class="w-2 shrink-0 grow-0 rounded-sm bg-orange-500" />
     <div

@@ -101,14 +101,14 @@ onMounted(async () => {
     <TheNavigation class="w-full shrink-0" />
 
     <main
-      class="flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
+      class="mr-2 mt-sticky-widget flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
     >
       <div
         class="grid-template col-span-3 justify-end"
         style="grid-column-start: file-tree"
       >
         <FileTreeWidget
-          class="shrink-0"
+          class="sticky top-0 shrink-0"
           :active-file="activeFile"
           @set-active-file="setActiveFile"
           style="grid-area: file-tree; direction: ltr"
