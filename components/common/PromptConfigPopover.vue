@@ -14,6 +14,7 @@ const props = defineProps({
   },
 })
 
+const _groupName = ref(props.prompt.groupName)
 const showAdvanced = ref(false)
 
 const selectedResponseMode = ref({
@@ -60,6 +61,9 @@ watch(
   (isOpen) => {
     if (isOpen) {
       showAdvanced.value = false
+      _groupName.value = props.prompt.groupName
+    } else {
+      props.prompt.groupName = _groupName.value
     }
   },
 )
@@ -148,7 +152,7 @@ watch(
         <div class="w-full">
           <label class="text-xs font-bold">
             <span class="mb-1 block">Group name</span>
-            <BaseInput v-model="prompt.groupName" class="w-full" />
+            <BaseInput v-model="_groupName" class="w-full" />
           </label>
         </div>
 
@@ -192,7 +196,7 @@ watch(
         class="text-xs font-semibold underline"
         @click="showAdvanced = !showAdvanced"
       >
-        {{ showAdvanced ? 'Advanced' : 'Hide advanced' }}
+        {{ showAdvanced ? 'Hide advanced' : 'Advanced' }}
       </button>
     </div>
   </section>
