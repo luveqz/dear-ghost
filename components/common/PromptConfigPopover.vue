@@ -115,24 +115,6 @@ watch(
             <BaseTextarea v-model="prompt.template" class="h-48 w-full" />
           </label>
         </div>
-
-        <!-- Third Line -->
-        <div>
-          <label class="text-xs font-bold">
-            <div class="flex items-center justify-between">
-              <span class="mb-1 block">Response</span>
-              <InfoIcon class="text-orange-500/60" />
-            </div>
-            <BaseSelect
-              v-model="selectedResponseMode"
-              :options="responseModes"
-              @update:model-value="
-                (option) => (prompt.responseMode = option.id)
-              "
-              class="w-full"
-            />
-          </label>
-        </div>
       </section>
 
       <!-- Advanced Options -->
@@ -173,13 +155,12 @@ watch(
             </label>
           </div>
 
-          <div class="w-1/2 grow">
+          <div v-if="selectedModel" class="w-1/2 grow">
             <label class="text-xs font-bold">
               <div class="flex items-center justify-between">
                 <span class="mb-1 block">Model</span>
               </div>
               <BaseSelect
-                v-if="selectedModel"
                 v-model="selectedModel"
                 :options="models"
                 @update:model-value="(option) => (prompt.modelId = option.id)"
@@ -187,6 +168,24 @@ watch(
               />
             </label>
           </div>
+        </div>
+
+        <!-- Fourth Line -->
+        <div>
+          <label class="text-xs font-bold">
+            <div class="flex items-center justify-between">
+              <span class="mb-1 block">Response</span>
+              <InfoIcon class="text-orange-500/60" />
+            </div>
+            <BaseSelect
+              v-model="selectedResponseMode"
+              :options="responseModes"
+              @update:model-value="
+                (option) => (prompt.responseMode = option.id)
+              "
+              class="w-full"
+            />
+          </label>
         </div>
       </section>
     </div>
