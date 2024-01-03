@@ -57,7 +57,11 @@ const keys = useMagicKeys()
 menuList.forEach((menu) => {
   menu.submenu.forEach((submenu) => {
     if (submenu.shortcut) {
-      whenever(keys[submenu.shortcut], submenu.action)
+      whenever(keys[submenu.shortcut], () => {
+        if (!submenu.shortcut.match(/f[1-12]/)) {
+          submenu.action()
+        }
+      })
     }
   })
 })
