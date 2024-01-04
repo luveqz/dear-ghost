@@ -196,10 +196,10 @@ const formatShortcut = (shortcut: string) => {
       </button>
       <div class="block h-3 border-l border-l-white" />
       <button
-        :class="{ 'opacity-50': $editor.mode !== 'edit-workspace' }"
-        @click="$editor.mode = 'edit-workspace'"
+        :class="{ 'opacity-50': $editor.mode !== 'edit-prompts' }"
+        @click="$editor.mode = 'edit-prompts'"
       >
-        Edit Workspace
+        Edit Prompts
       </button>
     </section>
   </nav>

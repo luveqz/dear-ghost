@@ -28,6 +28,7 @@ export const useEditorStore = defineStore('editor', {
     }) as {
       files: TextFile[]
       activeFile: TextFile | null
+      mode: 'write' | 'edit-prompts'
       view: {
         fileTree: boolean
         actionPanel: boolean
