@@ -73,6 +73,14 @@ const onRunPrompt = async (prompt: Prompt) => {
   originEditor.setEditable(true)
 }
 
+const layoutStyle = computed(() => {
+  return {
+    'grid-template-columns': `${
+      $editor.view.actionPanel ? '[action-panel] 20rem' : ''
+    }  [editor] 33.125rem ${$editor.view.fileTree ? '[file-tree] 15rem' : ''}`,
+  }
+})
+
 onMounted(async () => {
   $editor.load()
   setActiveFile($editor.files[0] as TextFile)
@@ -103,11 +111,9 @@ onMounted(async () => {
     <main
       class="mr-2 mt-sticky-widget flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
     >
-      <div
-        class="grid-template col-span-3 justify-end"
-        style="grid-column-start: file-tree"
-      >
+      <div class="grid-template col-span-3 justify-end" :style="layoutStyle">
         <FileTreeWidget
+          v-if="$editor.view.fileTree"
           class="sticky top-0 shrink-0"
           :active-file="activeFile"
           @set-active-file="setActiveFile"
@@ -129,20 +135,24 @@ onMounted(async () => {
         </div>
 
         <ActionPanelWidget
-          class="fixed h-[calc(100vh_-_1.8rem)] w-action-panel"
+          v-if="$editor.view.actionPanel"
+          class="fixed h-[calc(100vh_-_2rem_-_2rem)] w-action-panel"
           style="grid-area: action-panel; direction: ltr"
           @run-prompt="onRunPrompt"
         />
       </div>
     </main>
 
-    <div class="flex shrink-0 justify-center overflow-y-scroll">
-      <StatusBarWidget
-        class="ml-52 mr-80 w-page shrink-0 px-5"
-        v-if="activeFile?.editor"
-        :active-editor="activeFile?.editor"
-        @stop-generation="controller?.abort()"
-      />
+    <div class="mr-2 flex w-full shrink-0 justify-center overflow-y-scroll">
+      <div class="grid-template overflow-x-hidden" :style="layoutStyle">
+        <StatusBarWidget
+          class="px-5"
+          style="grid-area: editor; direction: ltr"
+          v-if="activeFile?.editor"
+          :active-editor="activeFile?.editor"
+          @stop-generation="controller?.abort()"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -150,7 +160,6 @@ onMounted(async () => {
 <style scoped>
 .grid-template {
   display: grid;
-  grid-template-columns: [action-panel] 20rem [editor] 33.125rem [file-tree] 15rem;
   direction: rtl;
 }
 </style>

@@ -21,10 +21,17 @@ export const useEditorStore = defineStore('editor', {
       files: [],
       activeFile: null,
       mode: 'write',
+      view: {
+        fileTree: true,
+        actionPanel: true,
+      },
     }) as {
       files: TextFile[]
       activeFile: TextFile | null
-      mode: 'write' | 'edit-workspace'
+      view: {
+        fileTree: boolean
+        actionPanel: boolean
+      }
     },
 
   actions: {

@@ -7,7 +7,20 @@ import { toggleFullScreen } from '@/lib/utils/browser'
 
 const { $editor } = useNuxtApp()
 
-const menuList = [
+type MenuList = {
+  label: string
+  submenu: Submenu
+}[]
+
+type Submenu = {
+  label: string
+  shortcut?: string
+  toggleStateKey?: keyof typeof $editor.view
+  startsSection?: boolean
+  action(): void
+}[]
+
+const menuList: MenuList = [
   {
     label: 'File',
     submenu: [
@@ -42,8 +55,25 @@ const menuList = [
     label: 'View',
     submenu: [
       {
+        label: 'File Tree',
+        shortcut: 'ctrl_shift_f',
+        toggleStateKey: 'fileTree',
+        action() {
+          $editor.view.fileTree = !$editor.view.fileTree
+        },
+      },
+      {
+        label: 'Action Panel',
+        shortcut: 'ctrl_shift_a',
+        toggleStateKey: 'actionPanel',
+        action() {
+          $editor.view.actionPanel = !$editor.view.actionPanel
+        },
+      },
+      {
         label: 'Full Screen',
         shortcut: 'f11',
+        startsSection: true,
         action() {
           toggleFullScreen()
         },
@@ -55,13 +85,15 @@ const menuList = [
 const keys = useMagicKeys({
   passive: false,
   onEventFired(e) {
-    /* 
+    /*
       Overwrite browsers' shortcuts.
     */
     if (
       menuList.some((menu) => {
         return menu.submenu.some((submenu) => {
-          return keys[submenu.shortcut].value
+          if (submenu.shortcut) {
+            return keys[submenu.shortcut].value
+          }
         })
       })
     ) {
@@ -84,13 +116,13 @@ const formatShortcut = (shortcut: string) => {
   if (shortcut.match(/f[1-12]/)) {
     return shortcut.toUpperCase()
   }
-  return startCase(shortcut).replace(' ', ' + ')
+  return startCase(shortcut).replaceAll(' ', ' + ')
 }
 </script>
 
 <template>
   <nav
-    class="z-10 flex h-[1.8rem] items-center justify-between bg-orange-gray-900 px-5 text-sm font-semibold text-white"
+    class="z-20 flex h-[2rem] items-center justify-between bg-orange-gray-900 px-5 text-sm font-semibold text-white"
   >
     <!-- Left -->
     <section class="flex h-full gap-x-2">
@@ -112,7 +144,7 @@ const formatShortcut = (shortcut: string) => {
           leave-to-class="transform opacity-0"
         >
           <MenuItems
-            class="absolute left-0 z-10 origin-top-right overflow-hidden rounded-b bg-blue-gray-100 py-1 text-black focus:outline-none"
+            class="absolute left-0 origin-top-right overflow-hidden rounded-b bg-blue-gray-100 py-1 text-black focus:outline-none"
           >
             <template v-for="submenu in menu.submenu" :key="submenu.label">
               <!-- New Section Separator -->
@@ -127,9 +159,24 @@ const formatShortcut = (shortcut: string) => {
                 class="flex w-full select-none items-center justify-between gap-x-5 whitespace-nowrap px-3 py-1 text-left font-semibold leading-none"
                 @click="submenu.action"
               >
-                {{ submenu.label }}
+                <span class="flex gap-2">
+                  <template
+                    v-if="
+                      submenu.toggleStateKey &&
+                      submenu.toggleStateKey in $editor.view
+                    "
+                  >
+                    <CheckIcon
+                      v-if="$editor.view[submenu.toggleStateKey]"
+                      class="w-2.5"
+                    />
+                    <div v-else class="w-2.5 opacity-60"> - </div>
+                  </template>
 
-                <span class="text-xs opacity-60">
+                  {{ submenu.label }}
+                </span>
+
+                <span v-if="submenu.shortcut" class="text-xs opacity-60">
                   {{ formatShortcut(submenu.shortcut) }}
                 </span>
               </MenuItem>
