@@ -52,15 +52,29 @@ const menuList = [
   },
 ]
 
-const keys = useMagicKeys()
+const keys = useMagicKeys({
+  passive: false,
+  onEventFired(e) {
+    /* 
+      Overwrite browsers' shortcuts.
+    */
+    if (
+      menuList.some((menu) => {
+        return menu.submenu.some((submenu) => {
+          return keys[submenu.shortcut].value
+        })
+      })
+    ) {
+      e.preventDefault()
+    }
+  },
+})
 
 menuList.forEach((menu) => {
   menu.submenu.forEach((submenu) => {
     if (submenu.shortcut) {
       whenever(keys[submenu.shortcut], () => {
-        if (!submenu.shortcut.match(/f[1-12]/)) {
-          submenu.action()
-        }
+        submenu.action()
       })
     }
   })
