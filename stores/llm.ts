@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { Selection } from '@tiptap/pm/state'
 import { Ollama } from 'langchain/llms/ollama'
-import { getAdaptedPalm2Request } from '@/lib/adapters/palm'
-import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
+import { ChatOpenAI } from '@langchain/openai'
 
-import { OLLAMA_API_BASE_URL } from '@/lib/constants'
+import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
+import { LM_STUDIO_API_BASE_URL, OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { llamaCpp } from '@/lib/utils/llamacpp'
 
 export enum LLMProvider {
@@ -13,6 +13,7 @@ export enum LLMProvider {
   Google,
   Ollama,
   LLaMACpp,
+  LMStudio,
 }
 
 export enum LLaMACppModel {
@@ -32,6 +33,12 @@ export enum OllamaModel {
 }
 
 export const PROVIDERS = {
+  [LLMProvider.LMStudio]: {
+    label: 'LM Studio',
+    async getModels() {
+      return []
+    },
+  },
   [LLMProvider.Ollama]: {
     label: 'Ollama',
     async getModels() {
@@ -47,7 +54,6 @@ export const PROVIDERS = {
         }
       }
 
-      // Example usage:
       models.push(
         ...(await fetchTags()
           .then((tags) => {
@@ -94,6 +100,37 @@ export const useLLMStore = defineStore('llm', {
       const { $config } = useNuxtApp()
       controller.value = new AbortController()
       const signal = controller.value.signal
+
+      /*
+      --------------------------------------------------
+        LM Studio
+      --------------------------------------------------
+      */
+      if (provider === LLMProvider.LMStudio) {
+        try {
+          const lmStudio = new ChatOpenAI({
+            temperature: 0.7,
+            openAIApiKey: 'N/A',
+            streaming: true,
+            configuration: {
+              baseURL: LM_STUDIO_API_BASE_URL,
+            },
+          })
+
+          const stream = await lmStudio.stream(prompt, {
+            signal,
+          })
+
+          let cursorIndex = selection.to
+
+          for await (const chunk of stream) {
+            const { newCursorIndex } = insertChunk(chunk.content, cursorIndex)
+            cursorIndex = newCursorIndex
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      }
 
       /*
       --------------------------------------------------
@@ -162,8 +199,6 @@ export const useLLMStore = defineStore('llm', {
             const { newCursorIndex } = insertChunk(chunk, cursorIndex)
             cursorIndex = newCursorIndex
           }
-
-          // completion = chunks.join('')
         } catch (error) {
           console.error(error)
         }
