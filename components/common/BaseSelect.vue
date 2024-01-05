@@ -33,7 +33,7 @@ defineEmits(['update:model-value'])
     @update:model-value="(value) => $emit('update:model-value', value)"
   >
     <ListboxButton
-      class="border-blue-gray-200 flex h-10 w-full items-center justify-between rounded border bg-white p-2.5 px-2 text-left text-sm font-medium placeholder:opacity-40"
+      class="flex h-10 w-full items-center justify-between rounded border border-blue-gray-200 bg-white p-2.5 px-2 text-left text-sm font-medium placeholder:opacity-40"
       :class="{ 'rounded-b-none ': open }"
     >
       {{ modelValue.label }}
@@ -49,7 +49,7 @@ defineEmits(['update:model-value'])
       leave-to-class="transform scale-95 opacity-0"
     >
       <ListboxOptions
-        class="border-blue-gray-200 absolute left-0 w-full rounded-b border bg-blue-gray-50 py-1.5"
+        class="absolute left-0 z-10 w-full rounded-b border border-blue-gray-200 bg-blue-gray-50 py-1.5"
       >
         <ListboxOption
           v-slot="{ active, selected }"
