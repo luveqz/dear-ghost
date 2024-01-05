@@ -59,7 +59,7 @@ export default defineNuxtConfig({
       include: ['/'],
       name: process.env.BASIC_AUTH_USER || makeid(60),
       pass: process.env.BASIC_AUTH_PASS || makeid(60),
-      enabled: true,
+      enabled: process.env.NODE_ENV !== 'development',
     },
   },
 })
