@@ -69,18 +69,6 @@ const onRunPrompt = async (prompt: Prompt) => {
           )
           .run()
       }
-
-      // 5. Prettify response.
-      if (chunk.includes('\n')) {
-        originEditor.commands.setContent(
-          originEditor.getHTML().replace('\n', '</p><p>'),
-        )
-      }
-
-      return {
-        newCursorIndex: (cursorIndex +=
-          chunk.length + (chunk === `\n` ? 1 : 0)),
-      }
     },
   })
   originEditor.setEditable(true)
@@ -98,19 +86,21 @@ onMounted(async () => {
   $editor.load()
   setActiveFile($editor.files[0] as TextFile)
 
-  const appDataDirPath = await appDataDir()
+  if ('__TAURI__' in window && window.__TAURI__) {
+    const appDataDirPath = await appDataDir()
 
-  const command = Command.sidecar('bin/llama-cpp-server', [
-    '-m',
-    `${appDataDirPath}models/${MISTRAL_7B_FILENAME}`,
-    '-c',
-    '4096',
-    '--port',
-    LLAMACPP_API_PORT,
-  ])
+    const command = Command.sidecar('bin/llama-cpp-server', [
+      '-m',
+      `${appDataDirPath}models/${MISTRAL_7B_FILENAME}`,
+      '-c',
+      '4096',
+      '--port',
+      LLAMACPP_API_PORT,
+    ])
 
-  // Run Mistral 7B with LLaMA C++.
-  await command.execute()
+    // Run Mistral 7B with LLaMA C++.
+    await command.execute()
+  }
 })
 </script>
 
