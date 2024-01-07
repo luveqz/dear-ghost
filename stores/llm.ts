@@ -75,7 +75,7 @@ type SendParams = {
   model: string
   selection: Selection
   controller: Ref<AbortController | undefined>
-  insertChunk: (chunk: string, index: number) => any
+  insertChunk: (chunk: string) => any
 }
 
 export const useLLMStore = defineStore('llm', {
@@ -121,11 +121,8 @@ export const useLLMStore = defineStore('llm', {
             signal,
           })
 
-          let cursorIndex = selection.to
-
           for await (const chunk of stream) {
-            const { newCursorIndex } = insertChunk(chunk.content, cursorIndex)
-            cursorIndex = newCursorIndex
+            insertChunk(chunk.content)
           }
         } catch (error) {
           console.error(error)
@@ -143,14 +140,8 @@ export const useLLMStore = defineStore('llm', {
             prompt,
           })
 
-          let cursorIndex = selection.to
-
           for await (const chunk of stream as any) {
-            const { newCursorIndex } = insertChunk(
-              chunk.data.content,
-              cursorIndex,
-            )
-            cursorIndex = newCursorIndex
+            insertChunk(chunk.data.content)
           }
         } catch (error) {
           console.error(error)
@@ -193,11 +184,8 @@ export const useLLMStore = defineStore('llm', {
             signal,
           })
 
-          let cursorIndex = selection.to
-
           for await (const chunk of stream as any) {
-            const { newCursorIndex } = insertChunk(chunk, cursorIndex)
-            cursorIndex = newCursorIndex
+            insertChunk(chunk)
           }
         } catch (error) {
           console.error(error)

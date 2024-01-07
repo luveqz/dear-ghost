@@ -38,13 +38,20 @@ const onRunPrompt = async (prompt: Prompt) => {
     model: prompt.modelId,
     selection: selection,
     controller,
-    insertChunk(chunk, cursorIndex) {
+    insertChunk(chunk) {
       // 4. Show response.
+      const selection = originEditor.state.selection
       if (prompt.responseMode === ResponseMode.InsertBelow) {
         originEditor
           .chain()
           .focus()
-          .insertContentAt(cursorIndex + (chunk === `\n` ? 1 : 0), chunk)
+          .insertContentAt(
+            selection.to,
+            chunk.includes('\n') ? { type: 'paragraph' } : chunk,
+            {
+              updateSelection: true,
+            },
+          )
           .run()
       }
 
@@ -53,7 +60,13 @@ const onRunPrompt = async (prompt: Prompt) => {
           .chain()
           .focus()
           .deleteSelection()
-          .insertContentAt(selection.from, chunk)
+          .insertContentAt(
+            selection.from,
+            chunk.includes('\n') ? { type: 'paragraph' } : chunk,
+            {
+              updateSelection: true,
+            },
+          )
           .run()
       }
 
