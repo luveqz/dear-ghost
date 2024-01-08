@@ -122,7 +122,7 @@ onMounted(async () => {
       <div class="grid-template justify-end" :style="layoutStyle">
         <FileTreeWidget
           v-if="$editor.view.fileTree"
-          class="sticky top-0 h-screen shrink-0 pr-16"
+          class="sticky top-0 h-[calc(100vh_-_2rem_-_2rem)] shrink-0 pr-16"
           :active-file="activeFile"
           @set-active-file="setActiveFile"
           style="grid-area: file-tree; direction: ltr"
