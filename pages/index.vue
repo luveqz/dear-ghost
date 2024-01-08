@@ -113,10 +113,16 @@ onMounted(async () => {
     <main
       class="mr-2 mt-sticky-widget flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
     >
-      <div class="grid-template col-span-3 justify-end" :style="layoutStyle">
+      <!--
+        Filler div (prevents the editor from getting
+        focused while clicking outside of it).
+      -->
+      <div class="sticky top-0 h-screen grow" />
+
+      <div class="grid-template justify-end" :style="layoutStyle">
         <FileTreeWidget
           v-if="$editor.view.fileTree"
-          class="sticky top-0 shrink-0"
+          class="sticky top-0 h-screen shrink-0 pr-16"
           :active-file="activeFile"
           @set-active-file="setActiveFile"
           style="grid-area: file-tree; direction: ltr"
@@ -136,6 +142,12 @@ onMounted(async () => {
           </template>
         </div>
 
+        <!--
+          Filler div (prevents the editor from getting
+          focused while clicking outside of it).
+        -->
+        <div class="sticky top-0 h-screen" style="grid-area: action-panel" />
+
         <ActionPanelWidget
           v-if="$editor.view.actionPanel"
           class="fixed h-[calc(100vh_-_2rem_-_2rem)] w-action-panel"
@@ -143,6 +155,12 @@ onMounted(async () => {
           @run-prompt="onRunPrompt"
         />
       </div>
+
+      <!--
+        Filler div (prevents the editor from getting
+        focused while clicking outside of it).
+      -->
+      <div class="sticky top-0 h-screen grow" />
     </main>
 
     <div class="mr-2 flex w-full shrink-0 justify-center overflow-y-scroll">

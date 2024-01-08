@@ -25,7 +25,7 @@ const onRemoveFile = (file: TextFile) => {
 </script>
 
 <template>
-  <ul class="mr-16 flex h-fit w-44 flex-col">
+  <ul class="flex h-fit flex-col">
     <li
       v-for="file in $editor.files"
       :key="file.id"
