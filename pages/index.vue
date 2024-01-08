@@ -36,7 +36,6 @@ const onRunPrompt = async (prompt: Prompt) => {
     prompt: parsedPrompt,
     provider: prompt.providerId,
     model: prompt.modelId,
-    selection: selection,
     controller,
     insertChunk(chunk) {
       // 4. Show response.

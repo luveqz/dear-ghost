@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { Selection } from '@tiptap/pm/state'
 import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
 
@@ -73,7 +72,6 @@ type SendParams = {
   prompt: string
   provider: LLMProvider
   model: string
-  selection: Selection
   controller: Ref<AbortController | undefined>
   insertChunk: (chunk: string) => any
 }
@@ -91,7 +89,6 @@ export const useLLMStore = defineStore('llm', {
       prompt,
       provider,
       model,
-      selection,
       controller,
       insertChunk,
     }: SendParams) {
