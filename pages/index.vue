@@ -101,6 +101,11 @@ onMounted(async () => {
     await command.execute()
   }
 })
+
+const keys = useMagicKeys()
+whenever(keys['escape'], () => {
+  controller.value?.abort()
+})
 </script>
 
 <template>
