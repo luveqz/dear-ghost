@@ -145,7 +145,10 @@ whenever(keys['escape'], () => {
           Filler div (prevents the editor from getting
           focused while clicking outside of it).
         -->
-        <div class="sticky top-0 h-screen" style="grid-area: action-panel" />
+        <div
+          class="sticky top-0 h-[calc(100vh_-_4rem_-_2.6rem)]"
+          style="grid-area: action-panel"
+        />
 
         <ActionPanelWidget
           v-if="$editor.view.actionPanel"

@@ -98,11 +98,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative pb-9">
+  <div class="relative grow pb-9">
     <div v-if="$llm.running" class="absolute z-50 h-full w-full" />
     <FileEditorTitleField class="sticky top-0 px-5" v-model="data.title" />
 
-    <section class="px-5 pt-4 indent-5">
+    <section class="grow px-5 pt-4 indent-5">
       <editor-content
         :editor="editor"
         class="flex flex-col indent-0 font-medium"
