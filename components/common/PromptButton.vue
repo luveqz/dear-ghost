@@ -38,13 +38,17 @@ onClickOutside(popoverRef, close)
   >
     <div
       class="flex border-l border-r border-t border-black/15"
-      :class="{ 'rounded-es-none': isOpen }"
+      :class="{
+        'rounded-es-none': isOpen,
+        grayscale: $llm.running,
+      }"
       v-bind="$attrs"
     >
       <button
         class="flex h-10 w-full select-none items-center gap-2 p-2"
+        :class="{ 'cursor-not-allowed': $llm.running }"
         @contextmenu.stop.prevent="toggle"
-        @click="$emit('run-prompt')"
+        @click="!$llm.running && $emit('run-prompt')"
       >
         <span
           class="flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded bg-orange-gray-100"
