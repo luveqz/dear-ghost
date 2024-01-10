@@ -1,6 +1,8 @@
 import { Editor } from '@tiptap/core'
 import { Selection } from '@tiptap/pm/state'
 
+import { useToast } from '@/componsables/toast'
+
 export class TemplateParser {
   editor: Editor
   selection: Selection
@@ -22,7 +24,7 @@ export class TemplateParser {
       const variableRegex = new RegExp(`{{\\s*${variable}\\s*}}`)
 
       if (variable === 'SELECTED_TEXT' && !value) {
-        console.error('Please select text.')
+        useToast({ message: 'Please select text.' })
         this.errors = true
         return
       }

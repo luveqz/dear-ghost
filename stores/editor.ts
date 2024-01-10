@@ -2,6 +2,7 @@ import { save, open } from '@tauri-apps/api/dialog'
 import { readTextFile, writeTextFile } from '@tauri-apps/api/fs'
 import { defineStore } from 'pinia'
 
+import { useToast } from '@/componsables/toast'
 import { TextFile } from '@/lib/types/editor'
 import { deepCopy } from '@/lib/utils/copy'
 
@@ -77,7 +78,7 @@ export const useEditorStore = defineStore('editor', {
           this.save()
         }
       } catch (err) {
-        // useToast({ message: 'Could not open file.' })
+        useToast({ message: 'Could not open file.' })
       }
     },
 
@@ -112,7 +113,7 @@ export const useEditorStore = defineStore('editor', {
             this._saveToLocalStorage()
           }
         } catch (err) {
-          // useToast({ message: 'Could not open file.' })
+          useToast({ message: 'Could not open file.' })
         }
       } else {
         writeTextFile(this.activeFile.id, this.activeFile.data.content)

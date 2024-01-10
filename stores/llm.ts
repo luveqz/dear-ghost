@@ -5,6 +5,7 @@ import { ChatOpenAI } from '@langchain/openai'
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 import { LM_STUDIO_API_BASE_URL, OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { llamaCpp } from '@/lib/utils/llamacpp'
+import { useToast } from '@/componsables/toast'
 
 export enum LLMProvider {
   OpenAI,
@@ -112,6 +113,7 @@ export const useLLMStore = defineStore('llm', {
             configuration: {
               baseURL: LM_STUDIO_API_BASE_URL,
             },
+            maxRetries: 2,
           })
 
           const stream = await lmStudio.stream(prompt, {
@@ -121,8 +123,17 @@ export const useLLMStore = defineStore('llm', {
           for await (const chunk of stream) {
             insertChunk(chunk.content)
           }
+          console.log(stream)
         } catch (error) {
-          console.error(error)
+          if ((error as Error).message === 'Connection error.') {
+            useToast({
+              message: 'Seems like LM Studio’s server is not running.',
+              duration: 6,
+              icon: 'unplug',
+            })
+          } else {
+            useToast({ message: 'Connection error.' })
+          }
         }
       }
 

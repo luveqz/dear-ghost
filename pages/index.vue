@@ -25,10 +25,12 @@ const onRunPrompt = async (prompt: Prompt) => {
   // 1. Parse template.
   const { selection } = activeFile.value?.editor.state
   const originEditor = activeFile.value?.editor
-  const parsedPrompt = new TemplateParser(
-    originEditor,
-    selection,
-  ).parseTemplate(prompt.template)
+  const parser = new TemplateParser(originEditor, selection)
+  const parsedPrompt = parser.parseTemplate(prompt.template)
+
+  if (parser.errors) {
+    return
+  }
 
   // 2. Call LLM provider.
   originEditor.setEditable(false)
@@ -170,6 +172,8 @@ whenever(keys['escape'], () => {
         />
       </div>
     </div>
+
+    <TheToastDisplay />
   </div>
 </template>
 
