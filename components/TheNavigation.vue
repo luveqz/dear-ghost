@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { useFullscreen } from '@vueuse/core'
 import { appWindow } from '@tauri-apps/api/window'
 import startCase from 'lodash/startCase'
 
-import { toggleFullScreen } from '@/lib/utils/browser'
+const { toggle: toggleFullScreen } = useFullscreen()
 
 const { $editor } = useNuxtApp()
 

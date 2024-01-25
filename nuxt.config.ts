@@ -50,5 +50,10 @@ export default defineNuxtConfig({
       pass: process.env.BASIC_AUTH_PASS || makeId(60),
       enabled: process.env.NODE_ENV !== 'development',
     },
+    headers: {
+      permissionsPolicy: {
+        fullscreen: ['self'],
+      },
+    },
   },
 })
