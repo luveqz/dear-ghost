@@ -46,12 +46,19 @@ defineEmits(['run-prompt'])
             />
           </ul>
         </div>
+
+        <button
+          class="mt-3 w-full rounded border border-black/15 py-2 text-center text-sm font-medium leading-none"
+          @click="$library.addPrompt"
+        >
+          New prompt
+        </button>
         <!--
           This is a config popover's height.
           We should replace this hardcoded value
           and use something dynamic after launch.
         -->
-        <div class="h-[23.625rem]" />
+        <div class="h-[20.8rem]" />
       </TabPanel>
     </TabPanels>
   </TabGroup>
