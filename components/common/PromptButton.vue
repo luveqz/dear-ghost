@@ -12,7 +12,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['run-prompt'])
+const emit = defineEmits(['run-prompt', 'scroll-popover'])
 
 const keys = useMagicKeys()
 
@@ -27,6 +27,10 @@ const toggle = () => (isOpen.value ? close() : open())
 
 const popoverRef = ref<HTMLElement>()
 onClickOutside(popoverRef, close)
+
+const onWheel = (e: WheelEvent) => {
+  emit('scroll-popover', e.deltaY)
+}
 </script>
 
 <template>
@@ -84,6 +88,7 @@ onClickOutside(popoverRef, close)
         :prompt="prompt"
         :is-open="isOpen"
         class="absolute top-[calc(100%_-_0.1rem)] z-50 min-w-full"
+        @wheel="onWheel"
       />
     </template>
   </Popper>

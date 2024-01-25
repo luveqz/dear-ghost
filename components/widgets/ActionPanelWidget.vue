@@ -2,6 +2,15 @@
 import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
 
 defineEmits(['run-prompt'])
+
+const panelRef = ref()
+
+const { y } = useScroll(panelRef)
+
+const onScrollPopover = (deltaY: number) => {
+  if (!panelRef.value || !panelRef.value.$el) return
+  panelRef.value.$el.scrollTo(0, y.value + deltaY)
+}
 </script>
 
 <template>
@@ -24,7 +33,10 @@ defineEmits(['run-prompt'])
       />
     </TabList>
 
-    <TabPanels class="tab-panels grow overflow-y-scroll scroll-smooth pb-3">
+    <TabPanels
+      ref="panelRef"
+      class="tab-panels grow overflow-y-scroll scroll-smooth pb-3"
+    >
       <TabPanel>
         <div
           v-for="(prompts, group) in $library.groupedPrompts"
@@ -42,6 +54,8 @@ defineEmits(['run-prompt'])
               }"
               :key="prompt.id"
               :prompt="prompt"
+              :panel="panelRef"
+              @scroll-popover="onScrollPopover"
               @run-prompt="$emit('run-prompt', prompt)"
             />
           </ul>
