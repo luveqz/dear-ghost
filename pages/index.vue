@@ -119,6 +119,9 @@ whenever(keys['escape'], () => {
 
     <main
       class="mr-2 mt-sticky-widget flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
+      :class="{
+        'lg:pr-[8%]': $editor.view.fileTree && !$editor.view.actionPanel,
+      }"
     >
       <div class="grid-template justify-end" :style="layoutStyle">
         <FileTreeWidget
