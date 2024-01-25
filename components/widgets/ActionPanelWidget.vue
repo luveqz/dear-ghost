@@ -54,7 +54,6 @@ const onScrollPopover = (deltaY: number) => {
               }"
               :key="prompt.id"
               :prompt="prompt"
-              :panel="panelRef"
               @scroll-popover="onScrollPopover"
               @run-prompt="$emit('run-prompt', prompt)"
             />
