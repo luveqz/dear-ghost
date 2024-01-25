@@ -60,6 +60,14 @@ defineEmits(['run-prompt'])
         -->
         <div class="h-[20.8rem]" />
       </TabPanel>
+
+      <TabPanel class="h-3/4">
+        <PatreonTab />
+      </TabPanel>
+
+      <TabPanel class="h-3/4">
+        <PatreonTab />
+      </TabPanel>
     </TabPanels>
   </TabGroup>
 </template>
