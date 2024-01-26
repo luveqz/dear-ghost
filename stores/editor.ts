@@ -1,8 +1,5 @@
-import { save, open } from '@tauri-apps/api/dialog'
-import { readTextFile, writeTextFile } from '@tauri-apps/api/fs'
 import { defineStore } from 'pinia'
 
-import { useToast } from '@/componsables/toast'
 import { TextFile } from '@/lib/types/editor'
 import { deepCopy } from '@/lib/utils/copy'
 
@@ -58,67 +55,8 @@ export const useEditorStore = defineStore('editor', {
       this.save()
     },
 
-    async openFile() {
-      try {
-        const selectedPath = await open({
-          multiple: false,
-          title: 'Open text file',
-          filters: [
-            {
-              name: 'Markdown File',
-              extensions: ['md'],
-            },
-          ],
-        })
-
-        if (typeof selectedPath === 'string') {
-          const content = await readTextFile(selectedPath)
-
-          const newFile = this.addFile()
-          newFile.id = selectedPath
-          newFile.data.content = content
-          this.save()
-        }
-      } catch (err) {
-        useToast({ message: 'Could not open file.' })
-      }
-    },
-
-    save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
+    save() {
       if (this.validate(this.files)) {
-        if (window.__TAURI__ && toFileSystem) {
-          this._saveToFileSystem()
-        } else {
-          this._saveToLocalStorage()
-        }
-      }
-    },
-
-    async _saveToFileSystem() {
-      if (!this.activeFile) return
-
-      if (this.activeFile.id.includes(DEFAULT_FILE.id)) {
-        try {
-          const selectedPath = await save({
-            defaultPath: `$HOME/${this.activeFile.data.title}.md`,
-            filters: [
-              {
-                name: 'Markdown File',
-                extensions: ['md'],
-              },
-            ],
-          })
-
-          if (selectedPath) {
-            this.activeFile.id = selectedPath
-            writeTextFile(selectedPath, this.activeFile.data.content)
-            this._saveToLocalStorage()
-          }
-        } catch (err) {
-          useToast({ message: 'Could not open file.' })
-        }
-      } else {
-        writeTextFile(this.activeFile.id, this.activeFile.data.content)
         this._saveToLocalStorage()
       }
     },
@@ -136,23 +74,7 @@ export const useEditorStore = defineStore('editor', {
     },
 
     async load() {
-      if (window.__TAURI__) {
-        this._loadFromLocalStorage()
-        return await this._syncWithFileSystem()
-      } else {
-        return this._loadFromLocalStorage()
-      }
-    },
-
-    async _syncWithFileSystem() {
-      await Promise.all(
-        this.files.map(async (file: TextFile) => {
-          if (!this._isUnsavedFile(file)) {
-            const content = await readTextFile(file.id)
-            file.data.content = content
-          }
-        }),
-      )
+      return this._loadFromLocalStorage()
     },
 
     _loadFromLocalStorage() {

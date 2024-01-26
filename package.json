@@ -7,12 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "tauri": "tauri"
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@tauri-apps/cli": "^1.5.7",
     "@types/lodash": "^4.14.200",
     "@types/sortablejs": "^1.15.4",
     "@vueuse/core": "^10.5.0",
@@ -28,7 +26,6 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
     "@pinia/nuxt": "^0.4.11",
-    "@tauri-apps/api": "^1.5.3",
     "@tiptap/core": "^2.1.12",
     "@tiptap/extension-bold": "^2.1.12",
     "@tiptap/extension-document": "^2.1.12",

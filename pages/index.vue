@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { appDataDir } from '@tauri-apps/api/path'
-import { Command } from '@tauri-apps/api/shell'
-
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { Prompt } from '@/lib/types/library'
 import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
 import { TextFile } from '@/lib/types/editor'
-import { LLAMACPP_API_PORT, MISTRAL_7B_FILENAME } from '@/lib/constants'
 
 const { $editor, $llm } = useNuxtApp()
 
@@ -86,22 +82,6 @@ const layoutStyle = computed(() => {
 onMounted(async () => {
   $editor.load()
   setActiveFile($editor.files[0] as TextFile)
-
-  if ('__TAURI__' in window && window.__TAURI__) {
-    const appDataDirPath = await appDataDir()
-
-    const command = Command.sidecar('bin/llama-cpp-server', [
-      '-m',
-      `${appDataDirPath}models/${MISTRAL_7B_FILENAME}`,
-      '-c',
-      '4096',
-      '--port',
-      LLAMACPP_API_PORT,
-    ])
-
-    // Run Mistral 7B with LLaMA C++.
-    await command.execute()
-  }
 })
 
 const keys = useMagicKeys()

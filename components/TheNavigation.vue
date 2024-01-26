@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useFullscreen } from '@vueuse/core'
-import { appWindow } from '@tauri-apps/api/window'
 import startCase from 'lodash/startCase'
 
 const { toggle: toggleFullScreen } = useFullscreen()
@@ -26,11 +25,6 @@ const menuList: MenuList = [
     label: 'File',
     submenu: [
       {
-        label: 'Open File',
-        shortcut: 'ctrl_o',
-        action: $editor.openFile,
-      },
-      {
         label: 'New',
         shortcut: 'ctrl_n',
         action: $editor.addFile,
@@ -39,15 +33,7 @@ const menuList: MenuList = [
         label: 'Save',
         shortcut: 'ctrl_s',
         action() {
-          $editor.save({ toFileSystem: true })
-        },
-      },
-      {
-        label: 'Exit',
-        shortcut: 'ctrl_q',
-        startsSection: true,
-        action() {
-          appWindow.close()
+          $editor.save()
         },
       },
     ],
