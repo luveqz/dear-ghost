@@ -25,6 +25,7 @@ export const useEditorStore = defineStore('editor', {
       view: {
         fileTree: false,
         actionPanel: true,
+        stickyTitle: false,
       },
     }) as {
       files: TextFile[]
@@ -33,6 +34,7 @@ export const useEditorStore = defineStore('editor', {
       view: {
         fileTree: boolean
         actionPanel: boolean
+        stickyTitle: boolean
       }
     },
 

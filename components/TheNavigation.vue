@@ -72,6 +72,13 @@ const menuList: MenuList = [
         },
       },
       {
+        label: 'Sticky Title',
+        toggleStateKey: 'stickyTitle',
+        action() {
+          $editor.view.stickyTitle = !$editor.view.stickyTitle
+        },
+      },
+      {
         label: 'Full Screen',
         shortcut: 'f11',
         startsSection: true,

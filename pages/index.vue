@@ -118,7 +118,7 @@ whenever(keys['escape'], () => {
     <TheNavigation class="w-full shrink-0" />
 
     <main
-      class="mr-2 mt-sticky-widget flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
+      class="mr-2 flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
       :class="{
         'lg:pr-[8%]': $editor.view.fileTree && !$editor.view.actionPanel,
       }"
@@ -126,7 +126,7 @@ whenever(keys['escape'], () => {
       <div class="grid-template justify-end" :style="layoutStyle">
         <FileTreeWidget
           v-if="$editor.view.fileTree"
-          class="sticky top-0 h-[calc(100vh_-_4rem_-_2.6rem)] shrink-0 pr-16"
+          class="sticky top-sticky-widget h-[calc(100vh_-_4rem_-_2.6rem)] shrink-0 pr-16"
           :active-file="activeFile"
           @set-active-file="setActiveFile"
           style="grid-area: file-tree; direction: ltr"
@@ -157,7 +157,7 @@ whenever(keys['escape'], () => {
 
         <ActionPanelWidget
           v-if="$editor.view.actionPanel"
-          class="fixed h-[calc(100vh_-_2rem_-_2rem)] w-action-panel"
+          class="fixed mt-sticky-widget h-[calc(100vh_-_2rem_-_2rem)] w-action-panel"
           style="grid-area: action-panel; direction: ltr"
           @run-prompt="onRunPrompt"
         />
