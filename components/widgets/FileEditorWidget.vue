@@ -100,7 +100,11 @@ onMounted(() => {
 <template>
   <div class="relative grow pb-9">
     <div v-if="$llm.running" class="absolute z-50 h-full w-full" />
-    <FileEditorTitleField class="sticky top-0 px-5" v-model="data.title" />
+    <FileEditorTitleField
+      class="top-0 px-5 pt-sticky-widget"
+      :class="{ sticky: $editor.view.stickyTitle }"
+      v-model="data.title"
+    />
 
     <section class="grow px-5 pt-4 indent-5">
       <editor-content
