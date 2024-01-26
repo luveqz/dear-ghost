@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
-import { Prompt } from '@/lib/types/library'
-import { ResponseMode } from '@/lib/types/library'
 import { TemplateParser } from '@/lib/utils/template'
-import { TextFile } from '@/lib/types/editor'
+import { ResponseMode } from '@/lib/types/library'
+import type { Prompt } from '@/lib/types/library'
+import type { TextFile } from '@/lib/types/editor'
 
 const { $editor, $llm } = useNuxtApp()
 

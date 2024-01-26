@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-import { TextFile } from '@/lib/types/editor'
+import type { TextFile } from '@/lib/types/editor'
 import { deepCopy } from '@/lib/utils/copy'
 
 const FILE_STORAGE_KEY = 'files-storage'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Prompt, ResponseModeLabels } from '@/lib/types/library'
+import { type Prompt, ResponseModeLabels } from '@/lib/types/library'
 import { PROMPT_ICON_CATALOG } from '@/stores/library'
 import { PROVIDERS } from '@/stores/llm'
 

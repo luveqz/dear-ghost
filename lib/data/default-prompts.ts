@@ -1,4 +1,4 @@
-import { Prompt, ResponseMode } from '@/lib/types/library'
+import { type Prompt, ResponseMode } from '@/lib/types/library'
 import { LLMProvider } from '@/stores/llm'
 
 export const DEFAULT_PROMPTS: Prompt[] = [

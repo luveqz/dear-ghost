@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TextFile } from '@/lib/types/editor'
+import type { TextFile } from '@/lib/types/editor'
 
 defineProps({
   activeFile: {

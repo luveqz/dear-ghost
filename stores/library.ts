@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import groupBy from 'lodash/groupBy'
 
-import { Prompt, ResponseMode } from '@/lib/types/library'
+import { type Prompt, ResponseMode } from '@/lib/types/library'
 import { DEFAULT_PROMPTS } from '@/lib/data/default-prompts'
 import { LLMProvider } from '@/stores/llm'
 import { makeId } from '@/lib/utils/random'
