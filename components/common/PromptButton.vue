@@ -51,7 +51,6 @@ const onWheel = (e: WheelEvent) => {
       <button
         class="flex h-10 w-full select-none items-center gap-2 p-2"
         :class="{ 'cursor-not-allowed': $llm.running }"
-        @contextmenu.stop.prevent="toggle"
         @click="!$llm.running && $emit('run-prompt')"
       >
         <span
