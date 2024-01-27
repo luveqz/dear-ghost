@@ -80,7 +80,7 @@ const layoutStyle = computed(() => {
 })
 
 onMounted(async () => {
-  $editor.load()
+  await $editor.load()
   setActiveFile($editor.files[0] as TextFile)
 })
 

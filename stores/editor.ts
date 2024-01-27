@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { get, set } from 'idb-keyval'
 
 import type { TextFile } from '@/lib/types/editor'
 import { deepCopy } from '@/lib/utils/copy'
@@ -57,30 +58,24 @@ export const useEditorStore = defineStore('editor', {
 
     save() {
       if (this.validate(this.files)) {
-        this._saveToLocalStorage()
+        this._saveToIndexedDB()
       }
     },
 
-    _saveToLocalStorage() {
+    _saveToIndexedDB() {
       const plainWidgetData = this.files.map((file) => {
         const { editor, ...rest } = file
         return rest
       })
-
-      window.localStorage.setItem(
-        FILE_STORAGE_KEY,
-        JSON.stringify(plainWidgetData),
-      )
+      set(FILE_STORAGE_KEY, deepCopy(plainWidgetData))
     },
 
     async load() {
-      return this._loadFromLocalStorage()
+      return this._loadFromIndexedDB()
     },
 
-    _loadFromLocalStorage() {
-      const files = JSON.parse(
-        window.localStorage.getItem(FILE_STORAGE_KEY) || '[]',
-      )
+    async _loadFromIndexedDB() {
+      const files = (await get(FILE_STORAGE_KEY)) || []
 
       if (this.validate(files)) {
         this.files = files.length ? files : [deepCopy(DEFAULT_FILE)]
