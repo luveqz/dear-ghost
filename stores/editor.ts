@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 import { get, set } from 'idb-keyval'
 
 import type { TextFile } from '@/lib/types/editor'
+import { useToast } from '@/componsables/toast'
 import { deepCopy } from '@/lib/utils/copy'
+import { makeId } from '@/lib/utils/random'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -42,6 +44,35 @@ export const useEditorStore = defineStore('editor', {
       return true
     },
 
+    async openFile() {
+      try {
+        const [fileHandle] = await window.showOpenFilePicker()
+
+        // If already opened, just focus it.
+        for (let file of this.files) {
+          if (file.handle && (await fileHandle.isSameEntry(file.handle))) {
+            this.activeFile = file
+            return
+          }
+        }
+
+        const content = await (await fileHandle.getFile()).text()
+        const newFile = this.addFile()
+        newFile.id = makeId(60)
+        newFile.data.content = content
+        newFile.handle = fileHandle
+        newFile.data.title = fileHandle.name
+        newFile.data.title = fileHandle.name
+
+        this._saveToIndexedDB()
+      } catch ({ message }: any) {
+        if (message === 'The user aborted a request.') {
+          return
+        }
+        useToast({ message: 'Could not open file.' })
+      }
+    },
+
     addFile() {
       const id = `${DEFAULT_FILE.id}-${Math.floor(new Date().getTime())}`
       const newFile: TextFile = { ...deepCopy(DEFAULT_FILE), id }
@@ -58,11 +89,32 @@ export const useEditorStore = defineStore('editor', {
 
     save() {
       if (this.validate(this.files)) {
-        this._saveToIndexedDB()
-      }
-    },
+    async _saveToIndexedDB() {
+      if (!this.activeFile) return
+      const { editor, ...activeFile } = this.activeFile
 
-    _saveToIndexedDB() {
+      const files = await this._loadFromIndexedDB()
+      const activeIndex = files.findIndex(
+        (file: TextFile) => file.id === activeFile.id,
+      )
+
+      const plainFile = {
+        ...activeFile,
+        data: toRaw(activeFile.data),
+        handle: toRaw(activeFile.handle),
+      }
+
+      // If the file exists, update it.
+      if (activeIndex !== -1) {
+        files.splice(activeIndex, 1, plainFile)
+
+        // If the file doesn't exist, insert it.
+      } else {
+        files.push(plainFile)
+      }
+
+      set(FILE_STORAGE_KEY, files)
+    },
       const plainWidgetData = this.files.map((file) => {
         const { editor, ...rest } = file
         return rest
@@ -71,17 +123,19 @@ export const useEditorStore = defineStore('editor', {
     },
 
     async load() {
-      return this._loadFromIndexedDB()
+      this.files = await this._loadFromIndexedDB()
     },
 
     async _loadFromIndexedDB() {
-      const files = (await get(FILE_STORAGE_KEY)) || []
+      let files = (await get(FILE_STORAGE_KEY)) || []
 
       if (this.validate(files)) {
-        this.files = files.length ? files : [deepCopy(DEFAULT_FILE)]
-        return this.files
+        files = files.length ? files : [deepCopy(DEFAULT_FILE)]
+      } else {
+        files = [deepCopy(DEFAULT_FILE)]
       }
-      return false
+
+      return files as TextFile[]
     },
 
     _isUnsavedFile(file: TextFile) {

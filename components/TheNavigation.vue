@@ -25,6 +25,11 @@ const menuList: MenuList = [
     label: 'File',
     submenu: [
       {
+        label: 'Open',
+        shortcut: 'ctrl_o',
+        action: $editor.openFile,
+      },
+      {
         label: 'New',
         shortcut: 'ctrl_n',
         action: $editor.addFile,

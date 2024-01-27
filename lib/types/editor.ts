@@ -8,5 +8,6 @@ export type TextFileData = {
 export type TextFile = {
   id: string
   editor?: Editor
+  handle?: FileSystemHandle
   data: TextFileData
 }
