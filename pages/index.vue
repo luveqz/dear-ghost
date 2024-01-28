@@ -89,11 +89,15 @@ whenever(keys['escape'], () => {
   controller.value?.abort()
 })
 
+const { $pwa } = useNuxtApp()
+
 whenever(
   () => activeFile.value,
   () => {
     useHead({
-      title: `${activeFile.value.data.title} -  Dear Ghost`,
+      title: `${activeFile.value.data.title} ${
+        $pwa?.isPWAInstalled ? '' : ' -  Dear Ghost'
+      }`,
     })
   },
 )
