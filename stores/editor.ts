@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { get, set } from 'idb-keyval'
+import { marked } from 'marked'
 import TurndownService from 'turndown'
 
 import type { TextFile } from '@/lib/types/editor'
@@ -60,12 +61,12 @@ export const useEditorStore = defineStore('editor', {
         }
 
         const content = await (await fileHandle.getFile()).text()
+        const parsedContent = await marked.parse(content)
         const newFile = this.addFile()
         newFile.id = makeId(60)
-        newFile.data.content = content
         newFile.handle = fileHandle
         newFile.data.title = fileHandle.name
-        newFile.data.title = fileHandle.name
+        newFile.data.content = parsedContent
 
         this._saveToIndexedDB()
       } catch ({ message }: any) {

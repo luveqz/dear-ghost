@@ -46,6 +46,7 @@
     "interactjs": "^1.10.19",
     "langchain": "^0.0.212",
     "lodash": "^4.17.21",
+    "marked": "^11.2.0",
     "nitropack": "^2.7.2",
     "pinia": "^2.1.6",
     "turndown": "^7.1.2",
