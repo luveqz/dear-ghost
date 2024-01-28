@@ -18,7 +18,7 @@
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
     "autoprefixer": "^10.4.16",
-    "nuxt": "^3.7.3",
+    "nuxt": "^3.9.3",
     "nuxt-security": "^1.0.1",
     "postcss": "^8.4.33",
     "prettier": "^3.1.1",
