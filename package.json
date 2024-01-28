@@ -13,6 +13,7 @@
     "@nuxt/devtools": "latest",
     "@types/lodash": "^4.14.200",
     "@types/sortablejs": "^1.15.4",
+    "@types/turndown": "^5.0.4",
     "@types/wicg-file-system-access": "^2023.10.4",
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
@@ -46,6 +47,7 @@
     "lodash": "^4.17.21",
     "nitropack": "^2.7.2",
     "pinia": "^2.1.6",
+    "turndown": "^7.1.2",
     "vue3-popper": "^1.5.0"
   }
 }

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { get, set } from 'idb-keyval'
+import TurndownService from 'turndown'
 
 import type { TextFile } from '@/lib/types/editor'
 import { useToast } from '@/componsables/toast'
@@ -15,6 +16,8 @@ export const DEFAULT_FILE: TextFile = {
     content: '',
   },
 }
+
+const turndownService = new TurndownService()
 
 export const useEditorStore = defineStore('editor', {
   state: () =>
@@ -87,8 +90,63 @@ export const useEditorStore = defineStore('editor', {
       this.save()
     },
 
-    save() {
+    save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
       if (this.validate(this.files)) {
+        if (toFileSystem) {
+          this._saveToFileSystem()
+        } else {
+          this._saveToIndexedDB()
+        }
+      }
+    },
+
+    async _saveToFileSystem() {
+      if (!this.activeFile) return
+
+      // Unsaved file.
+      if (this.activeFile.id.includes(DEFAULT_FILE.id)) {
+        try {
+          const newHandle = await window.showSaveFilePicker({
+            suggestedName: `${this.activeFile.data.title}.md`,
+          })
+
+          const writable = await newHandle.createWritable()
+          await writable.write(
+            turndownService.turndown(this.activeFile.data.content),
+          )
+          await writable.close()
+
+          this.activeFile.id = makeId(60)
+          this.activeFile.data.title = newHandle.name
+          this._saveToIndexedDB()
+        } catch (err) {
+          useToast({ message: 'Could not save file.' })
+        }
+
+        return
+      }
+
+      // Saved file.
+      if (
+        (await this.activeFile.handle?.requestPermission({
+          mode: 'readwrite',
+        })) === 'granted'
+      ) {
+        const writable = await (
+          this.activeFile!.handle as FileSystemFileHandle
+        ).createWritable()
+        await writable.write(
+          turndownService.turndown(this.activeFile.data.content),
+        )
+        await writable.close()
+
+        this._saveToIndexedDB()
+        return
+      } else {
+        useToast({ message: 'Could not save file.' })
+      }
+    },
+
     async _saveToIndexedDB() {
       if (!this.activeFile) return
       const { editor, ...activeFile } = this.activeFile

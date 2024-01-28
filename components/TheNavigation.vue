@@ -38,7 +38,7 @@ const menuList: MenuList = [
         label: 'Save',
         shortcut: 'ctrl_s',
         action() {
-          $editor.save()
+          $editor.save({ toFileSystem: true })
         },
       },
     ],
