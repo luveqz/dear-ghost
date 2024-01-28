@@ -25,7 +25,7 @@ const ICONS = {
       class="fixed bottom-16 z-50 mx-auto mt-7 flex justify-center"
     >
       <div
-        class="mx-auto flex max-w-[30rem] items-center gap-x-2 rounded bg-[#E7CECE] px-5 py-4 text-[#7B0909]"
+        class="mx-auto flex max-w-[30rem] items-center gap-x-2 rounded bg-[#E7CECE] px-2.5 py-2.5 text-[#7B0909]"
       >
         <span
           class="flex items-center justify-center rounded bg-[#B67474] p-1 text-[#E7CECE]"
