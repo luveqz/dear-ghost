@@ -95,6 +95,10 @@ onMounted(() => {
     emit('instantiated', editor.value)
   }
 })
+
+onBeforeUnmount(() => {
+  editor.value?.destroy()
+})
 </script>
 
 <template>
