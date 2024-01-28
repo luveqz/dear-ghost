@@ -97,6 +97,10 @@ whenever(
     })
   },
 )
+
+const isDark = usePreferredDark()
+const favicon = computed(() => (isDark.value ? 'dark.ico' : 'light.ico'))
+useFavicon(favicon)
 </script>
 
 <template>
