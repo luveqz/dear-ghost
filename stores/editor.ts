@@ -87,7 +87,7 @@ export const useEditorStore = defineStore('editor', {
     removeFile(file: TextFile) {
       const fileIndex = this.files.findIndex((file_) => file_.id === file.id)
       this.files.splice(fileIndex, 1)
-      this.save()
+      this._saveAllToIndexedDB()
     },
 
     save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
@@ -173,11 +173,16 @@ export const useEditorStore = defineStore('editor', {
 
       set(FILE_STORAGE_KEY, files)
     },
+
+    _saveAllToIndexedDB() {
       const plainWidgetData = this.files.map((file) => {
         const { editor, ...rest } = file
+        rest.data = toRaw(rest.data)
+        rest.handle = toRaw(rest.handle)
         return rest
       })
-      set(FILE_STORAGE_KEY, deepCopy(plainWidgetData))
+
+      set(FILE_STORAGE_KEY, plainWidgetData)
     },
 
     async load() {
