@@ -10,9 +10,44 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security'],
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security', '@vite-pwa/nuxt'],
 
   ssr: false,
+
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      display: 'fullscreen',
+      name: 'Dear Ghost',
+      short_name: 'DearGhost',
+      theme_color: '#ffffff',
+      icons: [
+        {
+          src: 'icons/64x64.png',
+          sizes: '64x64',
+          type: 'image/png',
+        },
+        {
+          src: 'icons/512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+      ],
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    devOptions: {
+      enabled: true,
+      suppressWarnings: true,
+      navigateFallbackAllowlist: [/^\/$/],
+      type: 'module',
+    },
+    client: {
+      installPrompt: true,
+    },
+  },
 
   components: [
     {

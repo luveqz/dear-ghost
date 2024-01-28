@@ -73,7 +73,6 @@ const onWheel = (e: WheelEvent) => {
       </button>
 
       <button
-        v-if="$editor.mode === 'edit-prompts'"
         class="flex w-10 items-center justify-center border-l border-black/15"
         @click="toggle"
         @contextmenu.stop.prevent="toggle"

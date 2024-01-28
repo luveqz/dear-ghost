@@ -101,6 +101,17 @@ whenever(
 const isDark = usePreferredDark()
 const favicon = computed(() => (isDark.value ? 'dark.ico' : 'light.ico'))
 useFavicon(favicon)
+
+onMounted(() => {
+  document.addEventListener('DOMContentLoaded', (event) => {
+    // we can move only if we are not in a browser's tab
+    const isBrowser = matchMedia('(display-mode: browser)').matches
+    if (!isBrowser) {
+      window.moveTo(16, 16)
+      window.resizeTo(980, 600)
+    }
+  })
+})
 </script>
 
 <template>
@@ -170,6 +181,7 @@ useFavicon(favicon)
     </div>
 
     <TheToastDisplay />
+    <VitePwaManifest />
   </div>
 </template>
 

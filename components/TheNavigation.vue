@@ -186,19 +186,22 @@ const formatShortcut = (shortcut: string) => {
     </section>
 
     <!-- Right -->
-    <section class="flex items-center gap-x-5">
+    <section
+      class="flex items-center gap-x-3"
+      v-if="$editor.showInstallButton && !$pwa?.isPWAInstalled"
+    >
       <button
-        :class="{ 'opacity-50': $editor.mode !== 'write' }"
-        @click="$editor.mode = 'write'"
+        class="flex h-6 items-center rounded border border-white/20 px-2.5 py-2"
+        @click="$pwa?.install()"
       >
-        Write
+        Install
       </button>
-      <div class="block h-3 border-l border-l-white" />
+
       <button
-        :class="{ 'opacity-50': $editor.mode !== 'edit-prompts' }"
-        @click="$editor.mode = 'edit-prompts'"
+        class="text-white/60"
+        @click="$editor.setUserConfig({ showInstallButton: false })"
       >
-        Edit Prompts
+        Dismiss
       </button>
     </section>
   </nav>

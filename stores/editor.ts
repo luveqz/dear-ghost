@@ -24,7 +24,7 @@ export const useEditorStore = defineStore('editor', {
     ({
       files: [],
       activeFile: null,
-      mode: 'edit-prompts',
+      showInstallButton: true,
       view: {
         fileTree: false,
         actionPanel: true,
@@ -33,7 +33,7 @@ export const useEditorStore = defineStore('editor', {
     }) as {
       files: TextFile[]
       activeFile: TextFile | null
-      mode: 'write' | 'edit-prompts'
+      showInstallButton: boolean
       view: {
         fileTree: boolean
         actionPanel: boolean
@@ -187,6 +187,7 @@ export const useEditorStore = defineStore('editor', {
 
     async load() {
       this.files = await this._loadFromIndexedDB()
+      await this.loadUserConfig()
     },
 
     async _loadFromIndexedDB() {
@@ -203,6 +204,20 @@ export const useEditorStore = defineStore('editor', {
 
     _isUnsavedFile(file: TextFile) {
       return file.id.includes(DEFAULT_FILE.id)
+    },
+
+    setUserConfig({ showInstallButton }: { showInstallButton: boolean }) {
+      this.showInstallButton = showInstallButton
+      set('show-install-button', showInstallButton)
+    },
+
+    async loadUserConfig() {
+      const showInstallButton = await get('show-install-button')
+      console.log(showInstallButton)
+
+      if (showInstallButton !== undefined) {
+        this.showInstallButton = showInstallButton
+      }
     },
   },
 })
