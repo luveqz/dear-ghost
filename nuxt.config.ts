@@ -2,6 +2,12 @@ import { makeId } from './lib/utils/random'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'Dear Ghost',
+    },
+  },
+
   devtools: { enabled: true },
 
   modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security'],

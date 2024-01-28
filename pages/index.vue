@@ -88,6 +88,15 @@ const keys = useMagicKeys()
 whenever(keys['escape'], () => {
   controller.value?.abort()
 })
+
+whenever(
+  () => activeFile.value,
+  () => {
+    useHead({
+      title: `${activeFile.value.data.title} -  Dear Ghost`,
+    })
+  },
+)
 </script>
 
 <template>
