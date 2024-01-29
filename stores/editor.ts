@@ -149,9 +149,7 @@ export const useEditorStore = defineStore('editor', {
           mode: 'readwrite',
         })) === 'granted'
       ) {
-        const writable = await (
-          this.activeFile!.handle as FileSystemFileHandle
-        ).createWritable()
+        const writable = await this.activeFile!.handle!.createWritable()
         await writable.write(
           turndownService.turndown(this.activeFile.data.content),
         )
