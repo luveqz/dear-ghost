@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { selectElementContents } from '@/lib/utils/browser'
 import { DEFAULT_FILE } from '@/stores/editor'
 
 const props = defineProps({
@@ -9,7 +8,6 @@ const props = defineProps({
   },
 })
 
-const { tab } = useMagicKeys()
 const emit = defineEmits(['update:model-value'])
 
 const restoreDefaultTitle = () => {
@@ -42,6 +40,7 @@ const onBlur = () => {
         "
         @blur="onBlur"
         @keypress.enter.prevent
+        disabled
       />
     </div>
   </h2>
