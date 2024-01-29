@@ -202,6 +202,7 @@ export const useEditorStore = defineStore('editor', {
 
     async load() {
       this.files = await this._loadFromIndexedDB()
+      await this._syncWithFileSystem()
       await this.loadUserConfig()
       await this.focusLastActiveFile()
     },
@@ -216,6 +217,16 @@ export const useEditorStore = defineStore('editor', {
       }
 
       return files as TextFile[]
+    },
+
+    async _syncWithFileSystem() {
+      for (let file of this.files) {
+        if (file.handle) {
+          const content = await (await file.handle.getFile()).text()
+          const parsedContent = await marked.parse(content)
+          file.data.content = parsedContent
+        }
+      }
     },
 
     _isUnsavedFile(file: TextFile) {
