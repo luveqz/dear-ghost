@@ -8,9 +8,6 @@ import type { TextFile } from '@/lib/types/editor'
 const { $editor, $llm } = useNuxtApp()
 
 const activeFile = computed(() => $editor.activeFile as TextFile)
-const setActiveFile = (file: TextFile) => {
-  $editor.activeFile = file
-}
 const controller = ref<AbortController>()
 
 const { closeAll } = useContextMenuTurn()
@@ -79,9 +76,8 @@ const layoutStyle = computed(() => {
   }
 })
 
-onMounted(async () => {
-  await $editor.load()
-  setActiveFile($editor.files[0] as TextFile)
+onMounted(() => {
+  $editor.load()
 })
 
 const keys = useMagicKeys()
@@ -136,7 +132,7 @@ onMounted(() => {
           v-if="$editor.view.fileTree"
           class="sticky top-sticky-widget mt-sticky-widget h-[calc(100vh_-_4rem_-_2.6rem)] shrink-0 pr-16"
           :active-file="activeFile"
-          @set-active-file="setActiveFile"
+          @set-active-file="$editor.setActiveFile"
           style="grid-area: file-tree; direction: ltr"
         />
 
@@ -149,7 +145,7 @@ onMounted(() => {
               v-show="activeFile?.id === file.id"
               :data="file.data"
               @instantiated="(editor) => (file.editor = editor)"
-              @active="setActiveFile(file as TextFile)"
+              @active="$editor.setActiveFile(file as TextFile)"
             />
           </template>
         </div>

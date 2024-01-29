@@ -205,6 +205,7 @@ export const useEditorStore = defineStore('editor', {
     async load() {
       this.files = await this._loadFromIndexedDB()
       await this.loadUserConfig()
+      await this.focusLastActiveFile()
     },
 
     async _loadFromIndexedDB() {
@@ -230,11 +231,29 @@ export const useEditorStore = defineStore('editor', {
 
     async loadUserConfig() {
       const showInstallButton = await get('show-install-button')
-      console.log(showInstallButton)
 
       if (showInstallButton !== undefined) {
         this.showInstallButton = showInstallButton
       }
+    },
+
+    async setActiveFile(file: TextFile) {
+      this.activeFile = file
+      set('last-active-file-id', file.id)
+    },
+
+    async focusLastActiveFile() {
+      const lastActiveFileId = await get('last-active-file-id')
+
+      if (lastActiveFileId) {
+        const file = this.files.find((file) => file.id === lastActiveFileId)
+
+        if (file) {
+          this.activeFile = file
+          return
+        }
+      }
+      this.setActiveFile(this.files[0] as TextFile)
     },
   },
 })
