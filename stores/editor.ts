@@ -16,6 +16,7 @@ export const DEFAULT_FILE: TextFile = {
     title: 'Untitled',
     content: '',
   },
+  isSaved: true,
 }
 
 const turndownService = new TurndownService()
@@ -155,15 +156,16 @@ export const useEditorStore = defineStore('editor', {
         )
         await writable.close()
 
-        this._saveToIndexedDB()
+        this._saveToIndexedDB({ isSaved: true })
         return
       } else {
         useToast({ message: 'Could not save file.' })
       }
     },
 
-    async _saveToIndexedDB() {
+    async _saveToIndexedDB({ isSaved } = {} as { isSaved: boolean }) {
       if (!this.activeFile) return
+      this.activeFile.isSaved = isSaved
       const { editor, ...activeFile } = this.activeFile
 
       const files = await this._loadFromIndexedDB()

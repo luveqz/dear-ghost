@@ -10,4 +10,5 @@ export type TextFile = {
   editor?: Editor
   handle?: FileSystemFileHandle
   data: TextFileData
+  isSaved?: boolean
 }
