@@ -62,6 +62,22 @@ export const useEditorStore = defineStore('editor', {
 
         const content = await (await fileHandle.getFile()).text()
         const parsedContent = await marked.parse(content)
+
+        /* 
+          If there is only an empty file, replace it
+          with the opened one. 
+        */
+        if (this.files.length === 1) {
+          const file = this.files[0] as TextFile
+
+          if (
+            this._isUnsavedFile(file) &&
+            (!file.data.content || file.data.content === '<p></p>')
+          ) {
+            this.files = []
+          }
+        }
+
         const newFile = this.addFile()
         newFile.id = makeId(60)
         newFile.handle = fileHandle
