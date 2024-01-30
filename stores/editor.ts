@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 import { get, set } from 'idb-keyval'
-import { marked } from 'marked'
-import TurndownService from 'turndown'
 
 import type { TextFile } from '@/lib/types/editor'
 import { useToast } from '@/componsables/toast'
 import { deepCopy } from '@/lib/utils/copy'
 import { makeId } from '@/lib/utils/random'
+import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -18,8 +17,6 @@ export const DEFAULT_FILE: TextFile = {
   },
   isSaved: true,
 }
-
-const turndownService = new TurndownService()
 
 export const useEditorStore = defineStore('editor', {
   state: () =>
@@ -62,7 +59,7 @@ export const useEditorStore = defineStore('editor', {
         }
 
         const content = await (await fileHandle.getFile()).text()
-        const parsedContent = await marked.parse(content)
+        const parsedContent = await markdownToHtml(content)
 
         /* 
           If there is only an empty file, replace it
@@ -129,9 +126,7 @@ export const useEditorStore = defineStore('editor', {
           })
 
           const writable = await newHandle.createWritable()
-          await writable.write(
-            turndownService.turndown(this.activeFile.data.content),
-          )
+          await writable.write(htmlToMarkdown(this.activeFile.data.content))
           await writable.close()
 
           this.activeFile.id = makeId(60)
@@ -151,9 +146,7 @@ export const useEditorStore = defineStore('editor', {
         })) === 'granted'
       ) {
         const writable = await this.activeFile!.handle!.createWritable()
-        await writable.write(
-          turndownService.turndown(this.activeFile.data.content),
-        )
+        await writable.write(htmlToMarkdown(this.activeFile.data.content))
         await writable.close()
 
         this._saveToIndexedDB({ isSaved: true })
@@ -225,7 +218,7 @@ export const useEditorStore = defineStore('editor', {
       for (let file of this.files) {
         if (file.handle) {
           const content = await (await file.handle.getFile()).text()
-          const parsedContent = await marked.parse(content)
+          const parsedContent = await markdownToHtml(content)
           file.data.content = parsedContent
         }
       }
