@@ -14,6 +14,17 @@ export default defineNuxtConfig({
 
   modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security', '@vite-pwa/nuxt'],
 
+  nitro: {
+    esbuild: {
+      options: {
+        target: 'esnext',
+      },
+    },
+    prerender: {
+      routes: ['/'],
+    },
+  },
+
   pwa: {
     manifest: {
       display: 'fullscreen',
@@ -38,15 +49,6 @@ export default defineNuxtConfig({
       globPatterns: ['**/*'],
     },
     includeAssets: ['**/*'],
-    devOptions: {
-      enabled: true,
-      suppressWarnings: true,
-      navigateFallbackAllowlist: [/^\/$/],
-      type: 'module',
-    },
-    client: {
-      installPrompt: true,
-    },
   },
 
   components: [
