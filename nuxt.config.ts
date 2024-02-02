@@ -12,10 +12,7 @@ export default defineNuxtConfig({
 
   modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security', '@vite-pwa/nuxt'],
 
-  ssr: false,
-
   pwa: {
-    registerType: 'autoUpdate',
     manifest: {
       display: 'fullscreen',
       name: 'Dear Ghost',
@@ -86,6 +83,7 @@ export default defineNuxtConfig({
   },
 
   security: {
+    enabled: process.env.DISABLE_NUXT_SECURITY !== 'true',
     basicAuth: {
       include: ['/'],
       name: process.env.BASIC_AUTH_USER || makeId(60),
