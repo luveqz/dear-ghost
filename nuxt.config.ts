@@ -10,6 +10,8 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
+  ssr: false,
+
   modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security', '@vite-pwa/nuxt'],
 
   pwa: {
