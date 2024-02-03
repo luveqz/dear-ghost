@@ -72,7 +72,7 @@ export const useEditorStore = defineStore('editor', {
             this._isUnsavedFile(file) &&
             (!file.data.content || file.data.content === '<p></p>')
           ) {
-            this.files = []
+            await this.removeFile(file)
           }
         }
 
@@ -82,7 +82,7 @@ export const useEditorStore = defineStore('editor', {
         newFile.data.title = fileHandle.name
         newFile.data.content = parsedContent
 
-        this._saveToIndexedDB()
+        return this._saveToIndexedDB({ isSaved: true })
       } catch ({ message }: any) {
         if (message === 'The user aborted a request.') {
           return
@@ -99,10 +99,11 @@ export const useEditorStore = defineStore('editor', {
       return newFile
     },
 
-    removeFile(file: TextFile) {
+    async removeFile(file: TextFile) {
       const fileIndex = this.files.findIndex((file_) => file_.id === file.id)
       this.files.splice(fileIndex, 1)
-      this._saveAllToIndexedDB()
+
+      return this._saveAllToIndexedDB()
     },
 
     save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
@@ -161,7 +162,15 @@ export const useEditorStore = defineStore('editor', {
       this.activeFile.isSaved = isSaved
       const { editor, ...activeFile } = this.activeFile
 
+      /*
+        We only want to save the activeFile's changes. So,
+        instead of this.files (which might include unsaved
+        changes in other files), we use an already saved
+        snapshot of our files and patch it with the 
+        activeFile's changes.
+      */
       const files = await this._loadFromIndexedDB()
+
       const activeIndex = files.findIndex(
         (file: TextFile) => file.id === activeFile.id,
       )
@@ -181,10 +190,10 @@ export const useEditorStore = defineStore('editor', {
         files.push(plainFile)
       }
 
-      set(FILE_STORAGE_KEY, files)
+      return set(FILE_STORAGE_KEY, files)
     },
 
-    _saveAllToIndexedDB() {
+    async _saveAllToIndexedDB() {
       const plainWidgetData = this.files.map((file) => {
         const { editor, ...rest } = file
         rest.data = toRaw(rest.data)
@@ -192,23 +201,25 @@ export const useEditorStore = defineStore('editor', {
         return rest
       })
 
-      set(FILE_STORAGE_KEY, plainWidgetData)
+      await set(FILE_STORAGE_KEY, plainWidgetData)
     },
 
     async load() {
-      this.files = await this._loadFromIndexedDB()
+      this.files = await this._loadFromIndexedDB({ addDefault: true })
       await this._syncWithFileSystem()
       await this.loadUserConfig()
       await this.focusLastActiveFile()
     },
 
-    async _loadFromIndexedDB() {
+    async _loadFromIndexedDB({ addDefault } = {} as { addDefault: boolean }) {
       let files = (await get(FILE_STORAGE_KEY)) || []
 
-      if (this.validate(files)) {
+      if (!this.validate(files)) {
+        files = []
+      }
+
+      if (addDefault) {
         files = files.length ? files : [deepCopy(DEFAULT_FILE)]
-      } else {
-        files = [deepCopy(DEFAULT_FILE)]
       }
 
       return files as TextFile[]
