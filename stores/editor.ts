@@ -50,6 +50,10 @@ export const useEditorStore = defineStore('editor', {
       try {
         const [fileHandle] = await window.showOpenFilePicker()
 
+        await fileHandle.requestPermission({
+          mode: 'read',
+        })
+
         // If already opened, just focus it.
         for (let file of this.files) {
           if (file.handle && (await fileHandle.isSameEntry(file.handle))) {
