@@ -10,7 +10,7 @@ import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
 const FILE_STORAGE_KEY = 'files-storage'
 
 export const DEFAULT_FILE: TextFile = {
-  id: '92f98faa648882aa943e9fe790fbc2bd',
+  id: 'default-faa648882aa943e9fe790fbc2bd',
   data: {
     title: 'Untitled',
     content: '',
