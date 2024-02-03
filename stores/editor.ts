@@ -228,6 +228,7 @@ export const useEditorStore = defineStore('editor', {
     async _syncWithFileSystem() {
       for (let file of this.files) {
         if (file.handle) {
+          await file.handle.requestPermission()
           const content = await (await file.handle.getFile()).text()
           const parsedContent = await markdownToHtml(content)
           file.data.content = parsedContent
