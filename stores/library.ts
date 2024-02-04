@@ -68,6 +68,15 @@ export const useLibraryStore = defineStore('library', {
       )
     },
 
+    async removePrompt(prompt: Prompt) {
+      const promptIndex = this.prompts.findIndex(
+        (prompt_) => prompt_.id === prompt.id,
+      )
+      this.prompts.splice(promptIndex, 1)
+
+      return this._saveAllToIndexedDB()
+    },
+
     async load() {
       this.prompts = await this._loadFromIndexedDB({ addDefault: true })
     },

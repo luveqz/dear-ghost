@@ -190,12 +190,20 @@ watch(
       </section>
     </div>
 
-    <div class="flex justify-end">
+    <div class="flex flex-row-reverse justify-between">
       <button
         class="text-xs font-semibold underline"
         @click="showAdvanced = !showAdvanced"
       >
         {{ showAdvanced ? 'Hide advanced' : 'Advanced' }}
+      </button>
+
+      <button
+        v-show="showAdvanced"
+        class="text-xs font-semibold text-[#BB6677]"
+        @click="$library.removePrompt(prompt)"
+      >
+        Delete
       </button>
     </div>
   </section>

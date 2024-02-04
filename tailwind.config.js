@@ -38,7 +38,7 @@ module.exports = {
         'action-panel': '20rem',
       },
       fontSize: {
-        xxs: '0.719rem',
+        xxs: '0.688rem',
       },
       width: {
         page: '33.125rem',
