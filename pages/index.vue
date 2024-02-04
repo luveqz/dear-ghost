@@ -168,7 +168,12 @@ onMounted(() => {
       </div>
     </main>
 
-    <div class="mr-2 flex w-full shrink-0 justify-center overflow-y-scroll">
+    <div
+      class="mr-2 flex w-full shrink-0 justify-center overflow-y-scroll"
+      :class="{
+        'lg:pr-[8%]': $editor.view.fileTree && !$editor.view.actionPanel,
+      }"
+    >
       <div class="grid-template overflow-x-hidden" :style="layoutStyle">
         <StatusBarWidget
           class="px-5"
