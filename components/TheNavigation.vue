@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useFullscreen } from '@vueuse/core'
 import startCase from 'lodash/startCase'
 
-const { toggle: toggleFullScreen } = useFullscreen()
+const { toggle: toggleFullScreen, isFullscreen } = useFullscreen()
 
 const { $editor } = useNuxtApp()
 
@@ -186,22 +186,31 @@ const formatShortcut = (shortcut: string) => {
     </section>
 
     <!-- Right -->
-    <section
-      class="flex items-center gap-x-3"
-      v-if="$editor.showInstallButton && !$pwa?.isPWAInstalled"
-    >
-      <button
-        class="flex h-6 items-center rounded border border-white/20 px-2.5 py-2"
-        @click="$pwa?.install()"
+    <section class="flex items-center gap-x-3">
+      <div
+        v-if="$editor.showInstallButton && !$pwa?.isPWAInstalled"
+        class="flex items-center gap-x-3"
       >
-        Install
-      </button>
+        <button
+          class="flex h-6 items-center rounded border border-white/20 px-2.5 py-2"
+          @click="$pwa?.install()"
+        >
+          Install
+        </button>
 
-      <button
-        class="text-white/60"
-        @click="$editor.setUserConfig({ showInstallButton: false })"
-      >
-        Dismiss
+        <div class="block h-3 border-l border-l-white" />
+
+        <button
+          class="text-white/60"
+          @click="$editor.setUserConfig({ showInstallButton: false })"
+        >
+          Dismiss
+        </button>
+      </div>
+
+      <button class="ml-4" @click="toggleFullScreen">
+        <MinimizeIcon v-if="isFullscreen" />
+        <MaximizeIcon v-else />
       </button>
     </section>
   </nav>
