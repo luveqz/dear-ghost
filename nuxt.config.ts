@@ -1,3 +1,4 @@
+import { LM_STUDIO_API_BASE_URL } from './lib/constants'
 import { makeId } from './lib/utils/random'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -83,6 +84,8 @@ export default defineNuxtConfig({
     app: {
       PALM_2_API_KEY: process.env.PALM_2_API_KEY,
       CLARIFAI_API_KEY: process.env.CLARIFAI_API_KEY,
+      LM_STUDIO_API_BASE_URL:
+        process.env.LM_STUDIO_API_BASE_URL || LM_STUDIO_API_BASE_URL,
     },
   },
 

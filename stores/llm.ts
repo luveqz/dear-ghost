@@ -3,7 +3,7 @@ import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
 
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
-import { LM_STUDIO_API_BASE_URL, OLLAMA_API_BASE_URL } from '@/lib/constants'
+import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { llamaCpp } from '@/lib/utils/llamacpp'
 import { useToast } from '@/componsables/toast'
 
@@ -111,7 +111,7 @@ export const useLLMStore = defineStore('llm', {
             openAIApiKey: 'N/A',
             streaming: true,
             configuration: {
-              baseURL: LM_STUDIO_API_BASE_URL,
+              baseURL: $config.app.LM_STUDIO_API_BASE_URL,
             },
             maxRetries: 2,
           })
