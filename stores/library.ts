@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import groupBy from 'lodash/groupBy'
+import { get, set } from 'idb-keyval'
 
 import { type Prompt, ResponseMode } from '@/lib/types/library'
 import { DEFAULT_PROMPTS } from '@/lib/data/default-prompts'
@@ -26,6 +27,8 @@ export const DEFAULT_PROMPT: Prompt = {
   modelId: 'mistral:instruct',
 }
 
+const LIBRARY_STORAGE_KEY = 'library-storage'
+
 export const PROMPT_ICON_CATALOG = {
   DialogIcon,
   HistoryIcon,
@@ -39,7 +42,7 @@ export const PROMPT_ICON_CATALOG = {
 export const useLibraryStore = defineStore('library', {
   state: () =>
     ({
-      prompts: DEFAULT_PROMPTS,
+      prompts: [],
     }) as {
       prompts: Prompt[]
     },
@@ -51,6 +54,11 @@ export const useLibraryStore = defineStore('library', {
   },
 
   actions: {
+    validate(prompts: any) {
+      // validate array with a Joi schema
+      return true
+    },
+
     addPrompt() {
       this.prompts.push(
         deepCopy({
@@ -58,6 +66,32 @@ export const useLibraryStore = defineStore('library', {
           id: makeId(60),
         }),
       )
+    },
+
+    async load() {
+      this.prompts = await this._loadFromIndexedDB({ addDefault: true })
+    },
+
+    async _loadFromIndexedDB({ addDefault } = {} as { addDefault: boolean }) {
+      let prompts = (await get(LIBRARY_STORAGE_KEY)) || []
+
+      if (!this.validate(prompts)) {
+        prompts = []
+      }
+
+      if (addDefault) {
+        prompts = prompts.length ? prompts : DEFAULT_PROMPTS
+      }
+
+      return prompts as Prompt[]
+    },
+
+    saveAll() {
+      this._saveAllToIndexedDB()
+    },
+
+    _saveAllToIndexedDB() {
+      set(LIBRARY_STORAGE_KEY, toRaw(this.prompts))
     },
   },
 })

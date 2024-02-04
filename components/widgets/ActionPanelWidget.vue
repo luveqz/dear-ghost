@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { TabGroup, TabList, TabPanels, TabPanel } from '@headlessui/vue'
+import debounce from 'lodash/debounce'
 
 defineEmits(['run-prompt'])
 
@@ -11,6 +12,10 @@ const onScrollPopover = (deltaY: number) => {
   if (!panelRef.value || !panelRef.value.$el) return
   panelRef.value.$el.scrollTo(0, y.value + deltaY)
 }
+
+const { $library } = useNuxtApp()
+const debouncedSaveAll = debounce($library.saveAll, 600)
+watch($library, debouncedSaveAll)
 </script>
 
 <template>

@@ -5,7 +5,7 @@ import { ResponseMode } from '@/lib/types/library'
 import type { Prompt } from '@/lib/types/library'
 import type { TextFile } from '@/lib/types/editor'
 
-const { $editor, $llm } = useNuxtApp()
+const { $editor, $library, $llm } = useNuxtApp()
 
 const activeFile = computed(() => $editor.activeFile as TextFile)
 const controller = ref<AbortController>()
@@ -78,6 +78,7 @@ const layoutStyle = computed(() => {
 
 onMounted(() => {
   $editor.load()
+  $library.load()
 })
 
 const keys = useMagicKeys()
