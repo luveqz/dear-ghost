@@ -73,7 +73,7 @@ export const useEditorStore = defineStore('editor', {
           const file = this.files[0] as TextFile
 
           if (
-            this._isUnsavedFile(file) &&
+            !file.handle &&
             (!file.data.content || file.data.content === '<p></p>')
           ) {
             await this.removeFile(file)
@@ -96,7 +96,7 @@ export const useEditorStore = defineStore('editor', {
     },
 
     addFile() {
-      const id = `${DEFAULT_FILE.id}-${Math.floor(new Date().getTime())}`
+      const id = makeId(60)
       const newFile: TextFile = { ...deepCopy(DEFAULT_FILE), id }
       this.files.push(newFile)
       this.activeFile = newFile
@@ -124,7 +124,7 @@ export const useEditorStore = defineStore('editor', {
       if (!this.activeFile) return
 
       // Unsaved file.
-      if (this.activeFile.id.includes(DEFAULT_FILE.id)) {
+      if (!this.activeFile.handle) {
         try {
           const newHandle = await window.showSaveFilePicker({
             suggestedName: `${this.activeFile.data.title}.md`,
@@ -134,9 +134,9 @@ export const useEditorStore = defineStore('editor', {
           await writable.write(htmlToMarkdown(this.activeFile.data.content))
           await writable.close()
 
-          this.activeFile.id = makeId(60)
           this.activeFile.data.title = newHandle.name
-          this._saveToIndexedDB()
+          this.activeFile.handle = newHandle
+          this._saveToIndexedDB({ isSaved: true })
         } catch (err) {
           useToast({ message: 'Could not save file.' })
         }

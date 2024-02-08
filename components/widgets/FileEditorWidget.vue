@@ -72,10 +72,6 @@ const editor = useEditor({
 })
 
 watch(
-  () => props.data.title,
-  () => $editor.save(),
-)
-watch(
   () => props.data.content,
   (value) => {
     if (!editor.value) return
