@@ -232,15 +232,17 @@ export const useEditorStore = defineStore('editor', {
     async _syncWithFileSystem() {
       for (let file of this.files) {
         if (file.handle) {
-          if (
-            (await file.handle?.requestPermission({
-              mode: 'readwrite',
-            })) === 'granted'
-          ) {
-            const content = await (await file.handle.getFile()).text()
-            const parsedContent = await markdownToHtml(content)
-            file.data.content = parsedContent
-          } else {
+          try {
+            if (
+              (await file.handle?.requestPermission({
+                mode: 'readwrite',
+              })) === 'granted'
+            ) {
+              const content = await (await file.handle.getFile()).text()
+              const parsedContent = await markdownToHtml(content)
+              file.data.content = parsedContent
+            }
+          } catch (error) {
             // Prevents the editor from showing an outdated
             // version of this file.
             this.removeFile(file as TextFile)
