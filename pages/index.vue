@@ -103,6 +103,19 @@ const isDark = usePreferredDark()
 const favicon = computed(() => (isDark.value ? 'dark.ico' : 'light.ico'))
 useFavicon(favicon)
 
+const beforeUnloadHandler = (event: Event) => {
+  const unsaved = $editor.files.find((file) => file.handle && !file.isSaved)
+  if (unsaved) {
+    $editor.activeFile = unsaved
+
+    // Recommended
+    event.preventDefault()
+
+    // Included for legacy support, e.g. Chrome/Edge < 119
+    event.returnValue = true
+  }
+}
+
 onMounted(() => {
   document.addEventListener('DOMContentLoaded', (event) => {
     // we can move only if we are not in a browser's tab
@@ -112,6 +125,12 @@ onMounted(() => {
       window.resizeTo(980, 600)
     }
   })
+
+  window.addEventListener('beforeunload', beforeUnloadHandler)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', beforeUnloadHandler)
 })
 </script>
 
