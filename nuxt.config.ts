@@ -93,6 +93,12 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    '/app': {
+      headers: { 'Service-Worker-Allowed': '/app' },
+    },
+  },
+
   security: {
     enabled: process.env.DISABLE_NUXT_SECURITY !== 'true',
     headers: {
