@@ -50,6 +50,7 @@ export default defineNuxtConfig({
       periodicSyncForUpdates:
         process.env.NODE_ENV === 'development' ? 20 : 3600 * 4,
     },
+    scope: '/app/',
     workbox: {
       globPatterns: ['**/*'],
     },
@@ -90,12 +91,6 @@ export default defineNuxtConfig({
       CLARIFAI_API_KEY: process.env.CLARIFAI_API_KEY,
       LM_STUDIO_API_BASE_URL:
         process.env.LM_STUDIO_API_BASE_URL || LM_STUDIO_API_BASE_URL,
-    },
-  },
-
-  routeRules: {
-    '/app': {
-      headers: { 'Service-Worker-Allowed': '/app' },
     },
   },
 
