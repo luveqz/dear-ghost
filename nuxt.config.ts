@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   },
 
   pwa: {
-    base: '/app',
+    base: '/app/',
     manifest: {
       display: 'fullscreen',
       name: 'Dear Ghost',
