@@ -23,7 +23,7 @@ export const useEditorStore = defineStore('editor', {
     ({
       files: [],
       activeFile: null,
-      showInstallButton: true,
+      showInstallButton: false,
       view: {
         fileTree: false,
         actionPanel: true,
@@ -267,9 +267,8 @@ export const useEditorStore = defineStore('editor', {
     async loadUserConfig() {
       const showInstallButton = await get('show-install-button')
 
-      if (showInstallButton !== undefined) {
-        this.showInstallButton = showInstallButton
-      }
+      this.showInstallButton =
+        showInstallButton !== undefined ? showInstallButton : true
     },
 
     async setActiveFile(file: TextFile) {

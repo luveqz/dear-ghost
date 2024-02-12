@@ -188,7 +188,7 @@ const formatShortcut = (shortcut: string) => {
     <!-- Right -->
     <section class="flex items-center gap-x-3">
       <div
-        v-if="$editor.showInstallButton && !$pwa?.isPWAInstalled"
+        v-if="$editor.showInstallButton && $pwa?.isPWAInstalled === false"
         class="flex items-center gap-x-3"
       >
         <button
