@@ -45,6 +45,10 @@ export default defineNuxtConfig({
         },
       ],
     },
+    client: {
+      periodicSyncForUpdates:
+        process.env.NODE_ENV === 'development' ? 20 : 3600 * 4,
+    },
     workbox: {
       globPatterns: ['**/*'],
     },

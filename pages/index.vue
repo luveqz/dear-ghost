@@ -206,6 +206,7 @@ onBeforeUnmount(() => {
     </div>
 
     <TheToastDisplay />
+    <ToastUpdateDisplay />
     <VitePwaManifest />
   </div>
 </template>
