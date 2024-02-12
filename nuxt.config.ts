@@ -1,5 +1,4 @@
 import { LM_STUDIO_API_BASE_URL } from './lib/constants'
-import { makeId } from './lib/utils/random'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -91,12 +90,6 @@ export default defineNuxtConfig({
 
   security: {
     enabled: process.env.DISABLE_NUXT_SECURITY !== 'true',
-    basicAuth: {
-      include: ['/'],
-      name: process.env.BASIC_AUTH_USER || makeId(60),
-      pass: process.env.BASIC_AUTH_PASS || makeId(60),
-      enabled: process.env.BASIC_AUTH_ENABLED === 'true',
-    },
     headers: {
       permissionsPolicy: {
         fullscreen: ['self'],
