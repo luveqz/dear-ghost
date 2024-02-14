@@ -13,6 +13,9 @@
 
 .ProseMirror p:not(:first-of-type) {
   margin-top: 0.5rem;
+}
+
+.indentation-toggle .ProseMirror p:not(:first-of-type) {
   text-indent: 1.5rem;
 }
 

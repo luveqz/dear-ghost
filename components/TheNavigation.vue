@@ -64,9 +64,17 @@ const menuList: MenuList = [
       },
       {
         label: 'Sticky Title',
+        startsSection: true,
         toggleStateKey: 'stickyTitle',
         action() {
           $editor.view.stickyTitle = !$editor.view.stickyTitle
+        },
+      },
+      {
+        label: 'First-line Indent',
+        toggleStateKey: 'indent',
+        action() {
+          $editor.setShowIndent(!$editor.view.indent)
         },
       },
       {

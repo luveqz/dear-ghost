@@ -106,10 +106,11 @@ onBeforeUnmount(() => {
       v-model="data.title"
     />
 
-    <section class="grow px-5 pt-4 indent-5">
+    <section class="grow px-5 pt-4">
       <editor-content
         :editor="editor"
-        class="flex flex-col indent-0 font-medium"
+        class="flex flex-col font-medium"
+        :class="{ 'indentation-toggle': $editor.view.indent }"
       />
     </section>
   </div>

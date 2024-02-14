@@ -29,6 +29,7 @@ export const useEditorStore = defineStore('editor', {
         fileTree: false,
         actionPanel: true,
         stickyTitle: false,
+        indent: true,
       },
     }) as {
       loading: boolean
@@ -39,6 +40,7 @@ export const useEditorStore = defineStore('editor', {
         fileTree: boolean
         actionPanel: boolean
         stickyTitle: boolean
+        indent: boolean
       }
     },
 
@@ -283,15 +285,23 @@ export const useEditorStore = defineStore('editor', {
       set('show-action-panel', show)
     },
 
+    setShowIndent(show: boolean) {
+      this.view.indent = show
+      set('show-indent', show)
+    },
+
     async loadUserConfig() {
       const showFileTree = await get('show-file-tree')
       const showActionPanel = await get('show-action-panel')
       const showInstallButton = await get('show-install-button')
+      const showIndent = await get('show-indent')
 
       this.view.fileTree = showFileTree !== undefined ? showFileTree : false
 
       this.view.actionPanel =
         showActionPanel !== undefined ? showActionPanel : true
+
+      this.view.indent = showIndent !== undefined ? showIndent : true
 
       this.showInstallButton =
         showInstallButton !== undefined ? showInstallButton : true
