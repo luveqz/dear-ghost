@@ -206,8 +206,16 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
+    <!-- Modals -->
+    <BaseModal name="confirm-deletion">
+      <CloseConfirmationDialog />
+    </BaseModal>
+
+    <!-- Toast Displays -->
     <ToastDisplayError />
     <ToastDisplayUpdate />
+
+    <!-- PWA -->
     <VitePwaManifest />
   </div>
 </template>

@@ -9,7 +9,7 @@ defineProps({
 })
 
 const emit = defineEmits(['set-active-file'])
-const { $editor } = useNuxtApp()
+const { $editor, $modal } = useNuxtApp()
 
 const onRemoveFile = (file: TextFile) => {
   const fileIndex = $editor.files.findIndex((file_) => file_.id === file.id)
@@ -20,6 +20,14 @@ const onRemoveFile = (file: TextFile) => {
 
   if ($editor.files.length === 0) {
     $editor.addFile()
+  }
+}
+
+const onClose = (file: TextFile) => {
+  if (file.isSaved) {
+    onRemoveFile(file)
+  } else {
+    $modal.open('confirm-deletion', () => onRemoveFile(file))
   }
 }
 </script>
@@ -42,7 +50,7 @@ const onRemoveFile = (file: TextFile) => {
 
       <button
         class="relative flex h-4 w-4 items-center justify-center rounded-md transition-colors duration-150 hover:bg-orange-gray-900/5"
-        @click.stop="onRemoveFile(file as TextFile)"
+        @click.stop="onClose(file as TextFile)"
       >
         <div
           v-if="!file.isSaved"
