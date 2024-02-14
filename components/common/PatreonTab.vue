@@ -7,8 +7,14 @@
 
       <p class="mx-6 mt-3 text-center text-sm font-medium leading-tight">
         Become a
-        <a class="text-orange-600 font-bold" href="#">Patreon</a> and help make
-        this possible.
+        <a
+          class="font-bold text-orange-600"
+          href="https://www.patreon.com/DearGhost"
+          target="_blank"
+          rel="noreferrer"
+          >Patreon</a
+        >
+        and help make this possible.
       </p>
     </div>
   </div>
