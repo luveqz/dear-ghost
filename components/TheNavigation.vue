@@ -51,7 +51,7 @@ const menuList: MenuList = [
         shortcut: 'ctrl_shift_f',
         toggleStateKey: 'fileTree',
         action() {
-          $editor.view.fileTree = !$editor.view.fileTree
+          $editor.setShowFileTree(!$editor.view.fileTree)
         },
       },
       {
@@ -59,7 +59,7 @@ const menuList: MenuList = [
         shortcut: 'ctrl_shift_a',
         toggleStateKey: 'actionPanel',
         action() {
-          $editor.view.actionPanel = !$editor.view.actionPanel
+          $editor.setShowActionPanel(!$editor.view.actionPanel)
         },
       },
       {

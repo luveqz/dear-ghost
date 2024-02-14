@@ -142,6 +142,7 @@ onBeforeUnmount(() => {
     <TheNavigation class="w-full shrink-0" />
 
     <main
+      v-show="!$editor.loading"
       class="mr-2 flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
       :class="{
         'lg:pr-[8%]': $editor.view.fileTree && !$editor.view.actionPanel,

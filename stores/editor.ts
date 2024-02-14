@@ -21,6 +21,7 @@ export const DEFAULT_FILE: TextFile = {
 export const useEditorStore = defineStore('editor', {
   state: () =>
     ({
+      loading: true,
       files: [],
       activeFile: null,
       showInstallButton: false,
@@ -30,6 +31,7 @@ export const useEditorStore = defineStore('editor', {
         stickyTitle: false,
       },
     }) as {
+      loading: boolean
       files: TextFile[]
       activeFile: TextFile | null
       showInstallButton: boolean
@@ -209,9 +211,11 @@ export const useEditorStore = defineStore('editor', {
     },
 
     async load() {
+      await this.loadUserConfig()
+      this.loading = false
+
       this.files = await this._loadFromIndexedDB({ addDefault: true })
       await this._syncWithFileSystem()
-      await this.loadUserConfig()
       await this.focusLastActiveFile()
     },
 
@@ -264,8 +268,30 @@ export const useEditorStore = defineStore('editor', {
       set('show-install-button', showInstallButton)
     },
 
+    setShowInstallButton(show: boolean) {
+      this.showInstallButton = show
+      set('show-install-button', show)
+    },
+
+    setShowFileTree(show: boolean) {
+      this.view.fileTree = show
+      set('show-file-tree', show)
+    },
+
+    setShowActionPanel(show: boolean) {
+      this.view.actionPanel = show
+      set('show-action-panel', show)
+    },
+
     async loadUserConfig() {
+      const showFileTree = await get('show-file-tree')
+      const showActionPanel = await get('show-action-panel')
       const showInstallButton = await get('show-install-button')
+
+      this.view.fileTree = showFileTree !== undefined ? showFileTree : false
+
+      this.view.actionPanel =
+        showActionPanel !== undefined ? showActionPanel : true
 
       this.showInstallButton =
         showInstallButton !== undefined ? showInstallButton : true
