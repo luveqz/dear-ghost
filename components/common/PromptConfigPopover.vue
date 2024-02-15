@@ -112,7 +112,11 @@ watch(
               <span class="mb-1 block">Template</span>
               <InfoIcon class="text-orange-500/60" />
             </div>
-            <BaseTextarea v-model="prompt.template" class="h-48 w-full" />
+            <BaseTextarea
+              v-model="prompt.template"
+              class="h-48 w-full"
+              stop-propagation-on-scroll
+            />
           </label>
         </div>
       </section>
