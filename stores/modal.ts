@@ -3,7 +3,7 @@ import { getKeys } from '@/lib/utils/object'
 
 export const MODALS_AND_MENUS = {
   'confirm-deletion': false,
-  'lm-studio-help': false,
+  'lm-provider-setup': false,
 }
 
 export const useModalStore = defineStore({

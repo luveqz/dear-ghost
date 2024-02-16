@@ -29,7 +29,7 @@ onKeyStroke('Escape', close)
   >
     <div
       v-if="isOpen"
-      class="fixed left-0 top-0 z-20 flex h-full w-full items-center justify-center bg-black/40"
+      class="fixed left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-black/40"
       @click.self="close"
     >
       <div class="flex w-full justify-center px-4 md:px-10" @click.self="close">

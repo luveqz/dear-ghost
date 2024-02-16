@@ -211,6 +211,10 @@ onBeforeUnmount(() => {
       <CloseConfirmationDialog />
     </BaseModal>
 
+    <BaseModal name="lm-provider-setup">
+      <LMProviderSetupDialog />
+    </BaseModal>
+
     <!-- Toast Displays -->
     <ToastDisplayError />
     <ToastDisplayUpdate />
