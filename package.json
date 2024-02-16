@@ -42,6 +42,7 @@
     "@tiptap/extension-underline": "^2.1.12",
     "@tiptap/pm": "^2.1.12",
     "@tiptap/vue-3": "^2.1.12",
+    "@vueuse/components": "^10.7.2",
     "idb-keyval": "^6.2.1",
     "interactjs": "^1.10.19",
     "langchain": "^0.0.212",

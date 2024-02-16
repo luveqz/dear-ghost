@@ -113,7 +113,8 @@ export const useLLMStore = defineStore('llm', {
             configuration: {
               baseURL: $config.app.LM_STUDIO_API_BASE_URL,
             },
-            maxRetries: 2,
+            maxRetries: 1,
+            timeout: 250,
           })
 
           const stream = await lmStudio.stream(prompt, {
@@ -125,10 +126,16 @@ export const useLLMStore = defineStore('llm', {
           }
           console.log(stream)
         } catch (error) {
-          if ((error as Error).message === 'Connection error.') {
+          if (
+            ['Connection error.', 'Request timed out.'].includes(
+              (error as Error).message,
+            )
+          ) {
             useToast({
               message: 'Seems like LM Studio’s server is not running.',
               duration: 6,
+              seeMoreModalId: 'lm-studio-help',
+              ctaText: 'Install',
               icon: 'unplug',
             })
           } else {

@@ -3,7 +3,7 @@ import { useToast } from '@/componsables/toast'
 import WarningIcon from '@/components/icons/WarningIcon.vue'
 import UnplugIcon from '@/components/icons/UnplugIcon.vue'
 
-const { message, icon } = useToast()
+const { message, icon, seeMoreModalId, ctaText } = useToast()
 
 const ICONS = {
   unplug: UnplugIcon,
@@ -22,18 +22,25 @@ const ICONS = {
   >
     <div
       v-if="message"
-      class="fixed bottom-16 z-50 mx-auto mt-7 flex justify-center"
+      class="fixed bottom-16 z-30 mx-auto mt-7 flex justify-center"
     >
       <div
-        class="mx-auto flex max-w-[30rem] items-center gap-x-2 rounded bg-[#E7CECE] px-2.5 py-2.5 text-[#7B0909]"
+        class="mx-auto flex max-w-[30rem] items-center gap-x-2 rounded bg-[#e4cccc] px-2.5 py-2.5 text-[#7B0909]"
       >
         <span
-          class="flex items-center justify-center rounded bg-[#B67474] p-1 text-[#E7CECE]"
+          class="flex items-center justify-center rounded bg-[#B67474] p-1 text-[#e4cccc]"
         >
           <component :is="ICONS[icon]" />
         </span>
 
-        {{ message }}
+        <p class="leading-4"> {{ message }} </p>
+
+        <button
+          v-if="seeMoreModalId"
+          class="rounded border border-[#7B0909] border-opacity-20 px-2 py-1.5 text-sm leading-4"
+          @click="$modal.open(seeMoreModalId)"
+          >{{ ctaText }}</button
+        >
       </div>
     </div>
   </transition>
