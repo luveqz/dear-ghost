@@ -203,7 +203,17 @@ export const useLLMStore = defineStore('llm', {
             insertChunk(chunk)
           }
         } catch (error) {
-          console.error(error)
+          if (['Failed to fetch'].includes((error as Error).message)) {
+            useToast({
+              message: 'Seems like Ollama is not running.',
+              duration: 6,
+              seeMoreModalId: 'lm-provider-setup',
+              ctaText: 'Install',
+              icon: 'unplug',
+            })
+          } else {
+            useToast({ message: 'Connection error.' })
+          }
         }
       }
 

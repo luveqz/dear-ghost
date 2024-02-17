@@ -55,7 +55,7 @@ const selectedProvider = ref(providers[0])
         <li>Download and install Ollama.</li>
         <li>Open a terminal and run:</li>
 
-        <BaseSnippet code="ollama serve" />
+        <BaseSnippet code="OLLAMA_ORIGINS=*.dearghost.co ollama serve" />
 
         <li>In a different terminal, download your model:</li>
 
