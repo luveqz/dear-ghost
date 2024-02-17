@@ -26,14 +26,17 @@ const onRunPrompt = async (prompt: Prompt) => {
   }
 
   // 2. Call LLM provider.
+  const isSaved = activeFile.value.isSaved
   originEditor.setEditable(false)
+  activeFile.value.isSaved = isSaved
+
   await $llm.send({
     prompt: parsedPrompt,
     provider: prompt.providerId,
     model: prompt.modelId,
     controller,
     insertChunk(chunk) {
-      // 4. Show response.
+      // 3. Insert response chunk.
       const selection = originEditor.state.selection
       if (prompt.responseMode === ResponseMode.InsertBelow) {
         originEditor
@@ -65,7 +68,10 @@ const onRunPrompt = async (prompt: Prompt) => {
       }
     },
   })
+
+  const wasSaved = activeFile.value.isSaved
   originEditor.setEditable(true)
+  activeFile.value.isSaved = wasSaved
 }
 
 const layoutStyle = computed(() => {
