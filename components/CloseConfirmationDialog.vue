@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const { $modal } = useNuxtApp()
+
+const onClose = () => {
+  $modal.callback()
+  $modal.close('confirm-deletion')
+}
+</script>
+
 <template>
   <div class="rounded bg-white p-5 text-sm">
     <p class="mb-3 text-lg font-bold leading-4">Unsaved changes</p>
@@ -6,15 +15,7 @@
     >
 
     <div class="mt-6 flex justify-end gap-2.5">
-      <button
-        class="px-4 py-1.5 leading-4 text-orange-700"
-        @click="
-          () => {
-            $modal.callback()
-            $modal.close('confirm-deletion')
-          }
-        "
-      >
+      <button class="px-4 py-1.5 leading-4 text-orange-700" @click="onClose">
         Yes, close file
       </button>
       <button

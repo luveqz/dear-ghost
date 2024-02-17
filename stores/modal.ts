@@ -20,12 +20,12 @@ export const useModalStore = defineStore({
     open(modal: keyof typeof MODALS_AND_MENUS, callback?: () => any) {
       this[modal] = true
 
+      for (const _modal of getKeys(MODALS_AND_MENUS))
+        if (_modal !== modal) this.close(_modal)
+
       if (callback) {
         this.callback = callback
       }
-
-      for (const _modal of getKeys(MODALS_AND_MENUS))
-        if (_modal !== modal) this.close(_modal)
     },
 
     close(modal: keyof typeof MODALS_AND_MENUS) {
