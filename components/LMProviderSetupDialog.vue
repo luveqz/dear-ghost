@@ -2,18 +2,18 @@
 const providers = [
   {
     id: 0,
-    label: 'Ollama',
+    label: 'LM Studio',
   },
   {
     id: 1,
-    label: 'LM Studio',
+    label: 'Ollama',
   },
 ]
 const selectedProvider = ref(providers[0])
 </script>
 
 <template>
-  <div class="max-w-[28.5rem] rounded bg-white p-12 leading-[140%]">
+  <div class="max-w-[32.5rem] rounded bg-white p-12 text-sm-2 leading-[140%]">
     <p class="mb-4 text-2xl font-bold">Almost there!</p>
 
     <p>
@@ -24,24 +24,24 @@ const selectedProvider = ref(providers[0])
       <li>
         <a
           class="text-blue-600"
-          href="https://ollama.com"
-          target="_blank"
-          rel="no-referrer"
-        >
-          Ollama</a
-        >
-        (recommended)</li
-      >
-      <li>
-        or
-        <a
-          class="text-blue-600"
           href="https://lmstudio.ai"
           target="_blank"
           rel="no-referrer"
         >
-          LM Studio</a
+          LM Studio
+        </a>
+        (recommended)
+      </li>
+      <li>
+        or
+        <a
+          class="text-blue-600"
+          href="https://ollama.com"
+          target="_blank"
+          rel="no-referrer"
         >
+          Ollama
+        </a>
       </li>
     </ul>
 
