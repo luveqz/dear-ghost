@@ -84,15 +84,15 @@ watch(
         <!-- First Line -->
         <div class="flex gap-4">
           <div class="w-full">
-            <label class="text-xs font-bold">
-              <span class="mb-1 block">Main label</span>
+            <div class="text-xs font-bold">
+              <label class="mb-1 block">Main label</label>
               <BaseInput v-model="prompt.mainLabel" class="w-full" />
-            </label>
+            </div>
           </div>
 
           <div>
-            <label class="mb-1 text-xs font-bold">
-              <span class="mb-1 block">Icon</span>
+            <div class="mb-1 text-xs font-bold">
+              <label class="mb-1 block">Icon</label>
 
               <div
                 class="flex h-10 w-10 items-center justify-center rounded border border-blue-gray-200 bg-white"
@@ -102,15 +102,15 @@ watch(
                   class="h-4 w-4"
                 />
               </div>
-            </label>
+            </div>
           </div>
         </div>
 
         <!-- Second Line -->
         <div>
-          <label class="mb-1 text-xs font-bold">
+          <div class="mb-1 text-xs font-bold">
             <div class="flex items-center justify-between">
-              <span class="mb-1 block">Template</span>
+              <label class="mb-1 block">Template</label>
               <InfoIcon class="text-orange-500/60" />
             </div>
             <BaseTextarea
@@ -118,7 +118,7 @@ watch(
               class="h-48 w-full"
               stop-propagation-on-scroll
             />
-          </label>
+          </div>
         </div>
       </section>
 
@@ -129,26 +129,26 @@ watch(
       >
         <!-- First Line -->
         <div class="w-full">
-          <label class="text-xs font-bold">
-            <span class="mb-1 block">Secondary label</span>
+          <div class="text-xs font-bold">
+            <label class="mb-1 block">Secondary label</label>
             <BaseInput v-model="prompt.secondaryLabel" class="w-full" />
-          </label>
+          </div>
         </div>
 
         <!-- Second Line -->
         <div class="w-full">
-          <label class="text-xs font-bold">
-            <span class="mb-1 block">Group name</span>
+          <div class="text-xs font-bold">
+            <label class="mb-1 block">Group name</label>
             <BaseInput v-model="_groupName" class="w-full" />
-          </label>
+          </div>
         </div>
 
         <!-- Third Line -->
         <div class="flex gap-4">
           <div class="w-1/2 grow">
-            <label class="text-xs font-bold">
+            <div class="text-xs font-bold">
               <div class="flex items-center justify-between">
-                <span class="mb-1 block">Provider</span>
+                <label class="mb-1 block">Provider</label>
                 <InfoIcon class="text-orange-500/60" />
               </div>
               <BaseSelect
@@ -157,13 +157,13 @@ watch(
                 @update:model-value="onUpdateProvider"
                 class="w-full"
               />
-            </label>
+            </div>
           </div>
 
           <div v-if="selectedModel" class="w-1/2 grow">
-            <label class="text-xs font-bold">
+            <div class="text-xs font-bold">
               <div class="flex items-center justify-between">
-                <span class="mb-1 block">Model</span>
+                <label class="mb-1 block">Model</label>
               </div>
               <BaseSelect
                 v-model="selectedModel"
@@ -171,15 +171,15 @@ watch(
                 @update:model-value="(option) => (prompt.modelId = option.id)"
                 class="w-full"
               />
-            </label>
+            </div>
           </div>
         </div>
 
         <!-- Fourth Line -->
         <div>
-          <label class="text-xs font-bold">
+          <div class="text-xs font-bold">
             <div class="flex items-center justify-between">
-              <span class="mb-1 block">Response</span>
+              <label class="mb-1 block">Response</label>
               <InfoIcon class="text-orange-500/60" />
             </div>
             <BaseSelect
@@ -190,7 +190,7 @@ watch(
               "
               class="w-full"
             />
-          </label>
+          </div>
         </div>
       </section>
     </div>
