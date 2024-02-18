@@ -134,7 +134,7 @@ export const useLLMStore = defineStore('llm', {
             useToast({
               message: 'Seems like LM Studio’s server is not running.',
               duration: 6,
-              seeMoreModalId: 'lm-provider-setup',
+              seeMoreModalId: 'setup-llm-provider',
               ctaText: 'Install',
               icon: 'unplug',
             })
@@ -207,7 +207,7 @@ export const useLLMStore = defineStore('llm', {
             useToast({
               message: 'Seems like Ollama is not running.',
               duration: 6,
-              seeMoreModalId: 'lm-provider-setup',
+              seeMoreModalId: 'setup-llm-provider',
               ctaText: 'Install',
               icon: 'unplug',
             })

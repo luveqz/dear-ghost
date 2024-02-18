@@ -213,12 +213,16 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Modals -->
-    <BaseModal name="confirm-deletion">
-      <CloseConfirmationDialog />
+    <BaseModal name="confirm-close-file">
+      <ConfirmCloseFileDialog />
     </BaseModal>
 
-    <BaseModal name="lm-provider-setup">
-      <LMProviderSetupDialog />
+    <BaseModal name="confirm-remove-prompt">
+      <ConfirmRemovePromptDialog />
+    </BaseModal>
+
+    <BaseModal name="setup-llm-provider">
+      <SetupLLMProviderDialog />
     </BaseModal>
 
     <!-- Toast Displays -->

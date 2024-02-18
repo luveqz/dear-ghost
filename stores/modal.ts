@@ -2,8 +2,9 @@ import { defineStore } from 'pinia'
 import { getKeys } from '@/lib/utils/object'
 
 export const MODALS_AND_MENUS = {
-  'confirm-deletion': false,
-  'lm-provider-setup': false,
+  'confirm-remove-prompt': false,
+  'confirm-close-file': false,
+  'setup-llm-provider': false,
 }
 
 export const useModalStore = defineStore({

@@ -206,7 +206,11 @@ watch(
       <button
         v-show="showAdvanced"
         class="text-xs font-semibold text-[#BB6677]"
-        @click="$library.removePrompt(prompt)"
+        @click="
+          $modal.open('confirm-remove-prompt', () =>
+            $library.removePrompt(prompt),
+          )
+        "
       >
         Delete
       </button>

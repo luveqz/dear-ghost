@@ -27,7 +27,7 @@ const onClose = (file: TextFile) => {
   if (file.isSaved) {
     onRemoveFile(file)
   } else {
-    $modal.open('confirm-deletion', () => onRemoveFile(file))
+    $modal.open('confirm-close-file', () => onRemoveFile(file))
   }
 }
 </script>
