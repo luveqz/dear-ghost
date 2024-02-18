@@ -62,6 +62,7 @@ watch(
     if (isOpen) {
       showAdvanced.value = false
       _groupName.value = props.prompt.groupName
+      onUpdateProvider(selectedProvider.value)
     } else {
       props.prompt.groupName = _groupName.value
     }
