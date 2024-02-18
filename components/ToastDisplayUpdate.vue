@@ -16,7 +16,7 @@ const dismissed = ref(false)
       class="fixed bottom-16 right-16 z-50 mt-7 flex justify-end"
     >
       <div class="overflow-hidden rounded border border-black/15 bg-white">
-        <div class="bg-orange-gray-900/5 p-4 text-sm">
+        <div class="bg-orange-gray-900/5 p-4 text-sm-2">
           <p>Updates available.</p>
 
           <div class="mt-2.5 flex gap-2.5">

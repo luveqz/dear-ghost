@@ -8,7 +8,7 @@ const onClose = () => {
 </script>
 
 <template>
-  <div class="rounded bg-white p-5 text-sm">
+  <div class="rounded bg-white p-5 text-sm-2">
     <p class="mb-3 text-lg font-bold leading-4">Unsaved changes</p>
     <p class="font-medium leading-4"
       >You will lose them. Do you want to continue?</p

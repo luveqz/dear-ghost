@@ -42,6 +42,7 @@ module.exports = {
       },
       fontSize: {
         xxs: '0.688rem',
+        'sm-2': '0.938rem',
       },
       width: {
         page: '33.125rem',
