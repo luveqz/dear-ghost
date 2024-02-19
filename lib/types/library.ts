@@ -1,4 +1,4 @@
-import { PROMPT_ICON_CATALOG } from '@/stores/library'
+import { PROMPT_ICON_CATALOG } from '@/lib/utils/library'
 import { PROVIDERS } from '@/stores/llm'
 
 export enum ResponseMode {

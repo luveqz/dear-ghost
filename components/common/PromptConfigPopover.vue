@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { type Prompt, ResponseModeLabels } from '@/lib/types/library'
-import { PROMPT_ICON_CATALOG } from '@/stores/library'
+import { PROMPT_ICON_CATALOG } from '@/lib/utils/library'
+
 import { PROVIDERS } from '@/stores/llm'
 
 const props = defineProps({
@@ -16,6 +17,7 @@ const props = defineProps({
 
 const _groupName = ref(props.prompt.groupName)
 const showAdvanced = ref(false)
+const showIcons = ref(false)
 
 const selectedResponseMode = ref({
   id: props.prompt.responseMode,
@@ -61,6 +63,7 @@ watch(
   (isOpen) => {
     if (isOpen) {
       showAdvanced.value = false
+      showIcons.value = false
       _groupName.value = props.prompt.groupName
       onUpdateProvider(selectedProvider.value)
     } else {
@@ -68,6 +71,21 @@ watch(
     }
   },
 )
+
+const icons = Object.entries(PROMPT_ICON_CATALOG)
+const ICONS_PER_PAGE = 30
+
+const { currentPage, isFirstPage, isLastPage, prev, next, currentPageSize } =
+  useOffsetPagination({
+    total: icons.length,
+    page: 1,
+    pageSize: ICONS_PER_PAGE,
+  })
+
+const paginatedIcons = computed(() => {
+  const offset = ICONS_PER_PAGE * (currentPage.value - 1)
+  return icons.slice(offset, offset + ICONS_PER_PAGE)
+})
 </script>
 
 <template>
@@ -79,7 +97,7 @@ watch(
       <!-- General Options -->
       <section
         class="flex w-full shrink-0 flex-col gap-y-3"
-        :class="{ 'invisible order-1 opacity-0': showAdvanced }"
+        :class="{ 'invisible order-1 opacity-0': showAdvanced || showIcons }"
       >
         <!-- First Line -->
         <div class="flex gap-4">
@@ -95,11 +113,12 @@ watch(
               <label class="mb-1 block">Icon</label>
 
               <div
-                class="flex h-10 w-10 items-center justify-center rounded border border-blue-gray-200 bg-white"
+                class="flex h-10 w-10 cursor-pointer items-center justify-center rounded border border-blue-gray-200 bg-white"
+                @click="showIcons = true"
               >
                 <component
                   :is="PROMPT_ICON_CATALOG[prompt.iconName]"
-                  class="h-4 w-4"
+                  class="h-4"
                 />
               </div>
             </div>
@@ -125,7 +144,7 @@ watch(
       <!-- Advanced Options -->
       <section
         class="flex w-full shrink-0 flex-col gap-y-3"
-        :class="{ 'invisible order-1 opacity-0': !showAdvanced }"
+        :class="{ 'invisible order-1 opacity-0': !showAdvanced || showIcons }"
       >
         <!-- First Line -->
         <div class="w-full">
@@ -193,9 +212,34 @@ watch(
           </div>
         </div>
       </section>
+
+      <!-- Icons -->
+      <section
+        class="w-full shrink-0"
+        :class="{ 'invisible order-1 opacity-0': !showIcons }"
+      >
+        <label class="mb-1 block text-xs font-bold">Select icon</label>
+
+        <div class="flex flex-wrap gap-2">
+          <div
+            v-for="[name, icon] in paginatedIcons"
+            :key="name"
+            class="flex h-10 w-10 cursor-pointer items-center justify-center rounded border border-blue-gray-200 bg-white"
+            @click="
+              () => {
+                prompt.iconName = name as any
+                showIcons = false
+              }
+            "
+          >
+            <component :is="icon" class="h-4 w-4" />
+          </div>
+        </div>
+      </section>
     </div>
 
-    <div class="flex flex-row-reverse justify-between">
+    <!-- Base Navigation -->
+    <nav v-if="!showIcons" class="flex flex-row-reverse justify-between">
       <button
         class="text-xs font-semibold underline"
         @click="showAdvanced = !showAdvanced"
@@ -214,6 +258,30 @@ watch(
       >
         Delete
       </button>
-    </div>
+    </nav>
+
+    <!-- Icon Navigation -->
+    <nav v-else class="flex justify-between">
+      <button class="text-xs font-semibold" @click="showIcons = false">
+        Back to settings
+      </button>
+
+      <div class="flex gap-x-3">
+        <button
+          class="text-xs font-semibold underline"
+          :class="{ 'cursor-auto opacity-50': isFirstPage }"
+          @click="prev"
+        >
+          Prev
+        </button>
+        <button
+          class="text-xs font-semibold underline"
+          :class="{ 'cursor-auto opacity-50': isLastPage }"
+          @click="next"
+        >
+          Next
+        </button>
+      </div>
+    </nav>
   </section>
 </template>

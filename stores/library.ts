@@ -7,13 +7,6 @@ import { DEFAULT_PROMPTS } from '@/lib/data/default-prompts'
 import { LLMProvider } from '@/stores/llm'
 import { makeId } from '@/lib/utils/random'
 import { deepCopy } from '@/lib/utils/copy'
-import DialogIcon from '@/components/icons/DialogIcon.vue'
-import HistoryIcon from '@/components/icons/HistoryIcon.vue'
-import SparkIcon from '@/components/icons/SparkIcon.vue'
-import TextIcon from '@/components/icons/TextIcon.vue'
-import EyeIcon from '@/components/icons/EyeIcon.vue'
-import SandClockIcon from '@/components/icons/SandClockIcon.vue'
-import BoltIcon from '@/components/icons/BoltIcon.vue'
 
 export const DEFAULT_PROMPT: Prompt = {
   id: 0,
@@ -28,16 +21,6 @@ export const DEFAULT_PROMPT: Prompt = {
 }
 
 const LIBRARY_STORAGE_KEY = 'library-storage'
-
-export const PROMPT_ICON_CATALOG = {
-  DialogIcon,
-  HistoryIcon,
-  SparkIcon,
-  TextIcon,
-  EyeIcon,
-  SandClockIcon,
-  BoltIcon,
-}
 
 export const useLibraryStore = defineStore('library', {
   state: () =>
