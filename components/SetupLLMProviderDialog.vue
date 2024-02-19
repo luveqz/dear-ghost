@@ -17,8 +17,8 @@ const selectedProvider = ref(providers[0])
     <p class="mb-4 text-2xl font-bold">Almost there!</p>
 
     <p>
-      In order to run prompts, Dear Ghost needs you to have one of these tools
-      installed and running:
+      In order to run prompts, Dear Ghost needs you to have one of these local
+      LLM providers installed and running:
     </p>
     <ul class="list-disc pl-5 pt-4">
       <li>

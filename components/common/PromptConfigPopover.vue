@@ -168,7 +168,10 @@ const paginatedIcons = computed(() => {
             <div class="text-xs font-bold">
               <div class="flex items-center justify-between">
                 <label class="mb-1 block">Provider</label>
-                <InfoIcon class="text-orange-500/60" />
+                <InfoIcon
+                  class="cursor-pointer text-orange-500/60"
+                  @click="$modal.open('setup-llm-provider')"
+                />
               </div>
               <BaseSelect
                 v-model="selectedProvider"
@@ -197,10 +200,7 @@ const paginatedIcons = computed(() => {
         <!-- Fourth Line -->
         <div>
           <div class="text-xs font-bold">
-            <div class="flex items-center justify-between">
-              <label class="mb-1 block">Response</label>
-              <InfoIcon class="text-orange-500/60" />
-            </div>
+            <label class="mb-1 block">Response mode</label>
             <BaseSelect
               v-model="selectedResponseMode"
               :options="responseModes"
