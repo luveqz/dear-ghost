@@ -7,8 +7,8 @@ export enum ResponseMode {
 }
 
 export const ResponseModeLabels = {
-  [ResponseMode.InsertBelow]: 'Insert Below',
-  [ResponseMode.ReplaceSelection]: 'Replace Selection',
+  [ResponseMode.InsertBelow]: 'Insert below selection ',
+  [ResponseMode.ReplaceSelection]: 'Replace selection',
 }
 
 export type Prompt = {

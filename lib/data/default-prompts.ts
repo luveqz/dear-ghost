@@ -64,7 +64,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
   },
   {
     id: 5,
-    mainLabel: 'Raw Query',
+    mainLabel: 'Raw Prompt',
     secondaryLabel: 'Ctrl + Enter',
     iconName: 'BoltIcon',
     template: '{{ SELECTED_TEXT }}',
