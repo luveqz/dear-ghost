@@ -48,6 +48,9 @@ module.exports = {
         page: '33.125rem',
         'action-panel-popover': '21.25rem',
       },
+      fontFamily: {
+        nunito: ['Nunito', 'sans-serif'],
+      },
     },
   },
 
