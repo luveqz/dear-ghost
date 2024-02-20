@@ -130,7 +130,10 @@ const paginatedIcons = computed(() => {
           <div class="mb-1 text-xs font-bold">
             <div class="flex items-center justify-between">
               <label class="mb-1 block">Template</label>
-              <InfoIcon class="text-orange-500/60" />
+              <InfoIcon
+                class="cursor-pointer text-orange-500/60"
+                @click="$modal.open('template-info')"
+              />
             </div>
             <BaseTextarea
               v-model="prompt.template"

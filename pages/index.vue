@@ -225,6 +225,10 @@ onBeforeUnmount(() => {
       <SetupLLMProviderDialog />
     </BaseModal>
 
+    <BaseModal name="template-info">
+      <TemplateInfoDialog />
+    </BaseModal>
+
     <!-- Toast Displays -->
     <ToastDisplayError />
     <ToastDisplayUpdate />

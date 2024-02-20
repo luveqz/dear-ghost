@@ -5,6 +5,7 @@ export const MODALS_AND_MENUS = {
   'confirm-remove-prompt': false,
   'confirm-close-file': false,
   'setup-llm-provider': false,
+  'template-info': false,
 }
 
 export const useModalStore = defineStore({
