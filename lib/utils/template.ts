@@ -16,14 +16,14 @@ export class TemplateParser {
   parseTemplate(template: string) {
     let parsed = template
     const variables = {
-      SELECTED_TEXT: this.getSelectedText.bind(this),
+      selected_text: this.getSelectedText.bind(this),
     }
 
     Object.entries(variables).forEach(([variable, getter]) => {
       const value = getter()
       const variableRegex = new RegExp(`{{\\s*${variable}\\s*}}`)
 
-      if (variable === 'SELECTED_TEXT' && !value) {
+      if (variable === 'selected_text' && !value) {
         useToast({ message: 'Please select text.' })
         this.errors = true
         return

@@ -10,7 +10,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: `
       Suggest 3 unexpected turning points in which all the characters will have to start an ironic journey:  
 
-{{ SELECTED_TEXT }}
+{{ selected_text }}
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
@@ -25,7 +25,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: `
       Rewrite the following dialog to make characters awkward:  
 
-{{ SELECTED_TEXT }}
+{{ selected_text }}
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
@@ -40,7 +40,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: `
       Rewrite many times the following text, each time using a different point of view:  
 
-{{ SELECTED_TEXT }}
+{{ selected_text }}
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
@@ -55,7 +55,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     template: `
       Rewrite many times the following text, each time using a different tense:  
 
-{{ SELECTED_TEXT }}
+{{ selected_text }}
     `.trim(),
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
@@ -67,7 +67,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     mainLabel: 'Raw Prompt',
     secondaryLabel: 'Ctrl + Enter',
     iconName: 'BoltIcon',
-    template: '{{ SELECTED_TEXT }}',
+    template: '{{ selected_text }}',
     responseMode: ResponseMode.InsertBelow,
     groupName: 'Other',
     providerId: LLMProvider.LMStudio,

@@ -13,7 +13,7 @@ export const DEFAULT_PROMPT: Prompt = {
   mainLabel: 'New Prompt',
   secondaryLabel: 'Generate',
   iconName: 'SparkIcon',
-  template: '{{ SELECTED_TEXT }}',
+  template: '{{ selected_text }}',
   responseMode: ResponseMode.InsertBelow,
   groupName: 'Other',
   providerId: LLMProvider.LMStudio,
