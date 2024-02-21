@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "cy:open": "cypress open",
+    "cy:bs": "browserstack-cypress run"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -19,6 +21,8 @@
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
     "autoprefixer": "^10.4.16",
+    "browserstack-cypress-cli": "^1.28.1",
+    "cypress": "^13.6.5",
     "nuxt": "^3.9.3",
     "nuxt-security": "^1.1.0",
     "postcss": "^8.4.33",

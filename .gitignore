@@ -12,6 +12,8 @@ node_modules
 # Logs
 logs
 *.log
+log
+results
 
 # Misc
 .DS_Store
@@ -25,3 +27,6 @@ logs
 
 # Lock files
 yarn.lock
+
+# Secrets
+browserstack.json

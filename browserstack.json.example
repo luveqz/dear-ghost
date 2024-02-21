@@ -1,0 +1,29 @@
+{
+  "auth": {
+    "username": "",
+    "access_key": ""
+  },
+  "browsers": [
+    {
+      "browser": "chrome",
+      "os": "OS X Catalina",
+      "versions": [
+        "latest"
+      ]
+    }
+  ],
+  "run_settings": {
+    "cypress_config_file": "./cypress.config.mjs",
+    "project_name": "dear-ghost",
+    "build_name": "build:",
+    "parallels": "2",
+    "headless": true
+  },
+  "connection_settings": {
+    "local": true,
+    "local_mode": "always-on",
+    "local_identifier": null,
+    "local_config_file": null
+  },
+  "disable_usage_reporting": false
+}
