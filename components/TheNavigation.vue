@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useFullscreen } from '@vueuse/core'
+import { useFileSystemAccess } from '@vueuse/core'
 import startCase from 'lodash/startCase'
 
 const { toggle: toggleFullScreen, isFullscreen } = useFullscreen()
-
+const { isSupported: supportsFileSystemAccess } = useFileSystemAccess()
 const { $editor } = useNuxtApp()
 
 type MenuList = {
@@ -15,10 +16,13 @@ type MenuList = {
 type Submenu = {
   label: string
   shortcut?: string
+  disabled?: Ref<boolean>
   toggleStateKey?: keyof typeof $editor.view
   startsSection?: boolean
   action(): void
 }[]
+
+const lacksFileSystemAccess = computed(() => !supportsFileSystemAccess.value)
 
 const menuList: MenuList = [
   {
@@ -26,6 +30,7 @@ const menuList: MenuList = [
     submenu: [
       {
         label: 'Open',
+        disabled: lacksFileSystemAccess,
         shortcut: 'ctrl_o',
         action: $editor.openFile,
       },
@@ -36,6 +41,7 @@ const menuList: MenuList = [
       },
       {
         label: 'Save',
+        disabled: lacksFileSystemAccess,
         shortcut: 'ctrl_s',
         action() {
           $editor.save({ toFileSystem: true })
@@ -180,11 +186,17 @@ const formatShortcut = (shortcut: string) => {
                     <div v-else class="w-2.5 opacity-60"> - </div>
                   </template>
 
-                  {{ submenu.label }}
+                  <span :class="{ 'opacity-55': submenu.disabled?.value }">{{
+                    submenu.label
+                  }}</span>
                 </span>
 
                 <span v-if="submenu.shortcut" class="text-xs opacity-60">
-                  {{ formatShortcut(submenu.shortcut) }}
+                  {{
+                    submenu.disabled?.value
+                      ? '-'
+                      : formatShortcut(submenu.shortcut)
+                  }}
                 </span>
               </MenuItem>
             </template>

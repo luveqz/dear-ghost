@@ -6,6 +6,7 @@ import { useToast } from '@/componsables/toast'
 import { deepCopy } from '@/lib/utils/copy'
 import { makeId } from '@/lib/utils/random'
 import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
+import { useFileSystemAccess } from '@vueuse/core'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -95,6 +96,17 @@ export const useEditorStore = defineStore('editor', {
         if (message === 'The user aborted a request.') {
           return
         }
+        const { isSupported } = useFileSystemAccess()
+
+        if (!isSupported.value) {
+          useToast({
+            message:
+              "Your browser doesn't support this action. Try an updated Google Chrome.",
+            duration: 5,
+          })
+          return
+        }
+
         useToast({ message: 'Could not open file.' })
       }
     },
@@ -142,6 +154,17 @@ export const useEditorStore = defineStore('editor', {
           this.activeFile.handle = newHandle
           this._saveToIndexedDB({ isSaved: true })
         } catch (err) {
+          const { isSupported } = useFileSystemAccess()
+
+          if (!isSupported.value) {
+            useToast({
+              message:
+                "Your browser doesn't support this action. Try an updated Google Chrome.",
+              duration: 5,
+            })
+            return
+          }
+
           useToast({ message: 'Could not save file.' })
         }
 
@@ -161,6 +184,17 @@ export const useEditorStore = defineStore('editor', {
         this._saveToIndexedDB({ isSaved: true })
         return
       } else {
+        const { isSupported } = useFileSystemAccess()
+
+        if (!isSupported.value) {
+          useToast({
+            message:
+              "Your browser doesn't support this action. Try an updated Google Chrome.",
+            duration: 5,
+          })
+          return
+        }
+
         useToast({ message: 'Could not save file.' })
       }
     },
