@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   },
 
   pwa: {
-    base: process.env.NODE_ENV === 'development' ? '/app/' : '/',
+    base: process.env.NODE_ENV !== 'development' ? '/app/' : '/',
     manifest: {
       display: 'fullscreen',
       name: 'Dear Ghost',
@@ -51,7 +51,7 @@ export default defineNuxtConfig({
       periodicSyncForUpdates:
         process.env.NODE_ENV === 'development' ? 20 : 3600 * 4,
     },
-    scope: process.env.NODE_ENV === 'development' ? '/app/' : '/',
+    scope: process.env.NODE_ENV !== 'development' ? '/app/' : '/',
     workbox: {
       globPatterns: ['**/*'],
     },
