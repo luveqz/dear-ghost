@@ -38,7 +38,7 @@ module.exports = {
       spacing: {
         'sticky-widget': '2rem',
         0.25: '0.188rem',
-        'action-panel': '20rem',
+        'action-panel': '17.5rem',
       },
       fontSize: {
         xxs: '0.688rem',

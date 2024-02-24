@@ -19,7 +19,7 @@ watch($library, debouncedSaveAll)
 </script>
 
 <template>
-  <TabGroup as="div" class="flex flex-col px-10">
+  <TabGroup as="div" class="flex flex-col pl-10">
     <TabList class="relative flex justify-between text-xs font-semibold">
       <BaseTab label="Prompts">
         <SparkIcon />

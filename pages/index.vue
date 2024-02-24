@@ -77,7 +77,7 @@ const onRunPrompt = async (prompt: Prompt) => {
 const layoutStyle = computed(() => {
   return {
     'grid-template-columns': `${
-      $editor.view.actionPanel ? '[action-panel] 20rem' : ''
+      $editor.view.actionPanel ? '[action-panel] 17.5rem' : ''
     }  [editor] 33.125rem ${$editor.view.fileTree ? '[file-tree] 15rem' : ''}`,
   }
 })
