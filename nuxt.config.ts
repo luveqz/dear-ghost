@@ -47,6 +47,7 @@ export default defineNuxtConfig({
       ],
     },
     client: {
+      installPrompt: true,
       periodicSyncForUpdates:
         process.env.NODE_ENV === 'development' ? 20 : 3600 * 4,
     },

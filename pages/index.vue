@@ -234,7 +234,7 @@ onBeforeUnmount(() => {
     <ToastDisplayUpdate />
 
     <!-- PWA -->
-    <VitePwaManifest />
+    <NuxtPwaManifest />
   </div>
 </template>
 
