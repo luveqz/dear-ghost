@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
       <div class="grid-template justify-end" :style="layoutStyle">
         <FileTreeWidget
           v-if="$editor.view.fileTree"
-          class="sticky top-sticky-widget mt-sticky-widget h-[calc(100vh_-_4rem_-_2.6rem)] shrink-0 pr-16"
+          class="sticky top-sticky-widget mt-sticky-widget h-[calc(100vh_-_4rem_-_2.6rem)] shrink-0 pr-10"
           :active-file="activeFile"
           @set-active-file="$editor.setActiveFile"
           style="grid-area: file-tree; direction: ltr"
