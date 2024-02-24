@@ -6,6 +6,7 @@ import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { llamaCpp } from '@/lib/utils/llamacpp'
 import { useToast } from '@/componsables/toast'
+import { useStatusBarMessage } from '@/componsables/status-bar'
 
 export enum LLMProvider {
   OpenAI,
@@ -94,6 +95,10 @@ export const useLLMStore = defineStore('llm', {
       insertChunk,
     }: SendParams) {
       this.running = true
+      const { resetStatusBarMessage } = useStatusBarMessage({
+        message: 'Running model...',
+        manualReset: true,
+      })
 
       const { $config } = useNuxtApp()
       controller.value = new AbortController()
@@ -218,6 +223,7 @@ export const useLLMStore = defineStore('llm', {
       }
 
       this.running = false
+      resetStatusBarMessage()
     },
   },
 })

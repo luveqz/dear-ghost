@@ -7,6 +7,7 @@ import { deepCopy } from '@/lib/utils/copy'
 import { makeId } from '@/lib/utils/random'
 import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
 import { useFileSystemAccess } from '@vueuse/core'
+import { useStatusBarMessage } from '@/componsables/status-bar'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -153,6 +154,9 @@ export const useEditorStore = defineStore('editor', {
           this.activeFile.data.title = newHandle.name
           this.activeFile.handle = newHandle
           this._saveToIndexedDB({ isSaved: true })
+
+          useStatusBarMessage({ message: 'File saved.' })
+          return
         } catch (err) {
           const { isSupported } = useFileSystemAccess()
 
@@ -167,8 +171,6 @@ export const useEditorStore = defineStore('editor', {
 
           useToast({ message: 'Could not save file.' })
         }
-
-        return
       }
 
       // Saved file.
@@ -182,6 +184,8 @@ export const useEditorStore = defineStore('editor', {
         await writable.close()
 
         this._saveToIndexedDB({ isSaved: true })
+
+        useStatusBarMessage({ message: 'File saved.' })
         return
       } else {
         const { isSupported } = useFileSystemAccess()
