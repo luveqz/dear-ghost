@@ -6,9 +6,9 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     id: 1,
     mainLabel: 'Ironic Turning Points',
     secondaryLabel: 'Think of',
-    iconName: 'TextIcon',
+    iconName: 'StepsIcon',
     template: `
-      Suggest 3 unexpected turning points in which all the characters will have to start an ironic journey:  
+      Suggest 3 unexpected turning points for this story:  
 
 {{ selected_text }}
     `.trim(),
@@ -21,7 +21,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     id: 2,
     mainLabel: 'Awkward Dialog',
     secondaryLabel: 'Turn into',
-    iconName: 'DialogIcon',
+    iconName: 'CouchIcon',
     template: `
       Rewrite the following dialog to make characters awkward:  
 
