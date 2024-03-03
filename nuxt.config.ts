@@ -12,7 +12,18 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-security', '@vite-pwa/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-security',
+    '@vite-pwa/nuxt',
+    '@nuxtjs/plausible',
+  ],
+
+  plausible: {
+    // Prevent tracking on localhost
+    ignoredHostnames: ['localhost'],
+  },
 
   nitro: {
     esbuild: {
