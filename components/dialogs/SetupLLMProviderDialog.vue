@@ -51,7 +51,7 @@ const selectedProvider = ref(providers[0])
     </div>
 
     <template v-if="selectedProvider.label === 'Ollama'">
-      <ol class="list-inside list-decimal pt-4">
+      <ol class="list-inside list-decimal py-4">
         <li>Download and install Ollama.</li>
         <li>Open a terminal and run:</li>
 
@@ -61,6 +61,11 @@ const selectedProvider = ref(providers[0])
 
         <BaseSnippet code="ollama pull mistral" />
       </ol>
+
+      <p>
+        Now Dear Ghost should be able to call Ollama models when you select it
+        as a provider in your prompt button's config.
+      </p>
       <!-- 
       <p class="pt-4">
         Here is <a class="text-blue-600" href="#">video tutorial</a> :)
@@ -68,14 +73,26 @@ const selectedProvider = ref(providers[0])
     </template>
 
     <template v-if="selectedProvider.label === 'LM Studio'">
-      <ol class="list-decimal pl-5 pt-4 leading-[164%]">
+      <ol class="list-decimal py-4 pl-5 leading-[164%]">
         <li>Download and install LM Studio.</li>
         <li>Open LM Studio.</li>
         <li>Download your favorite model.</li>
-        <li>Click the "Local Server" tab on the left.</li>
-        <li>Enable the "CORS" server option.</li>
-        <li>Click "Start Server".</li>
+        <li>Click the <strong>Local Server</strong> tab on the left.</li>
+        <li
+          >Within <strong>Server Options</strong>, enable
+          <strong>CORS</strong>.</li
+        >
+        <li
+          >Make sure the <strong>Server Port</strong> option is set to
+          "1234".</li
+        >
+        <li>Click <strong>Start Server</strong>.</li>
       </ol>
+
+      <p>
+        Now Dear Ghost should be able to call LLM Studio models when you select
+        it as a provider in your prompt button's config.
+      </p>
     </template>
   </div>
 </template>
