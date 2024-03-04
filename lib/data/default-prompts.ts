@@ -36,7 +36,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     id: 3,
     mainLabel: 'Point of Views',
     secondaryLabel: 'Rewrite in different',
-    iconName: 'EyeIcon',
+    iconName: 'BirdIcon',
     template: `
       Rewrite many times the following text, each time using a different point of view:  
 
@@ -51,7 +51,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     id: 4,
     mainLabel: 'Tenses',
     secondaryLabel: 'Rewrite in different',
-    iconName: 'SandClockIcon',
+    iconName: 'CassetteIcon',
     template: `
       Rewrite many times the following text, each time using a different tense:  
 
