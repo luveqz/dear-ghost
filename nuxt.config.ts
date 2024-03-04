@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   plausible: {
     // Prevent tracking on localhost
     ignoredHostnames: ['localhost'],
-    apiHost: 'https://dearghost.co/app',
+    apiHost: 'https://dearghost.co',
   },
 
   nitro: {
