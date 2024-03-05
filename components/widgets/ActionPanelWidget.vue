@@ -71,12 +71,20 @@ watch($library, debouncedSaveAll)
         >
           New prompt
         </button>
+
         <!--
           This is a config popover's height.
           We should replace this hardcoded value
           and use something dynamic after launch.
         -->
-        <div class="h-[20.8rem]" />
+        <div class="flex h-[70vh] flex-col justify-end">
+          <div
+            class="sticky bottom-0 mt-4 flex justify-center"
+            title="Scrollable panel :)"
+          >
+            <ScrollIcon />
+          </div>
+        </div>
       </TabPanel>
 
       <TabPanel class="h-3/4">
