@@ -34,7 +34,7 @@ export const DEFAULT_PROMPTS: Prompt[] = [
   },
   {
     id: 3,
-    mainLabel: 'Point of Views',
+    mainLabel: 'Points of View',
     secondaryLabel: 'Rewrite in different',
     iconName: 'BirdIcon',
     template: `
