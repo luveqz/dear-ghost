@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
+import Anthropic from '@anthropic-ai/sdk'
 
 import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
@@ -34,6 +35,18 @@ export enum OllamaModel {
 }
 
 export const PROVIDERS = {
+  [LLMProvider.Anthropic]: {
+    label: 'Anthropic',
+    async getModels() {
+      return [
+        'claude-3-opus-20240229',
+        'claude-3-sonnet-20240229',
+        'claude-2.1',
+        'claude-2.0',
+        'claude-instant-1.2',
+      ]
+    },
+  },
   [LLMProvider.LMStudio]: {
     label: 'LM Studio',
     async getModels() {
@@ -100,7 +113,7 @@ export const useLLMStore = defineStore('llm', {
         manualReset: true,
       })
 
-      const { $config } = useNuxtApp()
+      const { $config, $editor } = useNuxtApp()
       controller.value = new AbortController()
       const signal = controller.value.signal
 
@@ -170,21 +183,33 @@ export const useLLMStore = defineStore('llm', {
 
       /*
       --------------------------------------------------
-        Anthropic: Claude Instant
+        Anthropic
       --------------------------------------------------
       */
       if (provider === LLMProvider.Anthropic) {
-        const { url, options } = getAdaptedClaudeInstantRequest({
-          prompt,
-          config: $config.app,
-        })
-
-        const response = await $fetch<any>(url, options as any)
-
         try {
-          // completion = response['outputs'][0]['data']['text']['raw']
+          const anthropic = new Anthropic({
+            apiKey: $editor.apiKeys.anthropic,
+          })
+
+          const stream = await anthropic.messages.create({
+            max_tokens: 1024,
+            messages: [{ role: 'user', content: prompt }],
+            model,
+            stream: true,
+          })
+
+          controller.value = stream.controller
+
+          for await (const messageStreamEvent of stream) {
+            if (messageStreamEvent?.delta?.text) {
+              insertChunk(messageStreamEvent?.delta?.text)
+            }
+          }
         } catch (error) {
-          console.error(error)
+          console.log(error)
+
+          useToast({ message: 'Connection error.' })
         }
       }
 

@@ -27,6 +27,9 @@ export const useEditorStore = defineStore('editor', {
       files: [],
       activeFile: null,
       showInstallButton: false,
+      apiKeys: {
+        anthropic: '',
+      },
       view: {
         fileTree: false,
         actionPanel: true,
