@@ -229,6 +229,8 @@ onBeforeUnmount(() => {
       <TemplateInfoDialog />
     </BaseModal>
 
+    <BaseModal name="settings"> <SettingsDialog /> </BaseModal>
+
     <!-- Toast Displays -->
     <ToastDisplayError />
     <ToastDisplayUpdate />
