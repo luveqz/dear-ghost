@@ -1,6 +1,6 @@
 import { LM_STUDIO_API_BASE_URL } from './lib/constants'
 
-const basePath = process.env.BASE_PATH || '/'
+const basePath = process.env.NUXT_APP_BASE_URL || '/'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
