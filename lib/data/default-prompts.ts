@@ -1,4 +1,4 @@
-import { type Prompt, ResponseMode } from '@/lib/types/library'
+import { type Prompt } from '@/lib/types/library'
 import { LLMProvider } from '@/stores/llm'
 
 export const DEFAULT_PROMPTS: Prompt[] = [
@@ -12,7 +12,6 @@ export const DEFAULT_PROMPTS: Prompt[] = [
 
 {{ selected_text }}
     `.trim(),
-    responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
     providerId: LLMProvider.LMStudio,
     modelId: 'mistral:instruct',
@@ -27,7 +26,6 @@ export const DEFAULT_PROMPTS: Prompt[] = [
 
 {{ selected_text }}
     `.trim(),
-    responseMode: ResponseMode.InsertBelow,
     groupName: 'Discovery',
     providerId: LLMProvider.LMStudio,
     modelId: 'mistral:instruct',
@@ -42,7 +40,6 @@ export const DEFAULT_PROMPTS: Prompt[] = [
 
 {{ selected_text }}
     `.trim(),
-    responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
     providerId: LLMProvider.LMStudio,
     modelId: 'mistral:instruct',
@@ -57,7 +54,6 @@ export const DEFAULT_PROMPTS: Prompt[] = [
 
 {{ selected_text }}
     `.trim(),
-    responseMode: ResponseMode.InsertBelow,
     groupName: 'Style Lab',
     providerId: LLMProvider.LMStudio,
     modelId: 'mistral:instruct',
@@ -68,7 +64,6 @@ export const DEFAULT_PROMPTS: Prompt[] = [
     secondaryLabel: 'Ctrl + Enter',
     iconName: 'BoltIcon',
     template: '{{ selected_text }}',
-    responseMode: ResponseMode.InsertBelow,
     groupName: 'Other',
     providerId: LLMProvider.LMStudio,
     modelId: 'mistral:instruct',

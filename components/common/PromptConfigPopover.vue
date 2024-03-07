@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Prompt, ResponseModeLabels } from '@/lib/types/library'
+import { type Prompt } from '@/lib/types/library'
 import { PROMPT_ICON_CATALOG } from '@/lib/utils/library'
 
 import { PROVIDERS } from '@/stores/llm'
@@ -18,16 +18,6 @@ const props = defineProps({
 const _groupName = ref(props.prompt.groupName)
 const showAdvanced = ref(false)
 const showIcons = ref(false)
-
-const selectedResponseMode = ref({
-  id: props.prompt.responseMode,
-  label: ResponseModeLabels[props.prompt.responseMode],
-})
-
-const responseModes = Object.entries(ResponseModeLabels).map(([id, label]) => ({
-  id: Number(id),
-  label,
-}))
 
 const selectedProvider = ref({
   id: props.prompt.providerId,
@@ -197,21 +187,6 @@ const paginatedIcons = computed(() => {
                 class="w-full"
               />
             </div>
-          </div>
-        </div>
-
-        <!-- Fourth Line -->
-        <div>
-          <div class="text-xs font-bold">
-            <label class="mb-1 block">Response mode</label>
-            <BaseSelect
-              v-model="selectedResponseMode"
-              :options="responseModes"
-              @update:model-value="
-                (option) => (prompt.responseMode = option.id)
-              "
-              class="w-full"
-            />
           </div>
         </div>
       </section>
