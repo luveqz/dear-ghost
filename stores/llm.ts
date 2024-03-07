@@ -188,27 +188,31 @@ export const useLLMStore = defineStore('llm', {
       */
       if (provider === LLMProvider.Anthropic) {
         try {
-          const anthropic = new Anthropic({
-            apiKey: $editor.apiKeys.anthropic,
+          const response = await fetch('/api/generate', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              apiKey: $editor.apiKeys.anthropic,
+              prompt,
+              model,
+            }),
+            signal: controller.value.signal,
           })
 
-          const stream = await anthropic.messages.create({
-            max_tokens: 1024,
-            messages: [{ role: 'user', content: prompt }],
-            model,
-            stream: true,
-          })
+          const reader = response.body.getReader()
 
-          controller.value = stream.controller
+          while (true) {
+            const { done, value } = await reader.read()
 
-          for await (const messageStreamEvent of stream) {
-            if (messageStreamEvent?.delta?.text) {
-              insertChunk(messageStreamEvent?.delta?.text)
+            if (done) {
+              break
             }
+            const chunk = new TextDecoder().decode(value)
+            insertChunk(chunk)
           }
         } catch (error) {
-          console.log(error)
-
           useToast({ message: 'Connection error.' })
         }
       }

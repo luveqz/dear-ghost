@@ -29,7 +29,8 @@
     "postcss": "^8.4.33",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "vercel": "^33.5.4"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.16.1",
@@ -49,6 +50,8 @@
     "@tiptap/pm": "^2.1.12",
     "@tiptap/vue-3": "^2.1.12",
     "@vueuse/components": "^10.7.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
     "idb-keyval": "^6.2.1",
     "interactjs": "^1.10.19",
     "langchain": "^0.0.212",
