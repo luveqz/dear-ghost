@@ -5,6 +5,7 @@ const app = express()
 const port = 3001
 
 app.use(cors())
+app.use(express.json())
 
 app.post('/api/generate', async (req, res) => {
   const apiKey = req.body.apiKey
