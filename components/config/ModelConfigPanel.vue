@@ -23,11 +23,13 @@
       <a
         class="font-semibold text-blue-600"
         href="https://console.anthropic.com/dashboard"
+        target="_blank"
+        rel="noreferrer"
         >Anthropic Console</a
       >.
     </p>
 
-    <label class="mb-1 mt-5 block font-bold" for="">API key:</label>
+    <label class="mb-1 mt-5 block font-bold">API key:</label>
     <BaseInput
       variant="medium"
       v-model="$editor.providerConfig.anthropic.apiKey"
@@ -48,12 +50,16 @@
     </p>
     <p class="mt-4 leading-[120%]">
       Once you have installed
-      <a class="font-semibold text-blue-600" href="https://lmstudio.ai/"
+      <a
+        class="font-semibold text-blue-600"
+        href="https://lmstudio.ai/"
+        target="_blank"
+        rel="noreferrer"
         >LM Studio</a
       >. and downloaded your favorite model, run its local server.
     </p>
 
-    <label class="mb-1 mt-5 block font-bold" for="">Server port:</label>
+    <label class="mb-1 mt-5 block font-bold">Server port:</label>
     <BaseInput
       variant="medium"
       v-model="$editor.providerConfig.lmStudio.port"
@@ -74,12 +80,17 @@
     </p>
     <p class="mt-4 leading-[120%]">
       Once you have installed
-      <a class="font-semibold text-blue-600" href="https://ollama.com/"
+      <a
+        class="font-semibold text-blue-600"
+        href="https://ollama.com/"
+        target="_blank"
+        rel="noreferrer"
         >Ollama</a
-      >. and downloaded your favorite model, run its local server.
+      >
+      and downloaded your favorite model, run its local server.
     </p>
 
-    <label class="mb-1 mt-5 block font-bold" for="">Server host:</label>
+    <label class="mb-1 mt-5 block font-bold">Server host:</label>
     <BaseInput
       variant="medium"
       v-model="$editor.providerConfig.ollama.host"
