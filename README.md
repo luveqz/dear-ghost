@@ -28,7 +28,7 @@ npm install
 Start the development server on [`localhost:3000`](http://localhost:3000):
 
 ```bash
-npm run dev
+npm run vercel:dev
 ```
 
 ## Build
