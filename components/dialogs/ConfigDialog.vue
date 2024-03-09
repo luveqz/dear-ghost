@@ -1,5 +1,7 @@
 <script setup>
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+
+const tabs = ['Models', 'Prompts', 'Appearance']
 </script>
 
 <template>
@@ -10,14 +12,10 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
       <TabList
         class="flex w-40 shrink-0 flex-col items-start gap-y-5 bg-[#DEE4EB] px-9 py-12"
       >
-        <Tab v-slot="{ selected }">
-          <span :class="{ 'font-bold': selected }">Models</span>
-        </Tab>
-        <Tab v-slot="{ selected }">
-          <span :class="{ 'font-bold': selected }">Prompts</span>
-        </Tab>
-        <Tab v-slot="{ selected }">
-          <span :class="{ 'font-bold': selected }">Appearance</span>
+        <Tab v-for="tab in tabs" :key="tab" v-slot="{ selected }">
+          <span :class="{ 'font-bold': selected }">
+            {{ tab }}
+          </span>
         </Tab>
       </TabList>
 
