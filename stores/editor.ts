@@ -27,8 +27,16 @@ export const useEditorStore = defineStore('editor', {
       files: [],
       activeFile: null,
       showInstallButton: false,
-      apiKeys: {
-        anthropic: '',
+      providerConfig: {
+        anthropic: {
+          apiKey: '',
+        },
+        lmStudio: {
+          port: 4321,
+        },
+        ollama: {
+          host: 'http://localhost:11434',
+        },
       },
       view: {
         fileTree: false,

@@ -48,10 +48,10 @@ const menuList: MenuList = [
         },
       },
       {
-        label: 'Settings',
+        label: 'Config',
         startsSection: true,
         action() {
-          $modal.open('settings')
+          $modal.open('config')
         },
       },
     ],
