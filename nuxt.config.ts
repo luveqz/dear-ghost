@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   ],
 
   plausible: {
-    enabled: process.env.DISABLE_ANALYTICS !== 'true',
+    enabled: process.env.NUXT_APP_DISABLE_ANALYTICS !== 'true',
     ignoredHostnames: ['localhost'],
     apiHost: 'https://dearghost.co',
   },
