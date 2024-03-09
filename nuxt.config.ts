@@ -24,7 +24,7 @@ export default defineNuxtConfig({
 
   plausible: {
     // Prevent tracking on localhost
-    ignoredHostnames: ['localhost'],
+    ignoredHostnames: ['localhost', 'vercel.app'],
     apiHost: 'https://dearghost.co',
   },
 
