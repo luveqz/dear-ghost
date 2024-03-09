@@ -32,7 +32,7 @@ export const useEditorStore = defineStore('editor', {
           apiKey: '',
         },
         lmStudio: {
-          port: 4321,
+          port: '1234',
         },
         ollama: {
           host: 'http://localhost:11434',
