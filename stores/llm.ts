@@ -3,7 +3,6 @@ import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
 
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
-import { llamaCpp } from '@/lib/utils/llamacpp'
 import { useToast } from '@/componsables/toast'
 import { useStatusBarMessage } from '@/componsables/status-bar'
 
@@ -151,25 +150,6 @@ export const useLLMStore = defineStore('llm', {
           } else {
             useToast({ message: 'Connection error.' })
           }
-        }
-      }
-
-      /*
-      --------------------------------------------------
-        LLaMA C++: Mistral 7B
-      --------------------------------------------------
-      */
-      if (provider === LLMProvider.LLaMACpp) {
-        try {
-          const stream = await llamaCpp({
-            prompt,
-          })
-
-          for await (const chunk of stream as any) {
-            insertChunk(chunk.data.content)
-          }
-        } catch (error) {
-          console.error(error)
         }
       }
 
