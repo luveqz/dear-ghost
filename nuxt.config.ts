@@ -23,8 +23,8 @@ export default defineNuxtConfig({
   ],
 
   plausible: {
-    // Prevent tracking on localhost
-    ignoredHostnames: ['localhost', 'vercel.app'],
+    enabled: process.env.DISABLE_ANALYTICS !== 'true',
+    ignoredHostnames: ['localhost'],
     apiHost: 'https://dearghost.co',
   },
 
