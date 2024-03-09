@@ -1,9 +1,7 @@
 import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
-import Anthropic from '@anthropic-ai/sdk'
 
-import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { llamaCpp } from '@/lib/utils/llamacpp'
 import { useToast } from '@/componsables/toast'
@@ -38,13 +36,7 @@ export const PROVIDERS = {
   [LLMProvider.Anthropic]: {
     label: 'Anthropic',
     async getModels() {
-      return [
-        'claude-3-opus-20240229',
-        'claude-3-sonnet-20240229',
-        'claude-2.1',
-        'claude-2.0',
-        'claude-instant-1.2',
-      ]
+      return ['claude-2.0', 'claude-instant-1.2']
     },
   },
   [LLMProvider.LMStudio]: {
