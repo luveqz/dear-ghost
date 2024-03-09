@@ -25,6 +25,14 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
         <TabPanel>
           <ModelConfigPanel />
         </TabPanel>
+
+        <TabPanel>
+          <PatreonConfigPanel />
+        </TabPanel>
+
+        <TabPanel>
+          <PatreonConfigPanel />
+        </TabPanel>
       </TabPanels>
     </TabGroup>
   </div>
