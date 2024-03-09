@@ -130,10 +130,14 @@ export const useLLMStore = defineStore('llm', {
             signal,
           })
 
+          let index = 0
           for await (const chunk of stream) {
+            if (index === 0) {
+              insertChunk('\n- - -\n')
+            }
             insertChunk(chunk.content)
+            index++
           }
-          console.log(stream)
         } catch (error) {
           if (
             ['Connection error.', 'Request timed out.'].includes(
@@ -188,12 +192,19 @@ export const useLLMStore = defineStore('llm', {
 
           const reader = response.body.getReader()
 
+          let index = 0
           while (true) {
             const { done, value } = await reader.read()
 
             if (done) {
               break
             }
+
+            if (index === 0) {
+              insertChunk('\n- - -\n')
+            }
+            index++
+
             const chunk = new TextDecoder().decode(value)
             insertChunk(chunk)
           }
@@ -218,7 +229,12 @@ export const useLLMStore = defineStore('llm', {
             signal,
           })
 
+          let index = 0
           for await (const chunk of stream as any) {
+            if (index === 0) {
+              insertChunk('\n- - -\n')
+            }
+            index++
             insertChunk(chunk)
           }
         } catch (error) {
