@@ -30,3 +30,4 @@ yarn.lock
 
 # Secrets
 browserstack.json
+.vercel

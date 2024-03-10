@@ -6,7 +6,7 @@ import startCase from 'lodash/startCase'
 
 const { toggle: toggleFullScreen, isFullscreen } = useFullscreen()
 const { isSupported: supportsFileSystemAccess } = useFileSystemAccess()
-const { $editor } = useNuxtApp()
+const { $editor, $modal } = useNuxtApp()
 
 type MenuList = {
   label: string
@@ -45,6 +45,13 @@ const menuList: MenuList = [
         shortcut: 'ctrl_s',
         action() {
           $editor.save({ toFileSystem: true })
+        },
+      },
+      {
+        label: 'Config',
+        startsSection: true,
+        action() {
+          $modal.open('config')
         },
       },
     ],

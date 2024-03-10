@@ -1,5 +1,7 @@
 import { LM_STUDIO_API_BASE_URL } from './lib/constants'
 
+const basePath = process.env.NUXT_APP_BASE_URL || '/'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -21,7 +23,7 @@ export default defineNuxtConfig({
   ],
 
   plausible: {
-    // Prevent tracking on localhost
+    enabled: process.env.NUXT_APP_DISABLE_ANALYTICS !== 'true',
     ignoredHostnames: ['localhost'],
     apiHost: 'https://dearghost.co',
   },
@@ -38,7 +40,7 @@ export default defineNuxtConfig({
   },
 
   pwa: {
-    base: process.env.NODE_ENV !== 'development' ? '/app/' : '/',
+    base: process.env.NODE_ENV !== 'development' ? basePath : '/',
     manifest: {
       display: 'fullscreen',
       name: 'Dear Ghost',
@@ -63,7 +65,7 @@ export default defineNuxtConfig({
       periodicSyncForUpdates:
         process.env.NODE_ENV === 'development' ? 20 : 3600 * 4,
     },
-    scope: process.env.NODE_ENV !== 'development' ? '/app/' : '/',
+    scope: process.env.NODE_ENV !== 'development' ? basePath : '/',
     workbox: {
       globPatterns: ['**/*'],
     },

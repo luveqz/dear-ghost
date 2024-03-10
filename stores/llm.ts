@@ -2,9 +2,7 @@ import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
 
-import { getAdaptedClaudeInstantRequest } from '@/lib/adapters/claude'
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
-import { llamaCpp } from '@/lib/utils/llamacpp'
 import { useToast } from '@/componsables/toast'
 import { useStatusBarMessage } from '@/componsables/status-bar'
 
@@ -34,6 +32,12 @@ export enum OllamaModel {
 }
 
 export const PROVIDERS = {
+  [LLMProvider.Anthropic]: {
+    label: 'Anthropic',
+    async getModels() {
+      return ['claude-2.0', 'claude-instant-1.2']
+    },
+  },
   [LLMProvider.LMStudio]: {
     label: 'LM Studio',
     async getModels() {
@@ -100,7 +104,7 @@ export const useLLMStore = defineStore('llm', {
         manualReset: true,
       })
 
-      const { $config } = useNuxtApp()
+      const { $config, $editor } = useNuxtApp()
       controller.value = new AbortController()
       const signal = controller.value.signal
 
@@ -116,7 +120,7 @@ export const useLLMStore = defineStore('llm', {
             openAIApiKey: 'N/A',
             streaming: true,
             configuration: {
-              baseURL: $config.app.LM_STUDIO_API_BASE_URL,
+              baseURL: `http://localhost:${$editor.providerConfig.lmStudio.port}/v1`,
             },
             maxRetries: 1,
             timeout: 250,
@@ -126,10 +130,14 @@ export const useLLMStore = defineStore('llm', {
             signal,
           })
 
+          let index = 0
           for await (const chunk of stream) {
+            if (index === 0) {
+              insertChunk('\n- - -\n')
+            }
             insertChunk(chunk.content)
+            index++
           }
-          console.log(stream)
         } catch (error) {
           if (
             ['Connection error.', 'Request timed out.'].includes(
@@ -151,40 +159,57 @@ export const useLLMStore = defineStore('llm', {
 
       /*
       --------------------------------------------------
-        LLaMA C++: Mistral 7B
-      --------------------------------------------------
-      */
-      if (provider === LLMProvider.LLaMACpp) {
-        try {
-          const stream = await llamaCpp({
-            prompt,
-          })
-
-          for await (const chunk of stream as any) {
-            insertChunk(chunk.data.content)
-          }
-        } catch (error) {
-          console.error(error)
-        }
-      }
-
-      /*
-      --------------------------------------------------
-        Anthropic: Claude Instant
+        Anthropic
       --------------------------------------------------
       */
       if (provider === LLMProvider.Anthropic) {
-        const { url, options } = getAdaptedClaudeInstantRequest({
-          prompt,
-          config: $config.app,
-        })
-
-        const response = await $fetch<any>(url, options as any)
+        if (!$editor.providerConfig.anthropic.apiKey) {
+          useToast({
+            message: 'Please provide an Anthropic API key',
+            duration: 6,
+            seeMoreModalId: 'config',
+            ctaText: 'Config',
+            icon: 'unplug',
+          })
+          this.running = false
+          resetStatusBarMessage()
+          return
+        }
 
         try {
-          // completion = response['outputs'][0]['data']['text']['raw']
+          const response = await fetch('/api/generate', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              apiKey: $editor.providerConfig.anthropic.apiKey,
+              prompt,
+              model,
+            }),
+            signal: controller.value.signal,
+          })
+
+          const reader = response.body.getReader()
+
+          let index = 0
+          while (true) {
+            const { done, value } = await reader.read()
+
+            if (done) {
+              break
+            }
+
+            if (index === 0) {
+              insertChunk('\n- - -\n')
+            }
+            index++
+
+            const chunk = new TextDecoder().decode(value)
+            insertChunk(chunk)
+          }
         } catch (error) {
-          console.error(error)
+          useToast({ message: 'Connection error.' })
         }
       }
 
@@ -196,7 +221,7 @@ export const useLLMStore = defineStore('llm', {
       if (provider === LLMProvider.Ollama) {
         try {
           const ollama = new Ollama({
-            baseUrl: OLLAMA_API_BASE_URL,
+            baseUrl: $editor.providerConfig.ollama.host,
             model,
           })
 
@@ -204,7 +229,12 @@ export const useLLMStore = defineStore('llm', {
             signal,
           })
 
+          let index = 0
           for await (const chunk of stream as any) {
+            if (index === 0) {
+              insertChunk('\n- - -\n')
+            }
+            index++
             insertChunk(chunk)
           }
         } catch (error) {

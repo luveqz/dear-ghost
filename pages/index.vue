@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useContextMenuTurn } from '@/componsables/context-menu-turn'
 import { TemplateParser } from '@/lib/utils/template'
-import { ResponseMode } from '@/lib/types/library'
 import type { Prompt } from '@/lib/types/library'
 import type { TextFile } from '@/lib/types/editor'
 
@@ -37,35 +36,20 @@ const onRunPrompt = async (prompt: Prompt) => {
     controller,
     insertChunk(chunk) {
       // 3. Insert response chunk.
-      const selection = originEditor.state.selection
-      if (prompt.responseMode === ResponseMode.InsertBelow) {
+      chunk.split(/(\n)/).forEach((segment) => {
+        const selection = originEditor.state.selection
         originEditor
           .chain()
           .focus()
           .insertContentAt(
             selection.to,
-            chunk.includes('\n') ? { type: 'paragraph' } : chunk,
+            segment === '\n' ? { type: 'paragraph' } : segment,
             {
               updateSelection: true,
             },
           )
           .run()
-      }
-
-      if (prompt.responseMode === ResponseMode.ReplaceSelection) {
-        originEditor
-          .chain()
-          .focus()
-          .deleteSelection()
-          .insertContentAt(
-            selection.from,
-            chunk.includes('\n') ? { type: 'paragraph' } : chunk,
-            {
-              updateSelection: true,
-            },
-          )
-          .run()
-      }
+      })
     },
   })
 
@@ -227,6 +211,10 @@ onBeforeUnmount(() => {
 
     <BaseModal name="template-info">
       <TemplateInfoDialog />
+    </BaseModal>
+
+    <BaseModal name="config">
+      <ConfigDialog />
     </BaseModal>
 
     <!-- Toast Displays -->

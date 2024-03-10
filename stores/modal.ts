@@ -6,6 +6,7 @@ export const MODALS_AND_MENUS = {
   'confirm-close-file': false,
   'setup-llm-provider': false,
   'template-info': false,
+  config: false,
 }
 
 export const useModalStore = defineStore({

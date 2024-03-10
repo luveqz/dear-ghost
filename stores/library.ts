@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import groupBy from 'lodash/groupBy'
 import { get, set } from 'idb-keyval'
 
-import { type Prompt, ResponseMode } from '@/lib/types/library'
+import { type Prompt } from '@/lib/types/library'
 import { DEFAULT_PROMPTS } from '@/lib/data/default-prompts'
 import { LLMProvider } from '@/stores/llm'
 import { makeId } from '@/lib/utils/random'
@@ -14,7 +14,6 @@ export const DEFAULT_PROMPT: Prompt = {
   secondaryLabel: 'Generate',
   iconName: 'SparkIcon',
   template: '{{ selected_text }}',
-  responseMode: ResponseMode.InsertBelow,
   groupName: 'Other',
   providerId: LLMProvider.LMStudio,
   modelId: 'mistral:instruct',

@@ -3,6 +3,11 @@
     {
       "source": "/api/event",
       "destination": "https://plausible.io/api/event"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
     }
-  ]
+  ],
+  "devCommand": "nuxt dev"
 }
