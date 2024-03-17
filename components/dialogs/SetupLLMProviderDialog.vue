@@ -13,7 +13,7 @@ const selectedProvider = ref(providers[0])
 </script>
 
 <template>
-  <div class="max-w-[32.5rem] rounded bg-white p-12 text-sm-2 leading-[140%]">
+  <div class="max-w-[29.5rem] rounded bg-white p-12 text-sm-2 leading-[140%]">
     <p class="mb-4 text-2xl font-bold">Almost there!</p>
 
     <p>
