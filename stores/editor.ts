@@ -27,6 +27,7 @@ export const useEditorStore = defineStore('editor', {
       files: [],
       activeFile: null,
       showInstallButton: false,
+      showPromptsTabScrollIndicator: false,
       providerConfig: {
         anthropic: {
           apiKey: '',
@@ -49,6 +50,7 @@ export const useEditorStore = defineStore('editor', {
       files: TextFile[]
       activeFile: TextFile | null
       showInstallButton: boolean
+      showPromptsTabScrollIndicator: boolean
       providerConfig: {
         anthropic: {
           apiKey: string
@@ -350,11 +352,19 @@ export const useEditorStore = defineStore('editor', {
       set('show-indent', show)
     },
 
+    setShowPromptsTabScrollIndicator(show: boolean) {
+      this.showPromptsTabScrollIndicator = show
+      set('show-prompts-tab-scroll-indicator', show)
+    },
+
     async loadUserConfig() {
       const showFileTree = await get('show-file-tree')
       const showActionPanel = await get('show-action-panel')
       const showInstallButton = await get('show-install-button')
       const showIndent = await get('show-indent')
+      const showPromptsTabScrollIndicator = await get(
+        'show-prompts-tab-scroll-indicator',
+      )
 
       this.view.fileTree = showFileTree !== undefined ? showFileTree : false
 
@@ -365,6 +375,11 @@ export const useEditorStore = defineStore('editor', {
 
       this.showInstallButton =
         showInstallButton !== undefined ? showInstallButton : true
+
+      this.showPromptsTabScrollIndicator =
+        showPromptsTabScrollIndicator !== undefined
+          ? showPromptsTabScrollIndicator
+          : true
     },
 
     async setActiveFile(file: TextFile) {

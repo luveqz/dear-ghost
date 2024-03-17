@@ -6,16 +6,32 @@ defineEmits(['run-prompt'])
 
 const panelRef = ref()
 
-const { y } = useScroll(panelRef)
+const { y, isScrolling } = useScroll(panelRef)
 
 const onScrollPopover = (deltaY: number) => {
   if (!panelRef.value || !panelRef.value.$el) return
   panelRef.value.$el.scrollTo(0, y.value + deltaY)
 }
 
+/*----------------------------------------
+  Save all changes in the library when
+  the library is updated.
+----------------------------------------*/
 const { $library } = useNuxtApp()
 const debouncedSaveAll = debounce($library.saveAll, 600)
 watch($library, debouncedSaveAll)
+
+/*----------------------------------------
+  Hide the scroll indicator once the user
+  scrolls the panel.
+----------------------------------------*/
+const { $editor } = useNuxtApp()
+
+whenever(isScrolling, () => {
+  if ($editor.showPromptsTabScrollIndicator) {
+    $editor.setShowPromptsTabScrollIndicator(false)
+  }
+})
 </script>
 
 <template>
@@ -72,18 +88,20 @@ watch($library, debouncedSaveAll)
           New prompt
         </button>
 
-        <!--
-          This is a config popover's height.
-          We should replace this hardcoded value
-          and use something dynamic after launch.
-        -->
         <div class="flex h-[70vh] flex-col justify-end">
-          <div
-            class="sticky bottom-0 mt-4 flex justify-center"
-            title="Scrollable panel :)"
+          <transition
+            leave-active-class="transition duration-75 ease-in"
+            leave-from-class="transform opacity-200"
+            leave-to-class="transform opacity-0"
           >
-            <ScrollIcon />
-          </div>
+            <div
+              v-if="$editor.showPromptsTabScrollIndicator"
+              class="sticky bottom-0 mt-4 flex justify-center"
+              title="Scrollable panel :)"
+            >
+              <ScrollIcon />
+            </div>
+          </transition>
         </div>
       </TabPanel>
 
