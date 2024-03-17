@@ -56,7 +56,8 @@
         target="_blank"
         rel="noreferrer"
         >LM Studio</a
-      >. and downloaded your favorite model, run its local server.
+      >
+      and downloaded your favorite model, run its local server.
     </p>
 
     <label class="mb-1 mt-5 block font-bold">Server port:</label>
