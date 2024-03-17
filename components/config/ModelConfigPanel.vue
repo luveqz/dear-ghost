@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import debounce from 'lodash/debounce'
+
+/*----------------------------------------
+  Save provider config.
+----------------------------------------*/
+const { $editor } = useNuxtApp()
+const debouncedSaveAll = debounce($editor.saveProviderConfig, 600)
+watch($editor.providerConfig, debouncedSaveAll)
+</script>
+
 <template>
   <section class="p-10 px-14">
     <h2 class="text-2xl font-bold">Models</h2>

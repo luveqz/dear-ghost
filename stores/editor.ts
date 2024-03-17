@@ -357,6 +357,10 @@ export const useEditorStore = defineStore('editor', {
       set('show-prompts-tab-scroll-indicator', show)
     },
 
+    saveProviderConfig() {
+      set('provider-config', toRaw(this.providerConfig))
+    },
+
     async loadUserConfig() {
       const showFileTree = await get('show-file-tree')
       const showActionPanel = await get('show-action-panel')
@@ -365,6 +369,7 @@ export const useEditorStore = defineStore('editor', {
       const showPromptsTabScrollIndicator = await get(
         'show-prompts-tab-scroll-indicator',
       )
+      const providerConfig = await get('provider-config')
 
       this.view.fileTree = showFileTree !== undefined ? showFileTree : false
 
@@ -380,6 +385,9 @@ export const useEditorStore = defineStore('editor', {
         showPromptsTabScrollIndicator !== undefined
           ? showPromptsTabScrollIndicator
           : true
+
+      this.providerConfig =
+        providerConfig !== undefined ? providerConfig : this.providerConfig
     },
 
     async setActiveFile(file: TextFile) {
