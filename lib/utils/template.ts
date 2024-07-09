@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/core'
 import { Selection } from '@tiptap/pm/state'
 
-import { useToast } from '@/componsables/toast'
+import { useToast } from '@/composables/toast'
 
 export class TemplateParser {
   editor: Editor

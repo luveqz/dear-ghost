@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Popper from 'vue3-popper'
 import { onClickOutside } from '@vueuse/core'
-import { useContextMenuTurn } from '@/componsables/context-menu-turn'
+import { useContextMenuTurn } from '@/composables/context-menu-turn'
 import type { Prompt } from '@/lib/types/library'
 import { PROMPT_ICON_CATALOG } from '@/lib/utils/library'
 

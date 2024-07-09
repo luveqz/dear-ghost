@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useToast } from '@/componsables/toast'
+import { useToast } from '@/composables/toast'
 import WarningIcon from '@/components/icons/WarningIcon.vue'
 import UnplugIcon from '@/components/icons/UnplugIcon.vue'
 

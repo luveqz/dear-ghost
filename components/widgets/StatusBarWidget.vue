@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Editor } from '@tiptap/core'
 import { countWords } from '@/lib/utils/string'
-import { useStatusBarMessage } from '@/componsables/status-bar'
+import { useStatusBarMessage } from '@/composables/status-bar'
 
 const props = defineProps({
   activeEditor: {
