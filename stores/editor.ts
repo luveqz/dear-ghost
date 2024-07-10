@@ -76,47 +76,13 @@ export const useEditorStore = defineStore('editor', {
       return true
     },
 
-    async openFile() {
+    async openFiles() {
       try {
-        const [fileHandle] = await window.showOpenFilePicker()
+        const fileHandles = await window.showOpenFilePicker({ multiple: true })
 
-        await fileHandle.requestPermission({
-          mode: 'read',
-        })
-
-        // If already opened, just focus it.
-        for (let file of this.files) {
-          if (file.handle && (await fileHandle.isSameEntry(file.handle))) {
-            this.activeFile = file
-            return
-          }
+        for (let fileHandle of fileHandles) {
+          await this.openFile(fileHandle)
         }
-
-        const content = await (await fileHandle.getFile()).text()
-        const parsedContent = await markdownToHtml(content)
-
-        /* 
-          If there is only an empty file, replace it
-          with the opened one. 
-        */
-        if (this.files.length === 1) {
-          const file = this.files[0] as TextFile
-
-          if (
-            !file.handle &&
-            (!file.data.content || file.data.content === '<p></p>')
-          ) {
-            await this.removeFile(file)
-          }
-        }
-
-        const newFile = this.addFile()
-        newFile.id = makeId(60)
-        newFile.handle = fileHandle
-        newFile.data.title = fileHandle.name
-        newFile.data.content = parsedContent
-
-        return this._saveToIndexedDB({ isSaved: true })
       } catch ({ message }: any) {
         if (message === 'The user aborted a request.') {
           return
@@ -134,6 +100,46 @@ export const useEditorStore = defineStore('editor', {
 
         useToast({ message: 'Could not open file.' })
       }
+    },
+
+    async openFile(fileHandle: FileSystemFileHandle) {
+      await fileHandle.requestPermission({
+        mode: 'read',
+      })
+
+      // If already opened, just focus it.
+      for (let file of this.files) {
+        if (file.handle && (await fileHandle.isSameEntry(file.handle))) {
+          this.activeFile = file
+          return
+        }
+      }
+
+      const content = await (await fileHandle.getFile()).text()
+      const parsedContent = await markdownToHtml(content)
+
+      /* 
+        If there is only an empty file, replace it
+        with the opened one. 
+      */
+      if (this.files.length === 1) {
+        const file = this.files[0] as TextFile
+
+        if (
+          !file.handle &&
+          (!file.data.content || file.data.content === '<p></p>')
+        ) {
+          await this.removeFile(file)
+        }
+      }
+
+      const newFile = this.addFile()
+      newFile.id = makeId(60)
+      newFile.handle = fileHandle
+      newFile.data.title = fileHandle.name
+      newFile.data.content = parsedContent
+
+      return await this._saveToIndexedDB({ isSaved: true })
     },
 
     addFile() {

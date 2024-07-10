@@ -32,7 +32,7 @@ const menuList: MenuList = [
         label: 'Open',
         disabled: lacksFileSystemAccess,
         shortcut: 'ctrl_o',
-        action: $editor.openFile,
+        action: $editor.openFiles,
       },
       {
         label: 'New',
