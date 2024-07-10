@@ -309,7 +309,7 @@ export const useEditorStore = defineStore('editor', {
           try {
             if (
               (await file.handle?.requestPermission({
-                mode: 'readwrite',
+                mode: 'read',
               })) === 'granted'
             ) {
               const content = await (await file.handle.getFile()).text()
