@@ -1,4 +1,7 @@
 import { Editor } from '@tiptap/core'
+import type { defaultConfig } from '@/lib/constants'
+
+export type UserConfig = typeof defaultConfig
 
 export type TextFileData = {
   title: string

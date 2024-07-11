@@ -9,6 +9,8 @@ import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
 import { useFileSystemAccess } from '@vueuse/core'
 import { useStatusBarMessage } from '@/composables/status-bar'
 import type { Paths } from '@/lib/types/utils'
+import { runMigrations } from '@/lib/migrations'
+import { defaultConfig } from '@/lib/constants'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -19,28 +21,6 @@ export const DEFAULT_FILE: TextFile = {
     content: '',
   },
   isSaved: true,
-}
-
-const defaultConfig = {
-  view: {
-    fileTree: false,
-    actionPanel: true,
-    stickyTitle: false,
-    indent: true,
-    installButton: true,
-    promptsTabScrollIndicator: true,
-  },
-  providers: {
-    anthropic: {
-      apiKey: '',
-    },
-    lmStudio: {
-      port: '1234',
-    },
-    ollama: {
-      host: 'http://localhost:11434',
-    },
-  },
 }
 
 export const useEditorStore = defineStore('editor', {
@@ -381,6 +361,11 @@ export const useEditorStore = defineStore('editor', {
       // Patch the store with the user config.
       if (userConfig) {
         this.config = userConfig
+      }
+
+      // Run migrations
+      if (await runMigrations(this.config)) {
+        this.saveUserConfig()
       }
     },
 
