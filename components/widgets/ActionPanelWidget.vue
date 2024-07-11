@@ -28,8 +28,8 @@ watch($library, debouncedSaveAll)
 const { $editor } = useNuxtApp()
 
 whenever(isScrolling, () => {
-  if ($editor.showPromptsTabScrollIndicator) {
-    $editor.setShowPromptsTabScrollIndicator(false)
+  if ($editor.config.view.promptsTabScrollIndicator) {
+    $editor.setUserConfig('view.promptsTabScrollIndicator', false)
   }
 })
 </script>
@@ -95,7 +95,7 @@ whenever(isScrolling, () => {
             leave-to-class="transform opacity-0"
           >
             <div
-              v-if="$editor.showPromptsTabScrollIndicator"
+              v-if="$editor.config.view.promptsTabScrollIndicator"
               class="sticky bottom-0 mt-4 flex justify-center"
               title="Scrollable panel :)"
             >

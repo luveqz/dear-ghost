@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
     <div v-if="$llm.running" class="absolute z-50 h-full w-full" />
     <FileEditorTitleField
       class="top-0 px-5 pt-sticky-widget"
-      :class="{ sticky: $editor.view.stickyTitle }"
+      :class="{ sticky: $editor.config.view.stickyTitle }"
       v-model="data.title"
     />
 
@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
       <editor-content
         :editor="editor"
         class="flex flex-col font-medium"
-        :class="{ 'indentation-toggle': $editor.view.indent }"
+        :class="{ 'indentation-toggle': $editor.config.view.indent }"
       />
     </section>
   </div>

@@ -5,8 +5,8 @@ import debounce from 'lodash/debounce'
   Save provider config.
 ----------------------------------------*/
 const { $editor } = useNuxtApp()
-const debouncedSaveAll = debounce($editor.saveProviderConfig, 600)
-watch($editor.providerConfig, debouncedSaveAll)
+const debouncedSaveAll = debounce($editor.saveUserConfig, 600)
+watch($editor.config.providers, debouncedSaveAll)
 </script>
 
 <template>
@@ -43,7 +43,7 @@ watch($editor.providerConfig, debouncedSaveAll)
     <label class="mb-1 mt-5 block font-bold">API key:</label>
     <BaseInput
       variant="medium"
-      v-model="$editor.providerConfig.anthropic.apiKey"
+      v-model="$editor.config.providers.anthropic.apiKey"
       class="w-full max-w-72"
       placeholder="sk-ant-api03-rV97zpCN..."
     />
@@ -74,7 +74,7 @@ watch($editor.providerConfig, debouncedSaveAll)
     <label class="mb-1 mt-5 block font-bold">Server port:</label>
     <BaseInput
       variant="medium"
-      v-model="$editor.providerConfig.lmStudio.port"
+      v-model="$editor.config.providers.lmStudio.port"
       class="w-full max-w-72"
       placeholder="4321"
     />
@@ -105,7 +105,7 @@ watch($editor.providerConfig, debouncedSaveAll)
     <label class="mb-1 mt-5 block font-bold">Server host:</label>
     <BaseInput
       variant="medium"
-      v-model="$editor.providerConfig.ollama.host"
+      v-model="$editor.config.providers.ollama.host"
       class="w-full max-w-72"
       placeholder="http://localhost:11434"
     />

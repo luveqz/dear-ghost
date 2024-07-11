@@ -8,6 +8,7 @@ import { makeId } from '@/lib/utils/random'
 import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
 import { useFileSystemAccess } from '@vueuse/core'
 import { useStatusBarMessage } from '@/composables/status-bar'
+import type { Paths } from '@/lib/types/utils'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -20,54 +21,40 @@ export const DEFAULT_FILE: TextFile = {
   isSaved: true,
 }
 
+const defaultConfig = {
+  view: {
+    fileTree: false,
+    actionPanel: true,
+    stickyTitle: false,
+    indent: true,
+    installButton: true,
+    promptsTabScrollIndicator: true,
+  },
+  providers: {
+    anthropic: {
+      apiKey: '',
+    },
+    lmStudio: {
+      port: '1234',
+    },
+    ollama: {
+      host: 'http://localhost:11434',
+    },
+  },
+}
+
 export const useEditorStore = defineStore('editor', {
   state: () =>
     ({
       loading: true,
       files: [],
       activeFile: null,
-      showInstallButton: false,
-      showPromptsTabScrollIndicator: false,
-      providerConfig: {
-        anthropic: {
-          apiKey: '',
-        },
-        lmStudio: {
-          port: '1234',
-        },
-        ollama: {
-          host: 'http://localhost:11434',
-        },
-      },
-      view: {
-        fileTree: false,
-        actionPanel: true,
-        stickyTitle: false,
-        indent: true,
-      },
+      config: defaultConfig,
     }) as {
       loading: boolean
       files: TextFile[]
       activeFile: TextFile | null
-      showInstallButton: boolean
-      showPromptsTabScrollIndicator: boolean
-      providerConfig: {
-        anthropic: {
-          apiKey: string
-        }
-        lmStudio: {
-          port: string
-        }
-        ollama: {
-          host: string
-        }
-      }
-      view: {
-        fileTree: boolean
-        actionPanel: boolean
-        stickyTitle: boolean
-        indent: boolean
-      }
+      config: typeof defaultConfig
     },
 
   actions: {
@@ -370,67 +357,31 @@ export const useEditorStore = defineStore('editor', {
       return file.id.includes(DEFAULT_FILE.id)
     },
 
-    setUserConfig({ showInstallButton }: { showInstallButton: boolean }) {
-      this.showInstallButton = showInstallButton
-      set('show-install-button', showInstallButton)
+    setUserConfig(configPath: Paths<typeof defaultConfig>, value: any) {
+      const path = configPath.split('.')
+      const lastKey = path.pop() as string
+      let target: any = this.config
+
+      for (let key of path) {
+        target = target[key as keyof typeof target]
+      }
+
+      target[lastKey as keyof typeof target] = value
+      this.saveUserConfig()
     },
 
-    setShowInstallButton(show: boolean) {
-      this.showInstallButton = show
-      set('show-install-button', show)
-    },
-
-    setShowFileTree(show: boolean) {
-      this.view.fileTree = show
-      set('show-file-tree', show)
-    },
-
-    setShowActionPanel(show: boolean) {
-      this.view.actionPanel = show
-      set('show-action-panel', show)
-    },
-
-    setShowIndent(show: boolean) {
-      this.view.indent = show
-      set('show-indent', show)
-    },
-
-    setShowPromptsTabScrollIndicator(show: boolean) {
-      this.showPromptsTabScrollIndicator = show
-      set('show-prompts-tab-scroll-indicator', show)
-    },
-
-    saveProviderConfig() {
-      set('provider-config', toRaw(this.providerConfig))
+    saveUserConfig() {
+      set('user-config', toRaw(this.config))
     },
 
     async loadUserConfig() {
-      const showFileTree = await get('show-file-tree')
-      const showActionPanel = await get('show-action-panel')
-      const showInstallButton = await get('show-install-button')
-      const showIndent = await get('show-indent')
-      const showPromptsTabScrollIndicator = await get(
-        'show-prompts-tab-scroll-indicator',
-      )
-      const providerConfig = await get('provider-config')
+      // Load user config from IDB.
+      const userConfig: any = await get('user-config')
 
-      this.view.fileTree = showFileTree !== undefined ? showFileTree : false
-
-      this.view.actionPanel =
-        showActionPanel !== undefined ? showActionPanel : true
-
-      this.view.indent = showIndent !== undefined ? showIndent : true
-
-      this.showInstallButton =
-        showInstallButton !== undefined ? showInstallButton : true
-
-      this.showPromptsTabScrollIndicator =
-        showPromptsTabScrollIndicator !== undefined
-          ? showPromptsTabScrollIndicator
-          : true
-
-      this.providerConfig =
-        providerConfig !== undefined ? providerConfig : this.providerConfig
+      // Patch the store with the user config.
+      if (userConfig) {
+        this.config = userConfig
+      }
     },
 
     async setActiveFile(file: TextFile) {
