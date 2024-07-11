@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useContextMenuTurn } from '@/componsables/context-menu-turn'
+import { useContextMenuTurn } from '@/composables/context-menu-turn'
 import { TemplateParser } from '@/lib/utils/template'
 import type { Prompt } from '@/lib/types/library'
 import type { TextFile } from '@/lib/types/editor'
@@ -197,6 +197,10 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Modals -->
+    <BaseModal name="confirm-read-permission">
+      <ConfirmReadPermissionDialog />
+    </BaseModal>
+
     <BaseModal name="confirm-close-file">
       <ConfirmCloseFileDialog />
     </BaseModal>

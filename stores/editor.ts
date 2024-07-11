@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import { get, set } from 'idb-keyval'
 
 import type { TextFile } from '@/lib/types/editor'
-import { useToast } from '@/componsables/toast'
+import { useToast } from '@/composables/toast'
 import { deepCopy } from '@/lib/utils/copy'
 import { makeId } from '@/lib/utils/random'
 import { htmlToMarkdown, markdownToHtml } from '@/lib/utils/parse'
 import { useFileSystemAccess } from '@vueuse/core'
-import { useStatusBarMessage } from '@/componsables/status-bar'
+import { useStatusBarMessage } from '@/composables/status-bar'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -76,47 +76,13 @@ export const useEditorStore = defineStore('editor', {
       return true
     },
 
-    async openFile() {
+    async openFiles() {
       try {
-        const [fileHandle] = await window.showOpenFilePicker()
+        const fileHandles = await window.showOpenFilePicker({ multiple: true })
 
-        await fileHandle.requestPermission({
-          mode: 'read',
-        })
-
-        // If already opened, just focus it.
-        for (let file of this.files) {
-          if (file.handle && (await fileHandle.isSameEntry(file.handle))) {
-            this.activeFile = file
-            return
-          }
+        for (let fileHandle of fileHandles) {
+          await this.openFile(fileHandle)
         }
-
-        const content = await (await fileHandle.getFile()).text()
-        const parsedContent = await markdownToHtml(content)
-
-        /* 
-          If there is only an empty file, replace it
-          with the opened one. 
-        */
-        if (this.files.length === 1) {
-          const file = this.files[0] as TextFile
-
-          if (
-            !file.handle &&
-            (!file.data.content || file.data.content === '<p></p>')
-          ) {
-            await this.removeFile(file)
-          }
-        }
-
-        const newFile = this.addFile()
-        newFile.id = makeId(60)
-        newFile.handle = fileHandle
-        newFile.data.title = fileHandle.name
-        newFile.data.content = parsedContent
-
-        return this._saveToIndexedDB({ isSaved: true })
       } catch ({ message }: any) {
         if (message === 'The user aborted a request.') {
           return
@@ -134,6 +100,46 @@ export const useEditorStore = defineStore('editor', {
 
         useToast({ message: 'Could not open file.' })
       }
+    },
+
+    async openFile(fileHandle: FileSystemFileHandle) {
+      await fileHandle.requestPermission({
+        mode: 'read',
+      })
+
+      // If already opened, just focus it.
+      for (let file of this.files) {
+        if (file.handle && (await fileHandle.isSameEntry(file.handle))) {
+          this.activeFile = file
+          return
+        }
+      }
+
+      const content = await (await fileHandle.getFile()).text()
+      const parsedContent = await markdownToHtml(content)
+
+      /* 
+        If there is only an empty file, replace it
+        with the opened one. 
+      */
+      if (this.files.length === 1) {
+        const file = this.files[0] as TextFile
+
+        if (
+          !file.handle &&
+          (!file.data.content || file.data.content === '<p></p>')
+        ) {
+          await this.removeFile(file)
+        }
+      }
+
+      const newFile = this.addFile()
+      newFile.id = makeId(60)
+      newFile.handle = fileHandle
+      newFile.data.title = fileHandle.name
+      newFile.data.content = parsedContent
+
+      return await this._saveToIndexedDB({ isSaved: true })
     },
 
     addFile() {
@@ -298,29 +304,66 @@ export const useEditorStore = defineStore('editor', {
     },
 
     async _syncWithFileSystem() {
+      const newFiles = []
+
+      // 1. Update allowed files.
       for (let file of this.files) {
-        if (file.handle) {
-          try {
-            if (
-              (await file.handle?.requestPermission({
-                mode: 'readwrite',
-              })) === 'granted'
-            ) {
-              const content = await (await file.handle.getFile()).text()
-              const parsedContent = await markdownToHtml(content)
-              file.data.content = parsedContent
-            }
-          } catch (error) {
-            // Prevents the editor from showing an outdated
-            // version of this file.
-            this.removeFile(file as TextFile)
-          }
+        if (!file.handle) continue
+
+        if (
+          (await file.handle?.queryPermission({ mode: 'read' })) === 'granted'
+        ) {
+          await this.parseFileContent(file as TextFile)
+        } else {
+          newFiles.push(file)
         }
       }
 
+      // 2. Request permission for new files.
+      if (newFiles.length) {
+        await this.requestReadPermission(newFiles as TextFile[])
+      }
+
+      // 3. If no files left, add a new one.
       if (!this.files.length) {
         this.addFile()
       }
+    },
+
+    async requestReadPermission(newFiles: TextFile[]) {
+      const { $modal } = useNuxtApp()
+
+      $modal.open(
+        'confirm-read-permission',
+        async ({ abort } = { abort: false } as { abort: boolean }) => {
+          if (abort) {
+            for (let file of newFiles) {
+              await this.removeFile(file as TextFile)
+            }
+
+            if (!this.files.length) {
+              this.addFile()
+            }
+            return
+          }
+
+          if (
+            (await newFiles[0].handle?.requestPermission({ mode: 'read' })) ===
+            'granted'
+          ) {
+            for (let file of newFiles) {
+              this.parseFileContent(file as TextFile)
+            }
+          }
+        },
+      )
+    },
+
+    async parseFileContent(file: TextFile) {
+      if (!file.handle) return
+      const content = await (await file.handle.getFile()).text()
+      const parsedContent = await markdownToHtml(content)
+      file.data.content = parsedContent
     },
 
     _isUnsavedFile(file: TextFile) {

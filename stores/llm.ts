@@ -3,8 +3,8 @@ import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
 
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
-import { useToast } from '@/componsables/toast'
-import { useStatusBarMessage } from '@/componsables/status-bar'
+import { useToast } from '@/composables/toast'
+import { useStatusBarMessage } from '@/composables/status-bar'
 
 export enum LLMProvider {
   OpenAI,

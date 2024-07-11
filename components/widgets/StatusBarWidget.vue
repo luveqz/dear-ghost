@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Editor } from '@tiptap/core'
 import { countWords } from '@/lib/utils/string'
-import { useStatusBarMessage } from '@/componsables/status-bar'
+import { useStatusBarMessage } from '@/composables/status-bar'
 
-defineProps({
+const props = defineProps({
   activeEditor: {
     type: Object as PropType<Editor>,
     required: true,
@@ -13,6 +13,18 @@ defineProps({
 const { message } = useStatusBarMessage()
 
 defineEmits(['stop-generation'])
+
+const totalWords = computed(() => {
+  return countWords(props.activeEditor.state.doc.content.toJSON())
+})
+
+const selectedWords = computed(() => {
+  if (!props.activeEditor.state.selection.empty) {
+    return countWords(
+      props.activeEditor.state.selection.content().toJSON()?.content,
+    )
+  }
+})
 </script>
 
 <template>
@@ -33,7 +45,8 @@ defineEmits(['stop-generation'])
     </div>
 
     <button v-if="activeEditor" class="flex items-end">
-      {{ countWords(activeEditor.state.doc.content.toJSON()) }}
+      {{ selectedWords ? `${selectedWords} / ` : '' }}
+      {{ totalWords }}
       words
 
       <CornerTriangleIcon class="text-orange-500" />
