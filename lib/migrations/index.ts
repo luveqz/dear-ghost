@@ -1,6 +1,6 @@
 import { get, set } from 'idb-keyval'
 
-import type { UserConfig } from '../types/editor'
+import type { UserConfig } from '@/lib/schemas/config'
 import { migrateDeprecatedIdbKeys } from './idb'
 
 export const migrations = [

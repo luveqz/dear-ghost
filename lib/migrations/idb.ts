@@ -1,5 +1,5 @@
 import { get } from 'idb-keyval'
-import type { UserConfig } from '@/lib/types/editor'
+import type { UserConfig } from '@/lib/schemas/config'
 
 export async function migrateDeprecatedIdbKeys(config: UserConfig) {
   const fileTree = await get('show-file-tree')

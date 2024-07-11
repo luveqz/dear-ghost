@@ -11,6 +11,7 @@ import { useStatusBarMessage } from '@/composables/status-bar'
 import type { Paths } from '@/lib/types/utils'
 import { runMigrations } from '@/lib/migrations'
 import { defaultConfig } from '@/lib/constants'
+import configSchema from '@/lib/schemas/config'
 
 const FILE_STORAGE_KEY = 'files-storage'
 
@@ -358,8 +359,9 @@ export const useEditorStore = defineStore('editor', {
       // Load user config from IDB.
       const userConfig: any = await get('user-config')
 
-      // Patch the store with the user config.
-      if (userConfig) {
+      // Load user preferences, if valid.
+      const { success } = configSchema.safeParse(userConfig)
+      if (success) {
         this.config = userConfig
       }
 
