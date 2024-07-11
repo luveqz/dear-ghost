@@ -304,29 +304,66 @@ export const useEditorStore = defineStore('editor', {
     },
 
     async _syncWithFileSystem() {
+      const newFiles = []
+
+      // 1. Update allowed files.
       for (let file of this.files) {
-        if (file.handle) {
-          try {
-            if (
-              (await file.handle?.requestPermission({
-                mode: 'read',
-              })) === 'granted'
-            ) {
-              const content = await (await file.handle.getFile()).text()
-              const parsedContent = await markdownToHtml(content)
-              file.data.content = parsedContent
-            }
-          } catch (error) {
-            // Prevents the editor from showing an outdated
-            // version of this file.
-            this.removeFile(file as TextFile)
-          }
+        if (!file.handle) continue
+
+        if (
+          (await file.handle?.queryPermission({ mode: 'read' })) === 'granted'
+        ) {
+          await this.parseFileContent(file as TextFile)
+        } else {
+          newFiles.push(file)
         }
       }
 
+      // 2. Request permission for new files.
+      if (newFiles.length) {
+        await this.requestReadPermission(newFiles as TextFile[])
+      }
+
+      // 3. If no files left, add a new one.
       if (!this.files.length) {
         this.addFile()
       }
+    },
+
+    async requestReadPermission(newFiles: TextFile[]) {
+      const { $modal } = useNuxtApp()
+
+      $modal.open(
+        'confirm-read-permission',
+        async ({ abort } = { abort: false } as { abort: boolean }) => {
+          if (abort) {
+            for (let file of newFiles) {
+              await this.removeFile(file as TextFile)
+            }
+
+            if (!this.files.length) {
+              this.addFile()
+            }
+            return
+          }
+
+          if (
+            (await newFiles[0].handle?.requestPermission({ mode: 'read' })) ===
+            'granted'
+          ) {
+            for (let file of newFiles) {
+              this.parseFileContent(file as TextFile)
+            }
+          }
+        },
+      )
+    },
+
+    async parseFileContent(file: TextFile) {
+      if (!file.handle) return
+      const content = await (await file.handle.getFile()).text()
+      const parsedContent = await markdownToHtml(content)
+      file.data.content = parsedContent
     },
 
     _isUnsavedFile(file: TextFile) {

@@ -197,6 +197,10 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Modals -->
+    <BaseModal name="confirm-read-permission">
+      <ConfirmReadPermissionDialog />
+    </BaseModal>
+
     <BaseModal name="confirm-close-file">
       <ConfirmCloseFileDialog />
     </BaseModal>
