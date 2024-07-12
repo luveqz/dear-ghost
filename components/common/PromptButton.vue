@@ -26,7 +26,16 @@ const { isOpen, open, close } = useContextMenuTurn()
 const toggle = () => (isOpen.value ? close() : open())
 
 const popoverRef = ref<HTMLElement>()
-onClickOutside(popoverRef, close)
+onClickOutside(popoverRef, (event: MouseEvent) => {
+  if (
+    !(
+      event.target instanceof HTMLElement &&
+      event.target.hasAttribute('data-modal-overlay')
+    )
+  ) {
+    close()
+  }
+})
 
 const onWheel = (e: WheelEvent) => {
   emit('scroll-popover', e.deltaY)
