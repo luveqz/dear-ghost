@@ -17,7 +17,7 @@ const configSchema = z.object({
       port: z.string(),
     }),
     ollama: z.object({
-      host: z.string().url(),
+      host: z.string(),
     }),
   }),
 })
