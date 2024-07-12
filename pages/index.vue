@@ -95,6 +95,10 @@ const isDark = usePreferredDark()
 const favicon = computed(() => (isDark.value ? 'dark.ico' : 'light.ico'))
 useFavicon(favicon)
 
+/*----------------------------------------
+  Prevent closing the tab with unsaved
+  changes.
+----------------------------------------*/
 const beforeUnloadHandler = (event: Event) => {
   const unsaved = $editor.files.find((file) => file.handle && !file.isSaved)
   if (unsaved) {
