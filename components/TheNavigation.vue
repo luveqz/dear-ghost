@@ -83,7 +83,10 @@ const menuList: MenuList = [
         startsSection: true,
         toggleStateKey: 'stickyTitle',
         action() {
-          $editor.config.view.stickyTitle = !$editor.config.view.stickyTitle
+          $editor.setUserConfig(
+            'view.stickyTitle',
+            !$editor.config.view.stickyTitle,
+          )
         },
       },
       {
