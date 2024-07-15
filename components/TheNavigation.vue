@@ -17,7 +17,7 @@ type Submenu = {
   label: string
   shortcut?: string
   disabled?: Ref<boolean>
-  toggleStateKey?: keyof typeof $editor.view
+  toggleStateKey?: keyof typeof $editor.config.view
   startsSection?: boolean
   action(): void
 }[]
@@ -64,7 +64,7 @@ const menuList: MenuList = [
         shortcut: 'ctrl_shift_f',
         toggleStateKey: 'fileTree',
         action() {
-          $editor.setShowFileTree(!$editor.view.fileTree)
+          $editor.setUserConfig('view.fileTree', !$editor.config.view.fileTree)
         },
       },
       {
@@ -72,7 +72,10 @@ const menuList: MenuList = [
         shortcut: 'ctrl_shift_a',
         toggleStateKey: 'actionPanel',
         action() {
-          $editor.setShowActionPanel(!$editor.view.actionPanel)
+          $editor.setUserConfig(
+            'view.actionPanel',
+            !$editor.config.view.actionPanel,
+          )
         },
       },
       {
@@ -80,14 +83,17 @@ const menuList: MenuList = [
         startsSection: true,
         toggleStateKey: 'stickyTitle',
         action() {
-          $editor.view.stickyTitle = !$editor.view.stickyTitle
+          $editor.setUserConfig(
+            'view.stickyTitle',
+            !$editor.config.view.stickyTitle,
+          )
         },
       },
       {
         label: 'First-line Indent',
         toggleStateKey: 'indent',
         action() {
-          $editor.setShowIndent(!$editor.view.indent)
+          $editor.setUserConfig('view.indent', !$editor.config.view.indent)
         },
       },
       {
@@ -183,11 +189,11 @@ const formatShortcut = (shortcut: string) => {
                   <template
                     v-if="
                       submenu.toggleStateKey &&
-                      submenu.toggleStateKey in $editor.view
+                      submenu.toggleStateKey in $editor.config.view
                     "
                   >
                     <CheckIcon
-                      v-if="$editor.view[submenu.toggleStateKey]"
+                      v-if="$editor.config.view[submenu.toggleStateKey]"
                       class="w-2.5"
                     />
                     <div v-else class="w-2.5 opacity-60"> - </div>
@@ -230,7 +236,7 @@ const formatShortcut = (shortcut: string) => {
 
           <button
             class="text-white/60"
-            @click="$editor.setUserConfig({ showInstallButton: false })"
+            @click="$editor.setUserConfig('view.installButton', false)"
           >
             Dismiss
           </button>

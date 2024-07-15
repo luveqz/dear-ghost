@@ -29,10 +29,15 @@ onKeyStroke('Escape', close)
   >
     <div
       v-if="isOpen"
+      data-modal-overlay
       class="fixed left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-black/40"
       @click.self="close"
     >
-      <div class="flex w-full justify-center px-4 md:px-10" @click.self="close">
+      <div
+        data-modal-overlay
+        class="flex w-full justify-center px-4 md:px-10"
+        @click.self="close"
+      >
         <slot />
       </div>
     </div>

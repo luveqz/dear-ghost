@@ -1,5 +1,3 @@
-import { LM_STUDIO_API_BASE_URL } from './lib/constants'
-
 const basePath = process.env.NUXT_APP_BASE_URL || '/'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -97,15 +95,6 @@ export default defineNuxtConfig({
           '@/*': ['./*'],
         },
       },
-    },
-  },
-
-  runtimeConfig: {
-    app: {
-      PALM_2_API_KEY: process.env.PALM_2_API_KEY,
-      CLARIFAI_API_KEY: process.env.CLARIFAI_API_KEY,
-      LM_STUDIO_API_BASE_URL:
-        process.env.LM_STUDIO_API_BASE_URL || LM_STUDIO_API_BASE_URL,
     },
   },
 

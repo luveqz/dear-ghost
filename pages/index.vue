@@ -61,8 +61,10 @@ const onRunPrompt = async (prompt: Prompt) => {
 const layoutStyle = computed(() => {
   return {
     'grid-template-columns': `${
-      $editor.view.actionPanel ? '[action-panel] 17.5rem' : ''
-    }  [editor] 33.125rem ${$editor.view.fileTree ? '[file-tree] 15rem' : ''}`,
+      $editor.config.view.actionPanel ? '[action-panel] 17.5rem' : ''
+    }  [editor] 33.125rem ${
+      $editor.config.view.fileTree ? '[file-tree] 15rem' : ''
+    }`,
   }
 })
 
@@ -93,6 +95,10 @@ const isDark = usePreferredDark()
 const favicon = computed(() => (isDark.value ? 'dark.ico' : 'light.ico'))
 useFavicon(favicon)
 
+/*----------------------------------------
+  Prevent closing the tab with unsaved
+  changes.
+----------------------------------------*/
 const beforeUnloadHandler = (event: Event) => {
   const unsaved = $editor.files.find((file) => file.handle && !file.isSaved)
   if (unsaved) {
@@ -135,12 +141,13 @@ onBeforeUnmount(() => {
       v-show="!$editor.loading"
       class="mr-2 flex w-full grow items-start justify-center overflow-x-hidden overflow-y-scroll"
       :class="{
-        'lg:pr-[8%]': $editor.view.fileTree && !$editor.view.actionPanel,
+        'lg:pr-[8%]':
+          $editor.config.view.fileTree && !$editor.config.view.actionPanel,
       }"
     >
       <div class="grid-template justify-end" :style="layoutStyle">
         <FileTreeWidget
-          v-if="$editor.view.fileTree"
+          v-if="$editor.config.view.fileTree"
           class="sticky top-sticky-widget mt-sticky-widget h-[calc(100vh_-_4rem_-_2.6rem)] shrink-0 pr-10"
           :active-file="activeFile"
           @set-active-file="$editor.setActiveFile"
@@ -171,7 +178,7 @@ onBeforeUnmount(() => {
         />
 
         <ActionPanelWidget
-          v-if="$editor.view.actionPanel"
+          v-if="$editor.config.view.actionPanel"
           class="fixed mt-sticky-widget h-[calc(100vh_-_2rem_-_2rem)] w-action-panel"
           style="grid-area: action-panel; direction: ltr"
           @run-prompt="onRunPrompt"
@@ -182,7 +189,8 @@ onBeforeUnmount(() => {
     <div
       class="mr-2 flex w-full shrink-0 justify-center overflow-y-scroll"
       :class="{
-        'lg:pr-[8%]': $editor.view.fileTree && !$editor.view.actionPanel,
+        'lg:pr-[8%]':
+          $editor.config.view.fileTree && !$editor.config.view.actionPanel,
       }"
     >
       <div class="grid-template overflow-x-hidden" :style="layoutStyle">

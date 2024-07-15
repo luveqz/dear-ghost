@@ -16,16 +16,21 @@ export const useModalStore = defineStore({
   state: () => {
     return {
       ...MODALS_AND_MENUS,
+      stack: [] as (keyof typeof MODALS_AND_MENUS)[],
       callback: (args?: any) => {},
     }
+  },
+
+  getters: {
+    lastOpened(state): keyof typeof MODALS_AND_MENUS | undefined {
+      return state.stack[this.stack.length - 1]
+    },
   },
 
   actions: {
     open(modal: keyof typeof MODALS_AND_MENUS, callback?: () => any) {
       this[modal] = true
-
-      for (const _modal of getKeys(MODALS_AND_MENUS))
-        if (_modal !== modal) this.close(_modal)
+      this.stack.push(modal)
 
       if (callback) {
         this.callback = callback
@@ -35,6 +40,11 @@ export const useModalStore = defineStore({
     close(modal: keyof typeof MODALS_AND_MENUS) {
       this[modal] = false
       this.callback = () => {}
+    },
+
+    closeLastOpened() {
+      const modal = this.stack.pop()
+      if (modal) this.close(modal)
     },
 
     toggle(modal: keyof typeof MODALS_AND_MENUS) {

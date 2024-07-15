@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Popper from 'vue3-popper'
+import { autoUpdate, useFloating, hide } from '@floating-ui/vue'
 import { onClickOutside } from '@vueuse/core'
+
 import { useContextMenuTurn } from '@/composables/context-menu-turn'
 import type { Prompt } from '@/lib/types/library'
 import { PROMPT_ICON_CATALOG } from '@/lib/utils/library'
@@ -26,11 +28,27 @@ const { isOpen, open, close } = useContextMenuTurn()
 const toggle = () => (isOpen.value ? close() : open())
 
 const popoverRef = ref<HTMLElement>()
-onClickOutside(popoverRef, close)
+onClickOutside(popoverRef, (event: MouseEvent) => {
+  if (
+    !(
+      event.target instanceof HTMLElement &&
+      event.target.hasAttribute('data-modal-overlay')
+    )
+  ) {
+    close()
+  }
+})
 
 const onWheel = (e: WheelEvent) => {
   emit('scroll-popover', e.deltaY)
 }
+
+const buttonRef = ref(null)
+const floating = ref(null)
+const { middlewareData } = useFloating(buttonRef, floating, {
+  whileElementsMounted: autoUpdate,
+  middleware: [hide()],
+})
 </script>
 
 <template>
@@ -41,6 +59,7 @@ const onWheel = (e: WheelEvent) => {
     offset-distance="0"
   >
     <div
+      ref="buttonRef"
       class="flex border-l border-r border-t border-black/15"
       :class="{
         'rounded-es-none': isOpen,
@@ -83,9 +102,15 @@ const onWheel = (e: WheelEvent) => {
 
     <template #content>
       <PromptConfigPopover
+        ref="floating"
+        :style="{
+          visibility: middlewareData.hide?.referenceHidden
+            ? 'hidden'
+            : 'visible',
+        }"
         :prompt="prompt"
         :is-open="isOpen"
-        class="absolute top-[calc(100%_-_0.1rem)] z-50 min-w-full"
+        class="absolute top-[calc(100%_-_0.1rem)] z-50"
         @wheel="onWheel"
       />
     </template>

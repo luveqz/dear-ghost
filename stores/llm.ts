@@ -120,7 +120,7 @@ export const useLLMStore = defineStore('llm', {
             openAIApiKey: 'N/A',
             streaming: true,
             configuration: {
-              baseURL: `http://localhost:${$editor.providerConfig.lmStudio.port}/v1`,
+              baseURL: `http://localhost:${$editor.config.providers.lmStudio.port}/v1`,
             },
             maxRetries: 1,
             timeout: 250,
@@ -163,7 +163,7 @@ export const useLLMStore = defineStore('llm', {
       --------------------------------------------------
       */
       if (provider === LLMProvider.Anthropic) {
-        if (!$editor.providerConfig.anthropic.apiKey) {
+        if (!$editor.config.providers.anthropic.apiKey) {
           useToast({
             message: 'Please provide an Anthropic API key',
             duration: 6,
@@ -183,14 +183,14 @@ export const useLLMStore = defineStore('llm', {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              apiKey: $editor.providerConfig.anthropic.apiKey,
+              apiKey: $editor.config.providers.anthropic.apiKey,
               prompt,
               model,
             }),
             signal: controller.value.signal,
           })
 
-          const reader = response.body.getReader()
+          const reader = response.body!.getReader()
 
           let index = 0
           while (true) {
@@ -221,7 +221,7 @@ export const useLLMStore = defineStore('llm', {
       if (provider === LLMProvider.Ollama) {
         try {
           const ollama = new Ollama({
-            baseUrl: $editor.providerConfig.ollama.host,
+            baseUrl: $editor.config.providers.ollama.host,
             model,
           })
 
