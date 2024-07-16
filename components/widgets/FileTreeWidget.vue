@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VueDraggable } from 'vue-draggable-plus'
 import type { TextFile } from '@/lib/types/editor'
 
 defineProps({
@@ -30,37 +31,48 @@ const onClose = (file: TextFile) => {
     $modal.open('confirm-close-file', () => onRemoveFile(file))
   }
 }
+
+const fileListRef = ref<HTMLElement>()
 </script>
 
 <template>
-  <ul class="flex flex-col">
-    <li
-      v-for="file in $editor.files"
-      :key="file.id"
-      class="group/item flex cursor-pointer items-center gap-2.5 rounded px-2 py-1.5"
-      :class="{ 'bg-orange-gray-900/5': activeFile === file }"
-      @click="$emit('set-active-file', file)"
+  <ul ref="fileListRef" class="flex flex-col">
+    <VueDraggable
+      ref="el"
+      v-model="$editor.files"
+      :clone="toRaw"
+      @sort="$editor.saveFileTreeOrder"
     >
-      <TextIcon class="h-4 w-4 shrink-0 opacity-60" />
-      <span class="mt-[0.188rem] line-clamp-3 block grow text-sm leading-none">
-        <span class="line-clamp-2">
-          {{ file.data.title }}
-        </span>
-      </span>
-
-      <button
-        class="relative flex h-4 w-4 items-center justify-center rounded-md transition-colors duration-150 hover:bg-orange-gray-900/5"
-        @click.stop="onClose(file as TextFile)"
+      <li
+        v-for="file in $editor.files"
+        :key="file.id"
+        class="group/item flex cursor-pointer items-center gap-2.5 rounded px-2 py-1.5"
+        :class="{ 'bg-orange-gray-900/5': activeFile === file }"
+        @click="$emit('set-active-file', file)"
       >
-        <div
-          v-if="!file.isSaved"
-          class="absolute h-2 w-2 rounded-full bg-black/40 transition-opacity delay-75 duration-150 group-hover/item:opacity-0"
-        />
-        <CloseIcon
-          class="h-[0.45rem] w-[0.45rem] opacity-0 transition-opacity delay-75 duration-150 group-hover/item:opacity-100"
-        />
-      </button>
-    </li>
+        <TextIcon class="file-handle h-4 w-4 shrink-0 cursor-move opacity-60" />
+        <span
+          class="mt-[0.188rem] line-clamp-3 block grow text-sm leading-none"
+        >
+          <span class="line-clamp-2">
+            {{ file.data.title }}
+          </span>
+        </span>
+
+        <button
+          class="relative flex h-4 w-4 items-center justify-center rounded-md transition-colors duration-150 hover:bg-orange-gray-900/5"
+          @click.stop="onClose(file as TextFile)"
+        >
+          <div
+            v-if="!file.isSaved"
+            class="absolute h-2 w-2 rounded-full bg-black/40 transition-opacity delay-75 duration-150 group-hover/item:opacity-0"
+          />
+          <CloseIcon
+            class="h-[0.45rem] w-[0.45rem] opacity-0 transition-opacity delay-75 duration-150 group-hover/item:opacity-100"
+          />
+        </button>
+      </li>
+    </VueDraggable>
 
     <button
       class="mt-3 rounded border border-black/15 py-2 text-center text-sm font-medium leading-none"

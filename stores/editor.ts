@@ -125,6 +125,10 @@ export const useEditorStore = defineStore('editor', {
       return this._saveAllToIndexedDB()
     },
 
+    saveFileTreeOrder() {
+      return this._saveAllToIndexedDB()
+    },
+
     save({ toFileSystem = false } = {} as { toFileSystem: boolean }) {
       if (this.validate(this.files)) {
         if (toFileSystem) {
