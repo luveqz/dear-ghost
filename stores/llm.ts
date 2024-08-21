@@ -36,7 +36,20 @@ export const PROVIDERS = {
   [LLMProvider.Anthropic]: {
     label: 'Anthropic',
     async getModels() {
-      return ['claude-3-haiku-20240307', 'claude-2.0', 'claude-instant-1.2']
+      return [
+        // Legacy
+        'claude-instant-1.2',
+        'claude-2.0',
+        'claude-2.1',
+
+        // v3
+        'claude-3-opus-20240229',
+        'claude-3-sonnet-20240229',
+        'claude-3-haiku-20240307',
+
+        // v3.5
+        'claude-3-5-sonnet-20240620',
+      ]
     },
   },
   [LLMProvider.LMStudio]: {
