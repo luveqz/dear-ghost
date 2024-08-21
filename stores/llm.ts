@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
+import Anthropic from '@anthropic-ai/sdk'
 
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { useToast } from '@/composables/toast'
@@ -177,37 +178,30 @@ export const useLLMStore = defineStore('llm', {
         }
 
         try {
-          const response = await fetch('/api/generate', {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              apiKey: $editor.config.providers.anthropic.apiKey,
-              prompt,
-              model,
-            }),
-            signal: controller.value.signal,
+          const client = new Anthropic({
+            dangerouslyAllowBrowser: true,
+            apiKey: $editor.config.providers.anthropic.apiKey,
           })
 
-          const reader = response.body!.getReader()
-
           let index = 0
-          while (true) {
-            const { done, value } = await reader.read()
+          const stream = client.messages
+            .stream({
+              max_tokens: 1024,
+              messages: [{ role: 'user', content: prompt }],
+              model,
+              stream: true,
+            })
+            .on('text', (chunk) => {
+              if (index === 0) {
+                insertChunk('\n- - -\n')
+              }
+              index++
+              insertChunk(chunk)
+            })
 
-            if (done) {
-              break
-            }
-
-            if (index === 0) {
-              insertChunk('\n- - -\n')
-            }
-            index++
-
-            const chunk = new TextDecoder().decode(value)
-            insertChunk(chunk)
-          }
+          signal.addEventListener('abort', () => {
+            stream.controller.abort()
+          })
         } catch (error) {
           useToast({ message: 'Connection error.' })
         }
