@@ -197,24 +197,29 @@ export const useLLMStore = defineStore('llm', {
           })
 
           let index = 0
-          const stream = client.messages
-            .stream({
-              max_tokens: 1024,
-              messages: [{ role: 'user', content: prompt }],
-              model,
-              stream: true,
-            })
-            .on('text', (chunk) => {
-              if (index === 0) {
-                insertChunk('\n- - -\n')
-              }
-              index++
-              insertChunk(chunk)
-            })
+          const stream = await client.messages.create({
+            max_tokens: 1024,
+            messages: [{ role: 'user', content: prompt }],
+            model,
+            stream: true,
+          })
 
           signal.addEventListener('abort', () => {
             stream.controller.abort()
           })
+
+          for await (const event of stream) {
+            if (
+              event.type === 'content_block_delta' &&
+              event.delta.type === 'text_delta'
+            ) {
+              if (index === 0) {
+                insertChunk('\n- - -\n')
+              }
+              index++
+              insertChunk(event.delta.text)
+            }
+          }
         } catch (error) {
           useToast({ message: 'Connection error.' })
         }
