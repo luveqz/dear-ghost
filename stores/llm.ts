@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { Ollama } from 'langchain/llms/ollama'
 import { ChatOpenAI } from '@langchain/openai'
+import Anthropic from '@anthropic-ai/sdk'
 
 import { OLLAMA_API_BASE_URL } from '@/lib/constants'
 import { useToast } from '@/composables/toast'
@@ -35,7 +36,20 @@ export const PROVIDERS = {
   [LLMProvider.Anthropic]: {
     label: 'Anthropic',
     async getModels() {
-      return ['claude-3-haiku-20240307', 'claude-2.0', 'claude-instant-1.2']
+      return [
+        // Legacy
+        'claude-instant-1.2',
+        'claude-2.0',
+        'claude-2.1',
+
+        // v3
+        'claude-3-opus-20240229',
+        'claude-3-sonnet-20240229',
+        'claude-3-haiku-20240307',
+
+        // v3.5
+        'claude-3-5-sonnet-20240620',
+      ]
     },
   },
   [LLMProvider.LMStudio]: {
@@ -177,36 +191,34 @@ export const useLLMStore = defineStore('llm', {
         }
 
         try {
-          const response = await fetch('/api/generate', {
-            method: 'post',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              apiKey: $editor.config.providers.anthropic.apiKey,
-              prompt,
-              model,
-            }),
-            signal: controller.value.signal,
+          const client = new Anthropic({
+            dangerouslyAllowBrowser: true,
+            apiKey: $editor.config.providers.anthropic.apiKey,
           })
 
-          const reader = response.body!.getReader()
-
           let index = 0
-          while (true) {
-            const { done, value } = await reader.read()
+          const stream = await client.messages.create({
+            max_tokens: 1024,
+            messages: [{ role: 'user', content: prompt }],
+            model,
+            stream: true,
+          })
 
-            if (done) {
-              break
+          signal.addEventListener('abort', () => {
+            stream.controller.abort()
+          })
+
+          for await (const event of stream) {
+            if (
+              event.type === 'content_block_delta' &&
+              event.delta.type === 'text_delta'
+            ) {
+              if (index === 0) {
+                insertChunk('\n- - -\n')
+              }
+              index++
+              insertChunk(event.delta.text)
             }
-
-            if (index === 0) {
-              insertChunk('\n- - -\n')
-            }
-            index++
-
-            const chunk = new TextDecoder().decode(value)
-            insertChunk(chunk)
           }
         } catch (error) {
           useToast({ message: 'Connection error.' })
