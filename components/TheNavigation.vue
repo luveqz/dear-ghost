@@ -221,26 +221,11 @@ const formatShortcut = (shortcut: string) => {
     <!-- Right -->
     <section class="flex items-center gap-x-3">
       <ClientOnly>
-        <div
-          v-if="$pwa?.showInstallPrompt && !$pwa?.needRefresh"
-          class="flex items-center gap-x-3"
+        <button
+          class="hidden h-6 items-center rounded border border-white/20 px-2.5 py-2"
         >
-          <button
-            class="flex h-6 items-center rounded border border-white/20 px-2.5 py-2"
-            @click="$pwa?.install()"
-          >
-            Install
-          </button>
-
-          <div class="block h-3 border-l border-l-white" />
-
-          <button
-            class="text-white/60"
-            @click="$editor.setUserConfig('view.installButton', false)"
-          >
-            Dismiss
-          </button>
-        </div>
+          Install
+        </button>
       </ClientOnly>
 
       <button class="ml-4" @click="toggleFullScreen">

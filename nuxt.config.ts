@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vueuse/nuxt',
     'nuxt-security',
-    '@vite-pwa/nuxt',
     '@nuxtjs/plausible',
   ],
 
@@ -35,39 +34,6 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/'],
     },
-  },
-
-  pwa: {
-    base: process.env.NODE_ENV !== 'development' ? basePath : '/',
-    manifest: {
-      display: 'fullscreen',
-      name: 'Dear Ghost',
-      short_name: 'DearGhost',
-      theme_color: '#ffffff',
-      icons: [
-        {
-          src: 'icons/64x64.png',
-          sizes: '64x64',
-          type: 'image/png',
-        },
-        {
-          src: 'icons/512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any maskable',
-        },
-      ],
-    },
-    client: {
-      installPrompt: true,
-      periodicSyncForUpdates:
-        process.env.NODE_ENV === 'development' ? 20 : 3600 * 4,
-    },
-    scope: process.env.NODE_ENV !== 'development' ? basePath : '/',
-    workbox: {
-      globPatterns: ['**/*'],
-    },
-    includeAssets: ['**/*'],
   },
 
   components: [

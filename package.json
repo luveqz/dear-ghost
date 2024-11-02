@@ -19,7 +19,6 @@
     "@types/sortablejs": "^1.15.4",
     "@types/turndown": "^5.0.4",
     "@types/wicg-file-system-access": "^2023.10.4",
-    "@vite-pwa/nuxt": "^0.4.0",
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
     "autoprefixer": "^10.4.16",

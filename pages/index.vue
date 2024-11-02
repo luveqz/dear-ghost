@@ -78,15 +78,11 @@ whenever(keys['escape'], () => {
   controller.value?.abort()
 })
 
-const { $pwa } = useNuxtApp()
-
 whenever(
   () => activeFile.value,
   () => {
     useHead({
-      title: `${activeFile.value.data.title} ${
-        $pwa?.isPWAInstalled ? '' : ' -  Dear Ghost'
-      }`,
+      title: `${activeFile.value.data.title} -  Dear Ghost`,
     })
   },
 )
@@ -231,10 +227,6 @@ onBeforeUnmount(() => {
 
     <!-- Toast Displays -->
     <ToastDisplayError />
-    <ToastDisplayUpdate />
-
-    <!-- PWA -->
-    <NuxtPwaManifest />
   </div>
 </template>
 
