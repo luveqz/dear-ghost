@@ -12,12 +12,7 @@ export default defineNuxtConfig({
 
   ssr: false,
 
-  modules: [
-    '@pinia/nuxt',
-    '@vueuse/nuxt',
-    'nuxt-security',
-    '@nuxtjs/plausible',
-  ],
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@nuxtjs/plausible'],
 
   plausible: {
     enabled: process.env.NUXT_APP_DISABLE_ANALYTICS !== 'true',
@@ -61,19 +56,6 @@ export default defineNuxtConfig({
           '@/*': ['./*'],
         },
       },
-    },
-  },
-
-  security: {
-    enabled: process.env.DISABLE_NUXT_SECURITY !== 'true',
-    headers: {
-      permissionsPolicy: {
-        fullscreen: ['self'],
-      },
-      contentSecurityPolicy: {
-        'img-src': ["'self'", 'https://res.cloudinary.com'],
-      },
-      crossOriginEmbedderPolicy: 'credentialless',
     },
   },
 })
