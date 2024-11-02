@@ -32,7 +32,7 @@ export default defineNuxtConfig({
       },
     },
     prerender: {
-      routes: ['/'],
+      routes: ['/', '/app'],
     },
   },
 
@@ -70,6 +70,10 @@ export default defineNuxtConfig({
       permissionsPolicy: {
         fullscreen: ['self'],
       },
+      contentSecurityPolicy: {
+        'img-src': ["'self'", 'https://res.cloudinary.com'],
+      },
+      crossOriginEmbedderPolicy: 'credentialless',
     },
   },
 })

@@ -15,6 +15,7 @@ module.exports = {
       white: '#E8EFF6',
       black: '#1E1C1C',
       orange: {
+        300: '#EFB167',
         500: '#DB7E11',
         600: '#C86B27',
         700: '#B96400',
@@ -50,6 +51,9 @@ module.exports = {
       },
       fontFamily: {
         nunito: ['Nunito', 'sans-serif'],
+      },
+      maxWidth: {
+        'home-container': '72.5rem',
       },
     },
   },

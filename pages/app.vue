@@ -87,10 +87,6 @@ whenever(
   },
 )
 
-const isDark = usePreferredDark()
-const favicon = computed(() => (isDark.value ? 'dark.ico' : 'light.ico'))
-useFavicon(favicon)
-
 /*----------------------------------------
   Prevent closing the tab with unsaved
   changes.
@@ -227,6 +223,9 @@ onBeforeUnmount(() => {
 
     <!-- Toast Displays -->
     <ToastDisplayError />
+
+    <!-- Config -->
+    <FaviconSetter />
   </div>
 </template>
 
