@@ -13,6 +13,10 @@
 /*-------------------------------------
   General
 -------------------------------------*/
+* {
+  @apply scroll-smooth;
+}
+
 body {
   font-family: 'Nunito', sans-serif;
   -webkit-font-smoothing: antialiased;
