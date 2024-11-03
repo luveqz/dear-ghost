@@ -5,12 +5,19 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Dear Ghost',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: `${basePath}dark.ico` },
+      ],
     },
+  },
+
+  experimental: {
+    componentIslands: true,
   },
 
   devtools: { enabled: true },
 
-  ssr: false,
+  ssr: true,
 
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@nuxtjs/plausible'],
 
@@ -20,14 +27,12 @@ export default defineNuxtConfig({
     apiHost: 'https://dearghost.co',
   },
 
-  nitro: {
-    esbuild: {
-      options: {
-        target: 'esnext',
-      },
-    },
-    prerender: {
-      routes: ['/', '/app'],
+  routeRules: {
+    '/': {
+      prerender: true,
+      ssr: true,
+      static: true,
+      experimentalNoScripts: true,
     },
   },
 

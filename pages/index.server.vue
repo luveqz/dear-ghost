@@ -1,7 +1,7 @@
 <template>
   <div class="home-page px-5">
     <nav
-      class="max-w-home-container mx-auto mt-4 flex w-full items-center justify-between py-2"
+      class="mx-auto mt-4 flex w-full max-w-home-container items-center justify-between py-2"
     >
       <LogoIcon />
 
@@ -43,7 +43,7 @@
       </h1>
 
       <HomeLink href="/app">
-        <span class="text-orange-300 shrink-0">
+        <span class="shrink-0 text-orange-300">
           <SolidSparkIcon />
         </span>
         Start Writing
@@ -59,7 +59,7 @@
       </p>
     </header>
 
-    <section class="max-w-home-container mx-auto mt-14 sm:mt-24 md:mt-40">
+    <section class="mx-auto mt-14 max-w-home-container sm:mt-24 md:mt-40">
       <img
         class="aspect-[2548/1514] w-full overflow-hidden rounded border border-orange-gray-900/20 bg-orange-gray-900/5"
         src="https://res.cloudinary.com/dqsh2vhxj/image/upload/v1709427371/dear-ghost-website/Frame_286_4_1_pq8ehv.png"
@@ -67,7 +67,7 @@
       />
     </section>
 
-    <section id="features" class="max-w-home-container mx-auto pt-14 sm:pt-24">
+    <section id="features" class="mx-auto max-w-home-container pt-14 sm:pt-24">
       <h2 class="text-center text-2xl font-bold sm:text-[1.85rem] md:text-4xl">
         Features
       </h2>
@@ -137,7 +137,7 @@
 
     <section class="flex items-center justify-center gap-6 pt-14 sm:pt-20">
       <HomeLink href="https://www.patreon.com/dearghost">
-        <span class="text-orange-300 shrink-0">
+        <span class="shrink-0 text-orange-300">
           <SolidSparkIcon />
         </span>
         Become a Patreon
