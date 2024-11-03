@@ -5,6 +5,13 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Dear Ghost',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'The open-source text editor for creative writing with language models',
+        },
+      ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: `${basePath}dark.ico` },
       ],
