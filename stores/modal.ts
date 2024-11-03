@@ -17,7 +17,7 @@ export const useModalStore = defineStore({
     return {
       ...MODALS_AND_MENUS,
       stack: [] as (keyof typeof MODALS_AND_MENUS)[],
-      callback: (args?: any) => {},
+      callback: null as ((args?: any) => {}) | null,
     }
   },
 
