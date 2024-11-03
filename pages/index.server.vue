@@ -75,50 +75,44 @@
       <ul
         class="mt-8 grid gap-3 sm:mt-16 sm:grid-cols-2 sm:gap-6 sm:text-lg lg:grid-cols-3 lg:gap-11"
       >
-        <HomeFeature> Works offline. </HomeFeature>
-
         <HomeFeature>
-          Supports
+          Connect to
           <a
             class="text-blue-600"
             href="https://lmstudio.ai/"
             target="_blank"
             rel="noreferrer"
             >LM Studio</a
-          >
-          and
+          >, or
           <a
             class="text-blue-600"
             href="https://ollama.ai"
             target="_blank"
             rel="noreferrer"
             >Ollama</a
-          >.
-        </HomeFeature>
-
-        <HomeFeature> Prompt templates. </HomeFeature>
-        <HomeFeature> Prompt library. </HomeFeature>
-
-        <HomeFeature>
-          Works with <strong>local files</strong>.
-          <span class="text-blue-600">*</span>
-        </HomeFeature>
-
-        <HomeFeature> No hidden prompt enginering. </HomeFeature>
-
-        <HomeFeature>
-          <strong>Focus</strong> and <strong>Night</strong> mode.
-          <span class="text-blue-600">**</span>
+          >
         </HomeFeature>
 
         <HomeFeature>
-          Integrated LLM <strong>chat</strong>.
-          <span class="text-blue-600">**</span>
+          Use your own
+          <a
+            class="text-blue-600"
+            href="https://www.anthropic.com/api"
+            target="_blank"
+            rel="noreferrer"
+            >Claude</a
+          >
+          API key
         </HomeFeature>
 
+        <HomeFeature> Build a prompt template library </HomeFeature>
+
         <HomeFeature>
-          Installable. <span class="text-blue-600">**</span>
+          Work with <strong>local files</strong>
+          <span class="text-blue-600"> *</span>
         </HomeFeature>
+
+        <HomeFeature> No hidden prompt enginering </HomeFeature>
       </ul>
 
       <div
@@ -127,10 +121,6 @@
         <p>
           <span class="text-blue-600">*</span>
           Dear Ghost doesn’t store your stories outside of your computer.
-        </p>
-        <p>
-          <span class="text-blue-600">**</span>
-          Some of the features on the "summer" roadmap.
         </p>
       </div>
     </section>
